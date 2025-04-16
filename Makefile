@@ -8,7 +8,9 @@ RL_FLAGS = -lreadline
 
 NAME = minishell
 
-SRC =	main.c 
+SRC =	main.c \
+		signals.c \
+		signals_utils.c 
 
 GREEN = \033[32m
 RED = \033[31m
