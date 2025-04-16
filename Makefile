@@ -8,23 +8,26 @@ RL_FLAGS = -lreadline
 
 NAME = minishell
 
-SRC =	main.c \
-		signals.c \
-		signals_utils.c 
+SRC =	src/main.c \
+		src/signals.c \
+		src/signals_utils.c 
 
 GREEN = \033[32m
 RED = \033[31m
 YELLOW = \033[33m
 RESET = \033[0m
 
-OBJ = $(SRC:.c=.o)
+OBJ_DIR = build/
+
+OBJ = $(SRC:src/%.c=$(OBJ_DIR)%.o)
 
 LIBFT_DIR = ./libft
 
 LIBFT_A = $(LIBFT_DIR)/libft.a
 
-%.o : %.c
-	@$(CC) $(CFLAGS) -o $@ -c $< 
+$(OBJ_DIR)%.o : src/%.c
+	@mkdir -p $(OBJ_DIR)
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME) : $(OBJ) $(LIBFT_A)
 	@$(CC) $(CFLAGS) -o $@ $^ $(RL_FLAGS)
@@ -36,7 +39,7 @@ $(LIBFT_A):
 all : $(NAME)
 
 clean :
-	@rm -f $(OBJ)
+	@rm -rf $(OBJ_DIR)
 	@$(MAKE) -C $(LIBFT_DIR) clean --no-print-directory 
 	@echo "$(YELLOW)All object files cleaned. 🧹$(RESET)"
 
