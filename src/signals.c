@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../include/minishell.h"
 
 void	set_signal(t_signal *signals)
 {
