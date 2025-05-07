@@ -2,6 +2,17 @@
 
 ## ✅ Tokenisation
 
+
+
+### TODO
+
+`[ ]    WORD, '' ou ""
+`[ ]    WORD -> check if '' ou ""
+`[ ]    
+`[ ]
+`[ ]
+
+
 ### Règles de tokenisation
 
 1. Si `quotes` → `WORD` + `true`

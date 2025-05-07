@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:19:08 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/07 14:03:41 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/05/07 15:56:18 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	ft_lstadd_back_tok(t_tok **token, t_tok *new)
 }
 
 // AJOUTE UN MAILLON AVEC QUOTE ADEQUAT SI NECESSAIRE
-void	word_token(char **input, t_tok **token, char sep)
+void	word_token(char **input, t_tok **token)
 {
 	char	*word;
 	int		len;
@@ -62,25 +62,15 @@ void	word_token(char **input, t_tok **token, char sep)
 
 	i = 0;
 	len = 0;
-	while ((*input)[len] != sep && (*input)[len] != '\0')
+	while ((*input)[len] != ' ' && (*input)[len] != '>' && (*input)[len] != '<' && (*input)[len] != '|' && (*input)[len] != '\0')
 		len++;
 	word = ft_calloc(len + 1, sizeof(char));
 	if (word == NULL)
 // TROUVER LA RETOUR A METTRE
 		return ;
-//	while (**input != ' ' && **input != '>' && **input != '\'' &&
-//			**input != '"' && **input != '<' && **input != '\0' && sep == ' ')
-//		word[i++] = *(*input)++;
-	while (**input != sep && **input != '\0' /*&& (sep == '\'' || sep == '"')*/)
+	while (**input != ' ' && **input != '>' && **input != '<' && **input != '|' && **input != '\0')
 		word[i++] = *(*input)++;
-	if (sep == '\'')
-		ft_lstadd_back_tok(token, ft_lstnew_tok(WORD, true, false, word));
-	else if (sep == '"')
-		ft_lstadd_back_tok(token, ft_lstnew_tok(WORD, false, true, word));
-	else
-		ft_lstadd_back_tok(token, ft_lstnew_tok(WORD, false, false, word));
-	if (sep != ' ')
-		(*input)++;
+	ft_lstadd_back_tok(token, ft_lstnew_tok(WORD, false, false, word));
 }
 
 void	quote_token(char **input, t_tok **token, char sep)
@@ -97,19 +87,13 @@ void	quote_token(char **input, t_tok **token, char sep)
 	if (word == NULL)
 // TROUVER LA RETOUR A METTRE
 		return ;
-//	while (**input != ' ' && **input != '>' && **input != '\'' &&
-//			**input != '"' && **input != '<' && **input != '\0' && sep == ' ')
-//		word[i++] = *(*input)++;
-	while (**input != sep && **input != '\0' /*&& (sep == '\'' || sep == '"')*/)
+	while (**input != sep && **input != '\0')
 		word[i++] = *(*input)++;
 	if (sep == '\'')
 		ft_lstadd_back_tok(token, ft_lstnew_tok(WORD, true, false, word));
-	else if (sep == '"')
+	if (sep == '"')
 		ft_lstadd_back_tok(token, ft_lstnew_tok(WORD, false, true, word));
-	else
-		ft_lstadd_back_tok(token, ft_lstnew_tok(WORD, false, false, word));
-	if (sep != ' ')
-		(*input)++;
+	(*input)++;
 }
 
 // AJOUTE UN MAILLON AVEC REDIREC ADEQUAT
@@ -139,9 +123,15 @@ void    tokenize(char **input, t_tok **token)
 	while (**input == ' ' && **input != '\0')
 		(*input)++;
 	if (**input == '\'')
-		word_token(input, token, '\'');
+	{
+		(*input)++;
+		quote_token(input, token, '\'');
+	}
 	else if (**input == '"')
-		word_token(input, token, '"');
+	{
+		(*input)++;
+		quote_token(input, token, '"');
+	}
 	else if (**input == '|')
 	{
 		ft_lstadd_back_tok(token, ft_lstnew_tok(PIPE, false, false, NULL));
@@ -152,9 +142,32 @@ void    tokenize(char **input, t_tok **token)
 	else if (**input == '>')
 		redir_token(input, token, '>');
 	else
-		word_token(input, token, ' ');
+		word_token(input, token);
+}
+// ==============================================
+// =================== TESTS ====================
+// ==============================================
+
+const char *get_token_name(int type) 
+{
+	if (type == 0)
+		return ("|");
+	if (type == 1)
+		return ("<");
+	if (type == 2)
+		return (">");
+	if (type == 3)
+		return ("<<");
+	if (type == 4)
+		return (">>");
+	if (type == 5)
+		return ("WORD");
+	return ("error");
 }
 
+// ==============================================
+// ================= FIN TESTS ==================
+// ==============================================
 void    execute_input(char *input, char **env)
 {
     t_tok *token;
@@ -172,7 +185,7 @@ void    execute_input(char *input, char **env)
 	while (tmp != NULL)
 	{
 		printf("token num %d\n", i++);
-		printf("\ttype: %d\n", tmp->type);
+		printf("\ttype: %s\n", get_token_name(tmp->type));
 		printf("\tword: %s\n", tmp->word);
 		tmp = tmp->next;
 	}
