@@ -12,8 +12,12 @@
 
 #include "../include/minishell.h"
 
+// ==============================================
+// ================= LST_TOKEN ==================
+// ==============================================
+
 // CREER UN NVEAU MAILLON
-t_tok	*ft_lstnew_tok(TOK_TYPE type, bool s_quotes, bool d_quotes, char *word)
+t_tok	*ft_lstnew_tok(TOK_TYPE type, char *word)
 {
 	t_tok	*new;
 
@@ -21,8 +25,6 @@ t_tok	*ft_lstnew_tok(TOK_TYPE type, bool s_quotes, bool d_quotes, char *word)
 	if (new == NULL)
 		return (0);
 	new->type = type;
-	new->s_quotes = s_quotes;
-	new->d_quotes = d_quotes;
 	new->word = word;
 	new->next = NULL;
 	return (new);
@@ -53,47 +55,55 @@ void	ft_lstadd_back_tok(t_tok **token, t_tok *new)
 	last->next = new;
 }
 
+
+// ==============================================
+// =============== TOKENISATION =================
+// ==============================================
+
+void	word_check_token(char **word, char **input)
+{
+	int		i;
+
+	i = 0;
+	while (**input != '\0')
+	{
+		while (**input != ' ' && **input != '>' && **input != '<' &&
+			**input != '|' && **input != '\'' && **input != '"' &&
+			**input != '\0')
+				(*word)[i++] = *(*input)++;
+		if (**input == '\'')
+		{
+				(*word)[i++] = *(*input)++;
+				while (**input != '\'' && **input != '\0')
+						(*word)[i++] = *(*input)++;
+		}
+		else if (**input == '"')
+		{
+				(*word)[i++] = *(*input)++;
+				while (**input != '"' && **input != '\0')
+						(*word)[i++] = *(*input)++;
+		}
+		else if (**input == ' ' || **input == '>' || **input == '<' || **input == '|' || **input == '\0')
+			break ;
+		(*word)[i++] = *(*input)++;
+	}
+}
+
 // AJOUTE UN MAILLON AVEC QUOTE ADEQUAT SI NECESSAIRE
 void	word_token(char **input, t_tok **token)
 {
 	char	*word;
 	int		len;
-	int		i;
 
-	i = 0;
 	len = 0;
 	while ((*input)[len] != ' ' && (*input)[len] != '>' && (*input)[len] != '<' && (*input)[len] != '|' && (*input)[len] != '\0')
 		len++;
 	word = ft_calloc(len + 1, sizeof(char));
-	if (word == NULL)
 // TROUVER LA RETOUR A METTRE
-		return ;
-	while (**input != ' ' && **input != '>' && **input != '<' && **input != '|' && **input != '\0')
-		word[i++] = *(*input)++;
-	ft_lstadd_back_tok(token, ft_lstnew_tok(WORD, false, false, word));
-}
-
-void	quote_token(char **input, t_tok **token, char sep)
-{
-	char	*word;
-	int		len;
-	int		i;
-
-	i = 0;
-	len = 0;
-	while ((*input)[len] != sep && (*input)[len] != '\0')
-		len++;
-	word = ft_calloc(len + 1, sizeof(char));
 	if (word == NULL)
-// TROUVER LA RETOUR A METTRE
 		return ;
-	while (**input != sep && **input != '\0')
-		word[i++] = *(*input)++;
-	if (sep == '\'')
-		ft_lstadd_back_tok(token, ft_lstnew_tok(WORD, true, false, word));
-	if (sep == '"')
-		ft_lstadd_back_tok(token, ft_lstnew_tok(WORD, false, true, word));
-	(*input)++;
+	word_check_token(&word, input);
+	ft_lstadd_back_tok(token, ft_lstnew_tok(WORD, word));
 }
 
 // AJOUTE UN MAILLON AVEC REDIREC ADEQUAT
@@ -102,17 +112,17 @@ void	redir_token(char **input, t_tok **token, char redir)
 	if ((*input)[1] && (*input)[1] == redir)
 	{
 		if (redir == '<')
-			ft_lstadd_back_tok(token, ft_lstnew_tok(HERE_DOC, false, false, NULL));
+			ft_lstadd_back_tok(token, ft_lstnew_tok(HERE_DOC, NULL));
 		else
-			ft_lstadd_back_tok(token, ft_lstnew_tok(APPEND, false, false, NULL));
+			ft_lstadd_back_tok(token, ft_lstnew_tok(APPEND, NULL));
 		(*input)++;
 	}
 	else
 	{
 		if (redir == '<')
-			ft_lstadd_back_tok(token, ft_lstnew_tok(INFILE, false, false, NULL));
+			ft_lstadd_back_tok(token, ft_lstnew_tok(INFILE, NULL));
 		else
-			ft_lstadd_back_tok(token, ft_lstnew_tok(OUTFILE, false, false, NULL));
+			ft_lstadd_back_tok(token, ft_lstnew_tok(OUTFILE, NULL));
 	}
 	(*input)++;
 }
@@ -122,19 +132,9 @@ void    tokenize(char **input, t_tok **token)
 {
 	while (**input == ' ' && **input != '\0')
 		(*input)++;
-	if (**input == '\'')
+	if (**input == '|')
 	{
-		(*input)++;
-		quote_token(input, token, '\'');
-	}
-	else if (**input == '"')
-	{
-		(*input)++;
-		quote_token(input, token, '"');
-	}
-	else if (**input == '|')
-	{
-		ft_lstadd_back_tok(token, ft_lstnew_tok(PIPE, false, false, NULL));
+		ft_lstadd_back_tok(token, ft_lstnew_tok(PIPE, NULL));
 		(*input)++;
 	}
 	else if (**input == '<')

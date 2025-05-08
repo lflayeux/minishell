@@ -49,8 +49,6 @@ typedef enum e_tok_type
 typedef struct  s_tok
 {
     TOK_TYPE		type;
-    bool            s_quotes;
-    bool            d_quotes;
 	char			*word;
 	struct s_tok	*next;
 }               t_tok;
