@@ -130,19 +130,22 @@ void	redir_token(char **input, t_tok **token, char redir)
 // CREER LA LISTE CHAINEE AVEC LE BON TYPE DE TOKEN
 void    tokenize(char **input, t_tok **token)
 {
-	while (**input == ' ' && **input != '\0')
-		(*input)++;
-	if (**input == '|')
+	while (**input)
 	{
-		ft_lstadd_back_tok(token, ft_lstnew_tok(PIPE, NULL));
-		(*input)++;
+		if (**input == ' ' && **input != '\0')
+			(*input)++;
+		else if (**input == '|')
+		{
+			ft_lstadd_back_tok(token, ft_lstnew_tok(PIPE, NULL));
+			(*input)++;
+		}
+		else if (**input == '<')
+			redir_token(input, token, '<');
+		else if (**input == '>')
+			redir_token(input, token, '>');
+		else
+			word_token(input, token);
 	}
-	else if (**input == '<')
-		redir_token(input, token, '<');
-	else if (**input == '>')
-		redir_token(input, token, '>');
-	else
-		word_token(input, token);
 }
 // ==============================================
 // =================== TESTS ====================
