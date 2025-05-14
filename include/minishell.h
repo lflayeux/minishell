@@ -54,6 +54,12 @@ typedef struct  s_tok
 }               t_tok;
 // => Pour liste chainee des differents token
 
+typedef	struct	s_quotes
+{
+	bool	s_quotes;
+	bool	d_quotes;
+}			t_quotes;
+
 typedef struct  s_exec_pipeline
 {
     char						**cmd;
