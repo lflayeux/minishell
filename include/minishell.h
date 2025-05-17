@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:17:39 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/07 12:32:31 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/05/16 17:44:18 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdbool.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 // === PROMPT ===
 
@@ -54,12 +56,6 @@ typedef struct  s_tok
 }               t_tok;
 // => Pour liste chainee des differents token
 
-typedef	struct	s_quotes
-{
-	bool	s_quotes;
-	bool	d_quotes;
-}			t_quotes;
-
 typedef struct  s_exec_pipeline
 {
     char						**cmd;
@@ -78,6 +74,15 @@ typedef	struct s_signal
 	struct	sigaction	ctrl_c;
 	struct	sigaction	ctrl_dump;
 }			t_signal;
+
+// === TOKENIZE ===
+
+void    tokenize(char **input, t_tok **token);
+
+// === LST_TOK ===
+t_tok	*ft_lstnew_tok(TOK_TYPE type, char *word);
+t_tok	*ft_lstlast_tok(t_tok *lst);
+void	ft_lstadd_back_tok(t_tok **token, t_tok *new);
 
 // === SIGNALS ===
 
