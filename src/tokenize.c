@@ -28,7 +28,7 @@ void	word_check_token(char **word, char **input)
 	while (**input != '\0')
 	{
 		if ((**input == ' ' || **input == '>' ||  **input == '<' ||
-			**input == '|'|| **input == '|') && (s_quotes == false && d_quotes == false))
+			**input == '|') && (s_quotes == false && d_quotes == false))
 				break;
 		else if (**input == '\'' && d_quotes == false)
 			s_quotes = !s_quotes;

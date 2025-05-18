@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:19:08 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/16 17:44:20 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/05/18 21:02:20 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,38 @@ char	*get_pid()
 	return (pid);
 }
 
+int	ft_isdelim(char c, char *delim)
+{
+	int	i;
+
+	i = 0;
+	while (delim[i])
+	{
+		if (delim[i] == c)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+char	*find_var(char *s, int index)
+{
+	int		i;
+	char	*var;
+	int		len;
+
+	len = 0;
+	while (s[index + len] && ft_isdelim(s[index + len], "|<> \'\"") != 1)
+		len++;
+	var = ft_calloc((len + 1), sizeof(char));
+	if (!var)
+		return (NULL);
+	i = 0;
+	while (s[index] && ft_isdelim(s[index], "|<> \'\"") != 1)
+		var[i++] = s[index++];
+	return (var);
+}
+
 // RETURN LE PATH POUR $ENV_VARIABLE OU NULL SI NON TROUVE
 char *check_dollar_env(char **token, int *i, char **env)
 {
@@ -52,25 +84,21 @@ char *check_dollar_env(char **token, int *i, char **env)
 
 	j = 0;
 	path = NULL;
-	if ((*token)[*i] == '$')
+	while (env[j])
 	{
-		(*i)++;
-		while (env[j])
+		split = ft_split(env[j], '=');
+		if (ft_strcmp(split[0], find_var(*token, *i)) == 0)
 		{
-			split = ft_split(env[j], '=');
-			if (ft_strcmp(split[0], *token + (*i)) == 0)
-			{
-				path = ft_strdup(split[1]);
-				while ((*token)[*i] != '\0' && (*token)[*i] != ' ' )
-					(*i)++;
-				ft_free_tab((void **)split);
-				return (path);
-			}
-			j++;
+			path = ft_strdup(split[1]);
+			// *i += ft_strlen(find_var(*token, *i)) + 1;
+			*i += ft_strlen(find_var(*token, *i));
 			ft_free_tab((void **)split);
+			return (path);
 		}
+		j++;
+		ft_free_tab((void **)split);
 	}
-	return (path);
+	return (*i += ft_strlen(find_var(*token, *i)), "loulou");
 }
 
 // PERMET DE RECALCULER LA BONNE LONGUEURE EN CAS DE $
@@ -81,10 +109,10 @@ int	dollar_len(char **token, int *i, char **env)
 
 	len = 0;
 	(void)env;
-	if ((*token)[*i] == '$' && (*token)[*i + 1] == '$')
+	(*i)++;
+	if ((*token)[*i] == '$')
 	{
 		printf("pid : %s\n", get_pid());
-		(*i)++;
 		(*i)++;
 		return (ft_strlen(get_pid()) - 1);
 	}
@@ -94,8 +122,8 @@ int	dollar_len(char **token, int *i, char **env)
 		env_path = check_dollar_env(token, i, env);
 		if (env_path)
 			len += ft_strlen(env_path);
-		else
-			len++;
+		// else
+		// 	len++;
 	}
 	return (len);
 }
@@ -122,10 +150,10 @@ int quotes_len(char **token, int *i, char **env)
 		while ((*token)[*i] != '"' && (*token)[*i] != '\0')
 		{
 			if ((*token)[*i] == '$')
-				len  += dollar_len(token, i , env);
+				len  += dollar_len(token, i, env);
 			else
 			{
-				printf("%d i\n", *i);
+				// printf("%d i\n", *i);
 				(*i)++;
 				len++;
 			}
@@ -144,7 +172,6 @@ int expansion_len(char **token, char **env)
 
 	len = 0;
 	i = 0;
-	(void)env;
 	while((*token)[i])
 	{
 		while ((*token)[i] != '\0' && (*token)[i] != '\'' && (*token)[i] != '"' && (*token)[i] != '$')
@@ -152,8 +179,9 @@ int expansion_len(char **token, char **env)
 			i++;
 			len++;
 		}
-		printf("%d iexp\n", i);
-		len += quotes_len(token, &i, env);
+		// printf("%d iexp\n", i);
+		if((*token)[i] != '\'' || (*token)[i] != '"')
+			len += quotes_len(token, &i, env);
 		if ((*token)[i] == '$')
 			len += dollar_len(token, &i, env);
 	}
@@ -214,7 +242,7 @@ void    execute_input(char *input, char **env)
 	}
 	//========== FIN TEST TOKNISATION=========
 
-	//============ TEST EXPANSION ===========
+	//============ TEST EXPANSION MALLOC===========
 	int past_len;
 	int new_len;
 	while (tmp2 != NULL)
@@ -227,7 +255,19 @@ void    execute_input(char *input, char **env)
 		}
 		tmp2 = tmp2->next;
 	}
-	//============ FIN TEST EXPANSION ===========
+	//============ FIN TEST EXPANSION MALLOC===========
+
+	//============ TEST EXPANSION WORD PARSING===========
+	word_identification(&token, env);
+	t_tok *tmp3 = token;
+	i = 0;
+	while (tmp3 != NULL)
+	{
+		printf("token num %d\n", i++);
+		printf("\ttype: %s\n", get_token_name(tmp3->type));
+		printf("\tword: %s\n", tmp3->word);
+		tmp3 = tmp3->next;
+	}
 }
 
 int	main(int argc, char **argv, char **env)

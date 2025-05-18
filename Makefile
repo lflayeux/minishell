@@ -12,7 +12,8 @@ SRC =	src/main.c \
 		src/signals.c \
 		src/signals_utils.c \
 		src/tokenize.c \
-		src/lst_tok.c
+		src/lst_tok.c \
+		src/word_parsing.c
 
 GREEN = \033[32m
 RED = \033[31m

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:17:39 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/16 17:44:18 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/05/18 19:31:20 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,15 @@ void	reset_signals(t_signal *signals);
 void	handle_ctrl_c_interactive(int signal);
 void	handle_ctrl_c_action(int signal);
 void	handle_ctrl_dump(int signal);
+
+// === MAIN ===
+
+char    *check_dollar_env(char **token, int *i, char **env);
+int     expansion_len(char **token, char **env);
+
+// === WORD PARSING ===
+
+int     word_identification(t_tok **token, char **env);
 
 // === TESTS ===
 
