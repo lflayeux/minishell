@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:19:08 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/18 21:02:20 by alex             ###   ########.fr       */
+/*   Updated: 2025/05/19 10:32:37 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ char *check_dollar_env(char **token, int *i, char **env)
 		j++;
 		ft_free_tab((void **)split);
 	}
-	return (*i += ft_strlen(find_var(*token, *i)), "loulou");
+	return (*i += ft_strlen(find_var(*token, *i)), ft_strdup(""));
 }
 
 // PERMET DE RECALCULER LA BONNE LONGUEURE EN CAS DE $
@@ -112,7 +112,7 @@ int	dollar_len(char **token, int *i, char **env)
 	(*i)++;
 	if ((*token)[*i] == '$')
 	{
-		printf("pid : %s\n", get_pid());
+		// printf("pid : %s\n", get_pid());
 		(*i)++;
 		return (ft_strlen(get_pid()) - 1);
 	}

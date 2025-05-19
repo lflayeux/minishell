@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:17:39 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/18 19:31:20 by alex             ###   ########.fr       */
+/*   Updated: 2025/05/19 10:16:43 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ void	handle_ctrl_dump(int signal);
 
 char    *check_dollar_env(char **token, int *i, char **env);
 int     expansion_len(char **token, char **env);
+char	*get_pid();
 
 // === WORD PARSING ===
 

@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 14:07:09 by alex              #+#    #+#             */
-/*   Updated: 2025/05/18 21:03:46 by alex             ###   ########.fr       */
+/*   Updated: 2025/05/19 10:33:34 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,16 @@ int add_dollar_env(char **word, char **new_word, int *i, int *j, char **env)
     char *var_env;
 
     (*j)++;
-    var_env = check_dollar_env(word, j, env);
-    printf("\t\t\t\t\t\tTEST: %s\n", *word);
+    if ((*word)[*j] == '$')
+	{
+        var_env = get_pid();
+        (*j)++;
+		printf("pid : %ld\n", ft_strlen(get_pid()));
+		// (*i)++;
+	}
+    else
+        var_env = check_dollar_env(word, j, env);
+    // printf("\t\t\t\t\t\tTEST: %s\n", *word);
     l = 0;
     while(var_env[l])
     {
@@ -83,9 +91,7 @@ int expand_word(char **word, char **env)
     while(i < expansion_len(word, env))
     {
         if((*word)[j] == '\'')
-        {
             sin_quotes_exp(word, &new_word, &i, &j);
-        }
         else if((*word)[j] == '$')
         {
             if(add_dollar_env(word, &new_word, &i, &j, env) == -1)
