@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:17:39 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/19 10:16:43 by alex             ###   ########.fr       */
+/*   Updated: 2025/05/19 23:24:46 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ typedef struct  s_exec_pipeline
 	bool						if_infile;
 	bool						if_outfile;
     struct s_exec_pipeline		*pipe_to;
-}               t_exec_pipeline;
+}               t_exec;
 // => Pour liste chainee des differentes cmd a exec
 
 // === STRUCT SIGNALS ===
@@ -103,6 +103,14 @@ char	*get_pid();
 // === WORD PARSING ===
 
 int     word_identification(t_tok **token, char **env);
+
+// === PIPE PROCESS ===
+
+void	create_lst_exec(t_exec **lst_exec, t_tok **token);
+
+// === LST EXEC ===
+
+void	ft_lstadd_back_exec(t_exec **token, t_exec *new);
 
 // === TESTS ===
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:19:08 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/19 13:58:15 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/05/19 23:56:45 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,12 +220,15 @@ const char	*get_token_name(int type)
 void	execute_input(char *input, char **env)
 {
 	t_tok	*token;
+	t_exec	*exec;
 	int		i;
+	int 	j;
 	t_tok	*tmp;
 	t_tok	*tmp2;
 	int		past_len;
 	int		new_len;
 	t_tok	*tmp3;
+	t_exec	*tmp4;
 
 	(void)env;
 	token = NULL;
@@ -269,6 +272,28 @@ void	execute_input(char *input, char **env)
 		printf("\tword: %s\n", tmp3->word);
 		tmp3 = tmp3->next;
 	}
+	//============ FIN TEST EXPANSION WORD PARSING===========
+	//============ TEST LST EXEC PIPE PROCESS===========
+	exec = NULL;
+	create_lst_exec(&exec, &token);
+	tmp4 = exec;
+	i = 0;
+	while (tmp4 != NULL)
+	{
+		j = 0;
+		printf("exec num %d\n", i++);
+		printf("\tcommand:\n");
+		while((tmp4->cmd)[j])
+		{
+			printf("\t\tcmd num %d: %s\n", j, (tmp4->cmd)[j]);
+			j++;
+		}
+		printf("\tinfile:%d,   %s\n", tmp4->if_infile, tmp4->infile);
+		printf("\toutfile:%d,   %s\n", tmp4->if_outfile, tmp4->outfile);
+		tmp4 = tmp4->pipe_to;
+	}
+	//============ FIN TEST LST EXEC PIPE PROCESS===========
+
 }
 
 int	main(int argc, char **argv, char **env)

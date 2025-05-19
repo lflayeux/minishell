@@ -3,27 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lst_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 15:54:28 by aherlaud          #+#    #+#             */
-/*   Updated: 2025/05/19 16:02:16 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/05/19 23:27:36 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-// CREER UN NVEAU MAILLON
-t_exec	*ft_lstnew_exec(char **cmd)
-{
-	t_exec	*new;
-
-	new = malloc(sizeof(t_exec));
-	if (new == NULL)
-		return (0);
-	new->cmd = cmd;
-	new->pipe_to = NULL;
-	return (new);
-}
 
 t_exec	*ft_lstlast_exec(t_exec *lst)
 {
