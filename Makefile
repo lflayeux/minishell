@@ -13,7 +13,9 @@ SRC =	src/main.c \
 		src/signals_utils.c \
 		src/tokenize.c \
 		src/lst_tok.c \
-		src/word_parsing.c
+		src/word_parsing.c \
+		src/lst_exec.c \
+		src/pipe_process.c
 
 GREEN = \033[32m
 RED = \033[31m
@@ -54,3 +56,5 @@ fclean : clean
 re : fclean all
 
 .PHONY: clean fclean re
+
+
