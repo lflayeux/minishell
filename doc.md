@@ -61,3 +61,33 @@ enum TYPE_OF_TOKEN
 };
 
 ==> dhieuh$PATHde"dedede$PATH'deded'"'$PATH'
+
+
+## ✅ Execution
+
+liste chainee de maillons tels que :
+typedef struct s_exec_pipeline
+{
+	char					**cmd;
+	char					*infile;
+	char					*outfile;
+	bool					if_infile;
+	bool					if_outfile;
+	struct s_exec_pipeline	*pipe_to;
+}							t_exec;
+
+chaque maillon sera un enfant a creer + une exec de cmd + un dup2 si if_infile = 1 + un dup2 si if_infile = 1
+
+exemple main avec : < Makefile ls -l | cat > out
+
+exec num 0
+        command:
+                cmd num 0: ls
+                cmd num 1: -l
+        infile:1,   Makefile
+        outfile:0,   (null)
+exec num 1
+        command:
+                cmd num 0: cat
+        infile:1,   Makefile
+        outfile:1,   out
