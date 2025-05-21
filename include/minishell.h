@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:17:39 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/21 12:11:52 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/05/21 15:54:45 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@
 char						*check_dollar_env(char **token, int *i, char **env);
 int							expansion_len(char **token, char **env);
 char						*get_pid(void);
+char						*find_var_spe(char *s, int index);
 
 // ==============================================
 // ================== SIGNALS ===================
@@ -68,7 +69,7 @@ void						child_signals(t_signal *signals);
 void						reset_signals(t_signal *signals);
 void						handle_ctrl_c_interactive(int signal);
 void						handle_ctrl_c_action(int signal);
-void						handle_ctrl_dump(int signal);\
+void						handle_ctrl_dump(int signal);
 
 // ==============================================
 // ================ TOKENISATION ================

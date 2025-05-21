@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:19:08 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/21 15:02:12 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/05/21 15:53:40 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	ft_isdelim(char c, char *delim)
 	return (0);
 }
 
-char	*find_var(char *s, int index)
+char	*find_var_spe(char *s, int index)
 {
 	int		i;
 	char	*var;
@@ -76,30 +76,30 @@ char	*find_var(char *s, int index)
 }
 
 // RETURN LE PATH POUR $ENV_VARIABLE OU NULL SI NON TROUVE
-char	*check_dollar_env(char **token, int *i, char **env)
-{
-	int		j;
-	char	**split;
-	char	*path;
+// char	*check_dollar_env(char **token, int *i, char **env)
+// {
+// 	int		j;
+// 	char	**split;
+// 	char	*path;
 
-	j = 0;
-	path = NULL;
-	while (env[j])
-	{
-		split = ft_split(env[j], '=');
-		if (ft_strcmp(split[0], find_var(*token, *i)) == 0)
-		{
-			path = ft_strdup(split[1]);
-			// *i += ft_strlen(find_var(*token, *i)) + 1;
-			*i += ft_strlen(find_var(*token, *i));
-			ft_free_tab((void **)split);
-			return (path);
-		}
-		j++;
-		ft_free_tab((void **)split);
-	}
-	return (*i += ft_strlen(find_var(*token, *i)), ft_strdup(""));
-}
+// 	j = 0;
+// 	path = NULL;
+// 	while (env[j])
+// 	{
+// 		split = ft_split(env[j], '=');
+// 		if (ft_strcmp(split[0], find_var(*token, *i)) == 0)
+// 		{
+// 			path = ft_strdup(split[1]);
+// 			// *i += ft_strlen(find_var(*token, *i)) + 1;
+// 			*i += ft_strlen(find_var_sp(*token, *i));
+// 			ft_free_tab((void **)split);
+// 			return (path);
+// 		}
+// 		j++;
+// 		ft_free_tab((void **)split);
+// 	}
+// 	return (*i += ft_strlen(find_var(*token, *i)), ft_strdup(""));
+// }
 
 // PERMET DE RECALCULER LA BONNE LONGUEURE EN CAS DE $
 int	dollar_len(char **token, int *i, char **env)
@@ -121,11 +121,12 @@ int	dollar_len(char **token, int *i, char **env)
 	{
 		if ((*token)[*i] == '\0')
 			return (1);
-		env_path = check_dollar_env(token, i, env);
+		// env_path = check_dollar_env(token, i, env);
+		env_path = getenv(find_var_spe(*token, *i));
 		if (env_path)
 			len += ft_strlen(env_path);
 		// else
-		// 	len++;
+		// 	return (0);
 	}
 	return (len);
 }

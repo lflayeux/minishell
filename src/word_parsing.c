@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 14:07:09 by alex              #+#    #+#             */
-/*   Updated: 2025/05/21 15:03:29 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/05/21 15:55:51 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 // =============== WORD PARSING =================
 // ==============================================
 
-int	add_dollar_env(char **word, char **new_word, int *i, int *j, char **env)
+int	add_dollar_env(char **word, char **new_word, int *i, int *j)
 {
 	int		l;
 	char	*var_env;
@@ -32,7 +32,8 @@ int	add_dollar_env(char **word, char **new_word, int *i, int *j, char **env)
 		// (*i)++;
 	}
 	else
-		var_env = check_dollar_env(word, j, env);
+		var_env = getenv(find_var_spe(*word, *j));
+	// var_env = check_dollar_env(word, j, env);
 	// printf("\t\t\t\t\t\tTEST: %s\n", *word);
 	l = 0;
 	while (var_env[l])
@@ -55,14 +56,14 @@ int	sin_quotes_exp(char **word, char **new_word, int *i, int *j)
 	(*j)++;
 	return (0);
 }
-int	dou_quotes_exp(char **word, char **new_word, int *i, int *j, char **env)
+int	dou_quotes_exp(char **word, char **new_word, int *i, int *j)
 {
 	(*j)++;
 	while ((*word)[*j] != '\"')
 	{
 		if ((*word)[*j] == '$')
 		{
-			if (add_dollar_env(word, new_word, i, j, env) == -1)
+			if (add_dollar_env(word, new_word, i, j) == -1)
 				return (-1);
 		}
 		else
@@ -96,11 +97,11 @@ int	expand_word(char **word, char **env)
 			sin_quotes_exp(word, &new_word, &i, &j);
 		else if ((*word)[j] == '$')
 		{
-			if (add_dollar_env(word, &new_word, &i, &j, env) == -1)
+			if (add_dollar_env(word, &new_word, &i, &j) == -1)
 				return (-1);
 		}
 		else if ((*word)[j] == '"')
-			dou_quotes_exp(word, &new_word, &i, &j, env);
+			dou_quotes_exp(word, &new_word, &i, &j);
 		else
 			new_word[i++] = (*word)[j++];
 	}
