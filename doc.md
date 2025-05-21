@@ -91,3 +91,11 @@ exec num 1
                 cmd num 0: cat
         infile:1,   Makefile
         outfile:1,   out
+
+
+```
+### ===>        PB A CORRIGER: 
+```
+
+🦾 miniboss 🦾 > < Makefile | cat-e
+[1]    805462 segmentation fault (core dumped)  ./minishell             //AU NIVEAU DE create_lst_exec

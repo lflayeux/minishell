@@ -3,15 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:17:39 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/20 18:51:16 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/05/21 12:11:52 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+// ==============================================
+// ================== LIBRARIES =================
+// ==============================================
 
 # include "../libft/libft.h"
 # include <fcntl.h>
@@ -23,11 +27,15 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 
-// === PROMPT ===
+// ==============================================
+// ================== PROMPT ====================
+// ==============================================
 
 # define PROMPT GOLD "🦾 miniboss 🦾 > " RST
 
-// === COLORS ===
+// ==============================================
+// ================== COLORS ====================
+// ==============================================
 
 # define RED "\033[31m"
 # define CYAN "\033[36m"
@@ -36,7 +44,35 @@
 # define GRN "\033[32m"
 # define GOLD "\033[38;5;220m"
 
-// === STRUCT TOKEN ===
+// ==============================================
+// ================ MAIN.C ======================
+// ==============================================
+
+char						*check_dollar_env(char **token, int *i, char **env);
+int							expansion_len(char **token, char **env);
+char						*get_pid(void);
+
+// ==============================================
+// ================== SIGNALS ===================
+// ==============================================
+
+typedef struct s_signal
+{
+	struct sigaction		ctrl_c;
+	struct sigaction		ctrl_dump;
+}							t_signal;
+
+void						set_signal(t_signal *signals);
+void						parent_signals(t_signal *signals);
+void						child_signals(t_signal *signals);
+void						reset_signals(t_signal *signals);
+void						handle_ctrl_c_interactive(int signal);
+void						handle_ctrl_c_action(int signal);
+void						handle_ctrl_dump(int signal);\
+
+// ==============================================
+// ================ TOKENISATION ================
+// ==============================================
 
 typedef enum e_tok_type
 {
@@ -54,7 +90,15 @@ typedef struct s_tok
 	char					*word;
 	struct s_tok			*next;
 }							t_tok;
-// => Pour liste chainee des differents token
+
+void						tokenize(char **input, t_tok **token);
+t_tok						*ft_lstnew_tok(TOK_TYPE type, char *word);
+t_tok						*ft_lstlast_tok(t_tok *lst);
+void						ft_lstadd_back_tok(t_tok **token, t_tok *new);
+
+// ==============================================
+// ================ EXECUTION ===================
+// ==============================================
 
 typedef struct s_exec_pipeline
 {
@@ -65,40 +109,6 @@ typedef struct s_exec_pipeline
 	bool					if_outfile;
 	struct s_exec_pipeline	*pipe_to;
 }							t_exec;
-// => Pour liste chainee des differentes cmd a exec
-
-// === STRUCT SIGNALS ===
-
-typedef struct s_signal
-{
-	struct sigaction		ctrl_c;
-	struct sigaction		ctrl_dump;
-}							t_signal;
-
-// === TOKENIZE ===
-
-void						tokenize(char **input, t_tok **token);
-
-// === LST_TOK ===
-t_tok						*ft_lstnew_tok(TOK_TYPE type, char *word);
-t_tok						*ft_lstlast_tok(t_tok *lst);
-void						ft_lstadd_back_tok(t_tok **token, t_tok *new);
-
-// === SIGNALS ===
-
-void						set_signal(t_signal *signals);
-void						parent_signals(t_signal *signals);
-void						child_signals(t_signal *signals);
-void						reset_signals(t_signal *signals);
-void						handle_ctrl_c_interactive(int signal);
-void						handle_ctrl_c_action(int signal);
-void						handle_ctrl_dump(int signal);
-
-// === MAIN ===
-
-char						*check_dollar_env(char **token, int *i, char **env);
-int							expansion_len(char **token, char **env);
-char						*get_pid(void);
 
 // === WORD PARSING ===
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:19:08 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/19 23:56:45 by alex             ###   ########.fr       */
+/*   Updated: 2025/05/21 14:48:04 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int	dollar_len(char **token, int *i, char **env)
 	{
 		// printf("pid : %s\n", get_pid());
 		(*i)++;
-		return (ft_strlen(get_pid()) - 1);
+		return (ft_strlen(get_pid()));
 	}
 	//	else if (token[*i] == '$' &&  token[i + 1] == '?')
 	else
@@ -240,23 +240,41 @@ void	execute_input(char *input, char **env)
 	tmp = token;
 	tmp2 = token;
 	i = 0;
+	printf("\n\n"YLW);
+	printf("==============================================\n");
+	printf("================== TOKENIZE ==================\n");	
+	printf("==============================================\n");
+	printf("\n"RST);
+		
 	while (tmp != NULL)
 	{
-		printf("token num %d\n", i++);
+		printf("token num" RED" %d\n" RST, i++);
 		printf("\ttype: %s\n", get_token_name(tmp->type));
 		printf("\tword: %s\n", tmp->word);
 		tmp = tmp->next;
 	}
 	//========== FIN TEST TOKNISATION=========
 	//============ TEST EXPANSION MALLOC===========
+	printf("\n\n"YLW);
+	printf("==============================================\n");
+	printf("============== EXPANSION MALLOC ==============\n");
+ 	printf("==============================================\n");
+	printf("\n"RST);
+	i = 0;
 	while (tmp2 != NULL)
 	{
 		if (tmp2->word != NULL)
 		{
 			past_len = ft_strlen(tmp2->word);
 			new_len = expansion_len(&tmp2->word, env);
-			printf("\n========\n ancien len: %d\n nveau len: %d\n=======\n",
-				past_len, new_len);
+			printf("token num" RED" %d\n" RST, i++);
+			printf("============================\n");
+			printf("ancien len: %d\n", past_len);
+			printf("============================\n");
+			printf("============================\n");
+			printf("nveau len: %d\n", new_len);
+			printf("============================\n");
+			printf("\n");
 		}
 		tmp2 = tmp2->next;
 	}
@@ -265,9 +283,14 @@ void	execute_input(char *input, char **env)
 	word_identification(&token, env);
 	tmp3 = token;
 	i = 0;
+		printf("\n\n"YLW);
+	printf("==============================================\n");
+	printf("============== EXPANSION PARSING =============\n");
+ 	printf("==============================================\n");
+	printf("\n"RST);
 	while (tmp3 != NULL)
 	{
-		printf("token num %d\n", i++);
+		printf("token num" RED" %d\n"RST, i++);
 		printf("\ttype: %s\n", get_token_name(tmp3->type));
 		printf("\tword: %s\n", tmp3->word);
 		tmp3 = tmp3->next;
@@ -278,16 +301,26 @@ void	execute_input(char *input, char **env)
 	create_lst_exec(&exec, &token);
 	tmp4 = exec;
 	i = 0;
+	printf("\n\n"YLW);
+	printf("==============================================\n");
+	printf("================== EXEC ======================\n");
+ 	printf("==============================================\n");
+	printf("\n"RST);
 	while (tmp4 != NULL)
 	{
 		j = 0;
-		printf("exec num %d\n", i++);
+		printf("exec num" RED" %d\n" RST, i++);
 		printf("\tcommand:\n");
-		while((tmp4->cmd)[j])
+		if (tmp4->cmd)
 		{
-			printf("\t\tcmd num %d: %s\n", j, (tmp4->cmd)[j]);
-			j++;
+			while((tmp4->cmd)[j])
+			{
+				printf("\t\tcmd num"RED" %d"RST": %s\n", j, (tmp4->cmd)[j]);
+				j++;
+			}
 		}
+		else
+			printf("\t\tcmd inexistante\n");
 		printf("\tinfile:%d,   %s\n", tmp4->if_infile, tmp4->infile);
 		printf("\toutfile:%d,   %s\n", tmp4->if_outfile, tmp4->outfile);
 		tmp4 = tmp4->pipe_to;

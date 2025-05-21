@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_process.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 15:34:14 by aherlaud          #+#    #+#             */
-/*   Updated: 2025/05/20 18:56:00 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/05/21 14:28:44 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,13 @@ t_exec	*ft_lstnew_exec(t_exec *previous, t_tok *init, t_tok *end)
 				cmd = ft_strjoin(cmd, ft_strdup(" "));
 			cmd = ft_strjoin(cmd, init->word);
 		}
-		if (init->type == INFILE && (init->next)->type == WORD)
+		if (init->type == INFILE && (init->next)->type == WORD && init->next)
 		{
 			node_exec->infile = (init->next)->word;
 			node_exec->if_infile = 1;
 			init = init->next;
 		}
-		if (init->type == OUTFILE && (init->next)->type == WORD)
+		if (init->type == OUTFILE && (init->next)->type == WORD && init->next)
 		{
 			node_exec->outfile = (init->next)->word;
 			node_exec->if_outfile = 1;
@@ -66,7 +66,11 @@ t_exec	*ft_lstnew_exec(t_exec *previous, t_tok *init, t_tok *end)
 		}
 		init = init->next;
 	}
-	node_exec->cmd = ft_split(cmd, ' ');
+	printf("\nsortie de boucle\n");
+	if (cmd)
+		node_exec->cmd = ft_split(cmd, ' ');
+	else
+		node_exec->cmd = NULL;
 	return (node_exec);
 }
 

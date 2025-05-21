@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:58:39 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/03/18 18:48:47 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/05/21 11:30:41 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	ft_strchr_split(char *str, char c)
 	return (0);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin_gnl(char const *s1, char const *s2)
 {
 	char	*dest;
 	size_t	i;
@@ -73,7 +73,7 @@ char	*ft_realloc(char *buf, char *full_buf)
 {
 	char	*new;
 
-	new = ft_strjoin(buf, full_buf);
+	new = ft_strjoin_gnl(buf, full_buf);
 	if (new == NULL)
 		return (NULL);
 	free(buf);

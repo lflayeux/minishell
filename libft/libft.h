@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 18:28:20 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/04/07 14:38:46 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/05/21 11:31:00 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ void	ft_free_tab(void **tab);
 # endif
 
 char	*ft_realloc(char *full_buf, char *buf);
+char	*ft_strjoin_gnl(char const *s1, char const *s2);
 int		ft_strchr_split(char *str, char c);
 char	*ft_read(char *full_buf, int fd);
 char	*ft_line(char *full_buf);
