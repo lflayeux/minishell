@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 14:07:09 by alex              #+#    #+#             */
-/*   Updated: 2025/05/21 15:55:51 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/05/21 18:39:43 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	add_dollar_env(char **word, char **new_word, int *i, int *j)
 	char	*var_env;
 
 	(*j)++;
-	if ((*word)[*j] == '\0')
+	if ((*word)[*j] == '\0' || (*word)[*j] == '"')
 		var_env = ft_strdup("$\0");
 	else if ((*word)[*j] == '$')
 	{

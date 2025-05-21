@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:19:08 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/21 15:53:40 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/05/21 18:45:29 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int	dollar_len(char **token, int *i, char **env)
 	//	else if (token[*i] == '$' &&  token[i + 1] == '?')
 	else
 	{
-		if ((*token)[*i] == '\0')
+		if ((*token)[*i] == '\0' || (*token)[*i] == '"')
 			return (1);
 		// env_path = check_dollar_env(token, i, env);
 		env_path = getenv(find_var_spe(*token, *i));
