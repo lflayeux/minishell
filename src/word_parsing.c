@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   word_parsing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 14:07:09 by alex              #+#    #+#             */
-/*   Updated: 2025/05/21 14:48:32 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/05/21 15:03:29 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ int	add_dollar_env(char **word, char **new_word, int *i, int *j, char **env)
 	char	*var_env;
 
 	(*j)++;
-	if ((*word)[*j] == '$')
+	if ((*word)[*j] == '\0')
+		var_env = ft_strdup("$\0");
+	else if ((*word)[*j] == '$')
 	{
 		var_env = get_pid();
 		(*j)++;

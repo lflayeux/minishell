@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:19:08 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/21 14:48:04 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/05/21 15:02:12 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,8 @@ int	dollar_len(char **token, int *i, char **env)
 	//	else if (token[*i] == '$' &&  token[i + 1] == '?')
 	else
 	{
+		if ((*token)[*i] == '\0')
+			return (1);
 		env_path = check_dollar_env(token, i, env);
 		if (env_path)
 			len += ft_strlen(env_path);
@@ -222,7 +224,7 @@ void	execute_input(char *input, char **env)
 	t_tok	*token;
 	t_exec	*exec;
 	int		i;
-	int 	j;
+	int		j;
 	t_tok	*tmp;
 	t_tok	*tmp2;
 	int		past_len;
@@ -240,26 +242,25 @@ void	execute_input(char *input, char **env)
 	tmp = token;
 	tmp2 = token;
 	i = 0;
-	printf("\n\n"YLW);
+	printf("\n\n" YLW);
 	printf("==============================================\n");
-	printf("================== TOKENIZE ==================\n");	
+	printf("================== TOKENIZE ==================\n");
 	printf("==============================================\n");
-	printf("\n"RST);
-		
+	printf("\n" RST);
 	while (tmp != NULL)
 	{
-		printf("token num" RED" %d\n" RST, i++);
+		printf("token num" RED " %d\n" RST, i++);
 		printf("\ttype: %s\n", get_token_name(tmp->type));
 		printf("\tword: %s\n", tmp->word);
 		tmp = tmp->next;
 	}
 	//========== FIN TEST TOKNISATION=========
 	//============ TEST EXPANSION MALLOC===========
-	printf("\n\n"YLW);
+	printf("\n\n" YLW);
 	printf("==============================================\n");
 	printf("============== EXPANSION MALLOC ==============\n");
- 	printf("==============================================\n");
-	printf("\n"RST);
+	printf("==============================================\n");
+	printf("\n" RST);
 	i = 0;
 	while (tmp2 != NULL)
 	{
@@ -267,7 +268,7 @@ void	execute_input(char *input, char **env)
 		{
 			past_len = ft_strlen(tmp2->word);
 			new_len = expansion_len(&tmp2->word, env);
-			printf("token num" RED" %d\n" RST, i++);
+			printf("token num" RED " %d\n" RST, i++);
 			printf("============================\n");
 			printf("ancien len: %d\n", past_len);
 			printf("============================\n");
@@ -283,14 +284,14 @@ void	execute_input(char *input, char **env)
 	word_identification(&token, env);
 	tmp3 = token;
 	i = 0;
-		printf("\n\n"YLW);
+	printf("\n\n" YLW);
 	printf("==============================================\n");
 	printf("============== EXPANSION PARSING =============\n");
- 	printf("==============================================\n");
-	printf("\n"RST);
+	printf("==============================================\n");
+	printf("\n" RST);
 	while (tmp3 != NULL)
 	{
-		printf("token num" RED" %d\n"RST, i++);
+		printf("token num" RED " %d\n" RST, i++);
 		printf("\ttype: %s\n", get_token_name(tmp3->type));
 		printf("\tword: %s\n", tmp3->word);
 		tmp3 = tmp3->next;
@@ -301,21 +302,21 @@ void	execute_input(char *input, char **env)
 	create_lst_exec(&exec, &token);
 	tmp4 = exec;
 	i = 0;
-	printf("\n\n"YLW);
+	printf("\n\n" YLW);
 	printf("==============================================\n");
 	printf("================== EXEC ======================\n");
- 	printf("==============================================\n");
-	printf("\n"RST);
+	printf("==============================================\n");
+	printf("\n" RST);
 	while (tmp4 != NULL)
 	{
 		j = 0;
-		printf("exec num" RED" %d\n" RST, i++);
+		printf("exec num" RED " %d\n" RST, i++);
 		printf("\tcommand:\n");
 		if (tmp4->cmd)
 		{
-			while((tmp4->cmd)[j])
+			while ((tmp4->cmd)[j])
 			{
-				printf("\t\tcmd num"RED" %d"RST": %s\n", j, (tmp4->cmd)[j]);
+				printf("\t\tcmd num" RED " %d" RST ": %s\n", j, (tmp4->cmd)[j]);
 				j++;
 			}
 		}
@@ -326,7 +327,6 @@ void	execute_input(char *input, char **env)
 		tmp4 = tmp4->pipe_to;
 	}
 	//============ FIN TEST LST EXEC PIPE PROCESS===========
-
 }
 
 int	main(int argc, char **argv, char **env)
