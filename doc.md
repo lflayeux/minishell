@@ -6,7 +6,7 @@
 
 ### TODO
 
-`[ ]    WORD, '' ou ""
+`[x]    WORD, '' ou ""
 `[ ]    WORD -> check if '' ou ""
 `[ ]    
 `[ ]
@@ -95,7 +95,13 @@ exec num 1
 
 ```
 ### ===>        PB A CORRIGER: 
-```
 
-🦾 miniboss 🦾 > < Makefile | cat-e
-[1]    805462 segmentation fault (core dumped)  ./minishell             //AU NIVEAU DE create_lst_exec
+
+```bash
+# Prompt simulé : 🦾 miniboss 🦾 >
+< Makefile | cat -e
+[1]    805462 segmentation fault (core dumped)  ./minishell  # create_lst_exec
+
+echo "'$$$PATH'"
+# doit afficher: '$$$PATH'
+```
