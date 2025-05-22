@@ -15,7 +15,8 @@ SRC =	src/main.c \
 		src/lst_tok.c \
 		src/word_parsing.c \
 		src/lst_exec.c \
-		src/pipe_process.c
+		src/pipe_process.c \
+		src/built_in.c
 
 GREEN = \033[32m
 RED = \033[31m

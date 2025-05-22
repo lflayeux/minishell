@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   word_parsing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 14:07:09 by alex              #+#    #+#             */
-/*   Updated: 2025/05/21 18:39:43 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/05/22 18:52:27 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	sin_quotes_exp(char **word, char **new_word, int *i, int *j)
 int	dou_quotes_exp(char **word, char **new_word, int *i, int *j)
 {
 	(*j)++;
-	while ((*word)[*j] != '\"')
+	while ((*word)[*j] != '"')
 	{
 		if ((*word)[*j] == '$')
 		{
@@ -83,9 +83,9 @@ int	expand_word(char **word, char **env)
 	int		i;
 	int		j;
 
-	if (ft_strchr(*word, '$') && ft_strchr(*word, '\'') && ft_strchr(*word,
-			'"'))
-		return (0);
+	// if (ft_strchr(*word, '$') && ft_strchr(*word, '\'') && ft_strchr(*word,
+	// 		'"'))
+	// 	return (0);
 	new_word = ft_calloc(expansion_len(word, env) + 1, sizeof(char));
 	if (!new_word)
 		return (-1);

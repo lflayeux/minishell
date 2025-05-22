@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:17:39 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/21 15:54:45 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/05/22 18:52:30 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,4 +128,5 @@ t_exec						*ft_lstlast_exec(t_exec *lst);
 
 void						test_signals(t_signal signals, char **env);
 
+void    built_in(t_exec **exec, int *i);
 #endif

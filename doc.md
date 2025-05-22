@@ -1,25 +1,25 @@
+
 # 🧠 Minishell - Notes de Développement
+---
+## ✅ TODO
 
+
+- [ ] `echo -n`       
+- [ ] `cd`
+- [ ] `pwd`
+- [ ] `export`
+- [ ] `unset`
+- [ ] `env`
+- [x] `exit`
+---
 ## ✅ Tokenisation
-
-
-
-### TODO
-
-`[x]    WORD, '' ou ""
-`[ ]    WORD -> check if '' ou ""
-`[ ]    
-`[ ]
-`[ ]
-
 
 ### Règles de tokenisation
 
-1. Si `quotes` → `WORD` + `true`
 2. Si `<`, `>`, `<<`, `>>` → redirection
 3. Si `|` → pipe
 4. Si `word` :
-   - Vérifier : `$?`, `$$`, `$PATH`
+   - Vérifier : `$?`, `$$`, `$PATH`. '\'', ""
 
 PIPE = 0
 INFILE = 1
@@ -94,14 +94,13 @@ exec num 1
 
 
 ```
+---
+---
 ### ===>        PB A CORRIGER: 
-
+---
 
 ```bash
 # Prompt simulé : 🦾 miniboss 🦾 >
 < Makefile | cat -e
 [1]    805462 segmentation fault (core dumped)  ./minishell  # create_lst_exec
-
-echo "'$$$PATH'"
-# doit afficher: '$$$PATH'
 ```

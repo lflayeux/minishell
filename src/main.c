@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:19:08 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/21 18:45:29 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/05/22 18:52:31 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -318,6 +318,7 @@ void	execute_input(char *input, char **env)
 			while ((tmp4->cmd)[j])
 			{
 				printf("\t\tcmd num" RED " %d" RST ": %s\n", j, (tmp4->cmd)[j]);
+				built_in(&tmp4, &j);
 				j++;
 			}
 		}
@@ -347,7 +348,7 @@ int	main(int argc, char **argv, char **env)
 		if (*input)
 		{
 			add_history(input);
-			//			test_signals(signals, env);
+			//test_signals(signals, env);
 			execute_input(input, env);
 		}
 		reset_signals(&signals);
@@ -364,7 +365,7 @@ void	test_signals(t_signal signals, char **env)
 			NULL};
 	int		status;
 
-	//	char *caca[] = {"/bin/bash", NULL};
+	//char *caca[] = {"/bin/bash", NULL};
 	pid = fork();
 	if (pid == 0)
 	{
