@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:19:08 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/22 18:52:31 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/05/23 00:20:49 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -329,6 +329,24 @@ void	execute_input(char *input, char **env)
 		tmp4 = tmp4->pipe_to;
 	}
 	//============ FIN TEST LST EXEC PIPE PROCESS===========
+
+	//============ TEST REAL EXEC===========
+	printf("\n\n" YLW);
+	printf("==============================================\n");
+	printf("==============REAL EXEC ======================\n");
+	printf("==============================================\n");
+	printf("\n" RST);
+
+	// token = NULL;
+	// exec = NULL;
+	// while (*input != '\0')
+	// {
+	// 	tokenize(&input, &token);
+	// }
+	// word_identification(&token, env);
+	// create_lst_exec(&exec, &token);
+	pipex(&exec, env);
+	//============ FIN TEST REAL EXEC===========
 }
 
 int	main(int argc, char **argv, char **env)

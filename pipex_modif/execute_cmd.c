@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/04/21 21:48:28 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/05/22 20:13:29 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../include/minishell.h"
 
 void	free_tab(char **tab)
 {
@@ -81,32 +81,35 @@ int	exec_proc(char **cmd_parsed, char **all_paths, char **envp, int i)
 		if (execve(path, cmd_parsed, envp) == -1)
 			return (0);
 	}
-	execve(path, cmd_parsed, envp);
+	// execve(path, cmd_parsed, envp);
 	return (free(temp), free(path), free(all_paths[i]), 1);
 }
 
-int	exec_cmd(char **envp, char *cmd, int *tab_child)
+// int	exec_cmd(char **envp, char **cmd, int *tab_child)
+int	exec_cmd(char **envp, char **cmd)
 {
-	char	**cmd_parsed;
+	// char	**cmd_parsed;
 	char	**all_paths;
 	int		i;
 
-	if (ft_is_empty(cmd) == 1)
-		return (free(tab_child), errno = ENOENT, perror(" "), exit(1), 0);
-	cmd_parsed = ft_split_dif(cmd, ' ');
-	if (!cmd_parsed)
-		return (0);
+	// if (ft_is_empty(cmd) == 1)
+	// 	return (free(tab_child), errno = ENOENT, perror(" "), exit(1), 0);
+	// cmd_parsed = ft_split_dif(cmd, ' ');
+	// if (!cmd_parsed)
+	// 	return (0);
 	all_paths = find_path_env(envp);
 	if (!all_paths)
-		return (free(cmd_parsed), 0);
+		return (free(cmd), 0);
 	i = 0;
 	while (all_paths[i] != NULL)
 	{
-		if (exec_proc(cmd_parsed, all_paths, envp, i) == 0)
-			return (free(tab_child), free_tab(all_paths), perror(cmd_parsed[0]),
-				free_tab(cmd_parsed), exit(1), 0);
+		if (exec_proc(cmd, all_paths, envp, i) == 0)
+			return (exit(1), 0);
+			// return (free(tab_child), free_tab(all_paths), perror(cmd[0]),
+			// 	free_tab(cmd), exit(1), 0);
 		i++;
 	}
-	return (free(tab_child), free(all_paths), perror(cmd_parsed[0]),
-		free_tab(cmd_parsed), exit(1), 0);
+	// return (free(tab_child), free(all_paths), perror(cmd[0]),
+	// 	free_tab(cmd), exit(1), 0);
+	return (exit(1), 0);
 }

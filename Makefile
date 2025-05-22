@@ -16,7 +16,12 @@ SRC =	src/main.c \
 		src/word_parsing.c \
 		src/lst_exec.c \
 		src/pipe_process.c \
-		src/built_in.c
+		src/built_in.c \
+		pipex_modif/execute_cmd.c \
+		pipex_modif/here_doc.c \
+		pipex_modif/split_cmd.c \
+		pipex_modif/pipex.c
+
 
 GREEN = \033[32m
 RED = \033[31m

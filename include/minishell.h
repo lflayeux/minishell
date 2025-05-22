@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:17:39 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/22 18:52:30 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/05/23 00:18:19 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,27 @@ void						create_lst_exec(t_exec **lst_exec, t_tok **token);
 
 void						ft_lstadd_back_exec(t_exec **token, t_exec *new);
 t_exec						*ft_lstlast_exec(t_exec *lst);
+
+// === PIPEX MODIF ===
+
+typedef struct s_pipex
+{
+	char	**av;
+	int		ac;
+	char	**envp;
+	pid_t	*child_tab;
+	int		fd_infile;
+	int		fd_outfile;
+}			t_pipex;
+
+int							pipex(t_exec **lst_exec, char **envp);
+
+char						**ft_split_dif(char const *s, char c);
+
+// int							here_doc_proc(char *delimiter);
+
+int							exec_cmd(char **envp, char **cmd);
+
 
 // === TESTS ===
 

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   split_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 23:35:57 by alex              #+#    #+#             */
-/*   Updated: 2025/03/26 18:32:39 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/05/22 16:02:57 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../include/minishell.h"
 
 static int	ft_countword(const char *str, char c)
 {

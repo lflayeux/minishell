@@ -3,23 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/04/21 21:49:32 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/05/22 16:02:38 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
-
-void	space_proc(t_pipex *data, int index, int *end)
-{
-	if (data->fd_infile == -1 && index == 0)
-		return (free(data->child_tab), close(end[1]), close(end[0]), exit(1));
-	close(end[0]);
-	dup2(end[1], 1);
-	close(end[1]);
-}
+#include "../include/minishell.h"
 
 int	ft_is_empty(char *str)
 {
