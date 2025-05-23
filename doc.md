@@ -6,7 +6,7 @@
 
 - [ ] `echo -n`       
 - [ ] `cd`
-- [ ] `pwd`
+- [x] `pwd`
 - [ ] `export`
 - [ ] `unset`
 - [ ] `env`

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:19:08 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/23 00:20:49 by alex             ###   ########.fr       */
+/*   Updated: 2025/05/23 11:29:27 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -317,9 +317,11 @@ void	execute_input(char *input, char **env)
 		{
 			while ((tmp4->cmd)[j])
 			{
-				printf("\t\tcmd num" RED " %d" RST ": %s\n", j, (tmp4->cmd)[j]);
-				built_in(&tmp4, &j);
-				j++;
+			    printf("\t\tcmd num %d: %s\n", j, (tmp4->cmd)[j]);
+			    int old_j = j;
+			    built_in(&tmp4, &j);
+			    if (j == old_j)
+			        j++;
 			}
 		}
 		else
@@ -346,7 +348,7 @@ void	execute_input(char *input, char **env)
 	// word_identification(&token, env);
 	// create_lst_exec(&exec, &token);
 	pipex(&exec, env);
-	//============ FIN TEST REAL EXEC===========
+	printf(YLW"\n============ FIN TEST REAL EXEC===========\n"RST);
 }
 
 int	main(int argc, char **argv, char **env)

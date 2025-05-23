@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:17:39 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/23 00:18:19 by alex             ###   ########.fr       */
+/*   Updated: 2025/05/23 11:39:42 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,5 +149,7 @@ int							exec_cmd(char **envp, char **cmd);
 
 void						test_signals(t_signal signals, char **env);
 
+// === BUILT_IN ===
 void    built_in(t_exec **exec, int *i);
+
 #endif
