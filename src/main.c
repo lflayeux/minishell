@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:19:08 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/23 11:29:27 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/05/23 15:27:47 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -319,7 +319,7 @@ void	execute_input(char *input, char **env)
 			{
 			    printf("\t\tcmd num %d: %s\n", j, (tmp4->cmd)[j]);
 			    int old_j = j;
-			    built_in(&tmp4, &j);
+			    built_in(&tmp4, &j, env);
 			    if (j == old_j)
 			        j++;
 			}

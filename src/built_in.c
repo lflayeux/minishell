@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 14:33:18 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/23 11:42:38 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/05/23 17:39:30 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,19 +59,38 @@ void exec_echo(t_exec **exec, int *i)
     if (newline)
         printf("\n");
 }
+void    exec_env(t_exec	**exec, int *i, char **env)
+{
+    char    **new_env;
+    char    **search_env;
+    int     j;
+
+    j = 0;
+    while ((*exec)->cmd[*i + 1])
+    {
+        search_env = ft_split((*exec)->cmd[*i + 1], '=');
+        if (!search_env[1])
+            printf("ERROR");
+        else
+        {
+            while ()
 
 
-void    built_in(t_exec	**exec, int *i)
+        }
+    }
+    
+}
+
+void    built_in(t_exec	**exec, int *i, char **env)
 {
     if (!(ft_strcmp((*exec)->cmd[*i], "echo")))
-    {
         exec_echo(exec, i);
-        printf("%d\n", *i);
-    }
     else if (ft_strcmp((*exec)->cmd[*i], "cd") == 0)
          exec_cd((*exec)->cmd[++(*i)]);
     else if (ft_strcmp((*exec)->cmd[*i], "pwd") == 0)
         exec_pwd();
+    else if (ft_strcmp((*exec)->cmd[*i], "env") == 0)
+        exec_env(exec, i, env);
     else
         return;
 }

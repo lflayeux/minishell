@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:17:39 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/23 11:39:42 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/05/23 15:27:31 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,6 @@ int							exec_cmd(char **envp, char **cmd);
 void						test_signals(t_signal signals, char **env);
 
 // === BUILT_IN ===
-void    built_in(t_exec **exec, int *i);
+void    built_in(t_exec **exec, int *i, char **env);
 
 #endif
