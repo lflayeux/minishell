@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/05/23 00:20:07 by alex             ###   ########.fr       */
+/*   Updated: 2025/05/23 14:04:01 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,14 @@
 // 	return (1);
 // }
 
-int	middle_proc(t_exec *exec, pid_t *child_tab, int index, char **envp, int *prev_fd)
+int	middle_proc(t_exec *exec, pid_t *child_tab, int index, char **envp,
+		int *prev_fd)
 {
 	int		end[2];
 	pid_t	child;
-	// int i;
+	int		fd_outfile;
 
-	if(exec->pipe_to)
+	if (exec->pipe_to)
 	{
 		if (pipe(end) == -1)
 			return (0);
@@ -79,22 +80,21 @@ int	middle_proc(t_exec *exec, pid_t *child_tab, int index, char **envp, int *pre
 		return (close(end[0]), close(end[1]), 0);
 	else if (child == 0)
 	{
-		int fd_outfile;
-
 		if (*prev_fd != STDIN_FILENO)
 		{
 			dup2(*prev_fd, STDIN_FILENO);
 			close(*prev_fd);
 		}
-		if(exec->pipe_to == NULL)
+		if (exec->pipe_to == NULL)
 		{
 			// printf("\t\t\t\t\t\t\t\tTEST\n");
 			// close(end[1]);
 			// close(end[0]);
 			if (exec->if_outfile == 1)
 			{
-				fd_outfile = open((exec->outfile), O_WRONLY | O_TRUNC | O_CREAT, 0666);
-				if(fd_outfile == -1)
+				fd_outfile = open((exec->outfile), O_WRONLY | O_TRUNC | O_CREAT,
+						0666);
+				if (fd_outfile == -1)
 					return (0);
 				dup2(fd_outfile, STDOUT_FILENO);
 				close(fd_outfile);
@@ -111,7 +111,7 @@ int	middle_proc(t_exec *exec, pid_t *child_tab, int index, char **envp, int *pre
 	}
 	else
 	{
-		if(exec->pipe_to == NULL)
+		if (exec->pipe_to == NULL)
 		{
 			// i = 0;
 			// while (child_tab[i])
@@ -119,15 +119,17 @@ int	middle_proc(t_exec *exec, pid_t *child_tab, int index, char **envp, int *pre
 			// 	waitpid(child_tab[i++], NULL, 0);
 			// }
 			// waitpid(child, NULL, 0);
-			while (wait(NULL) > 0){}
+			while (wait(NULL) > 0)
+			{
+			}
 			// free(child_tab);
-			// close(fd_outfile);			
+			// close(fd_outfile);
 		}
 		else
 		{
-            close(end[1]);
-            /* Keep the read end around to feed into the next child */
-            *prev_fd = end[0];
+			close(end[1]);
+			/* Keep the read end around to feed into the next child */
+			*prev_fd = end[0];
 			child_tab[index] = child;
 			close(end[1]);
 		}
@@ -135,16 +137,16 @@ int	middle_proc(t_exec *exec, pid_t *child_tab, int index, char **envp, int *pre
 	return (1);
 }
 
-int node_number(t_exec *lst_exec)
+int	node_number(t_exec *lst_exec)
 {
-	t_exec *tmp;
-	int len;
+	t_exec	*tmp;
+	int		len;
 
-	if(!lst_exec)
+	if (!lst_exec)
 		return (0);
 	tmp = lst_exec;
 	len = 0;
-	while(tmp)
+	while (tmp)
 	{
 		tmp = tmp->pipe_to;
 		len++;
@@ -154,11 +156,13 @@ int node_number(t_exec *lst_exec)
 
 int	pipex(t_exec **lst_exec, char **envp)
 {
-	t_exec *tmp;
+	t_exec	*tmp;
 	pid_t	*child_tab;
-	int	index;
-	int       prev_fd = STDIN_FILENO;
+	int		index;
+	int		prev_fd;
+	int		fd_infile;
 
+	prev_fd = STDIN_FILENO;
 	child_tab = ft_calloc(node_number(*lst_exec) + 1, sizeof(pid_t));
 	if (!child_tab)
 		return (-1);
@@ -170,6 +174,13 @@ int	pipex(t_exec **lst_exec, char **envp)
 	tmp = *lst_exec;
 	while (tmp)
 	{
+		if (tmp->if_infile == 1)
+		{
+			fd_infile = open((tmp->infile), O_RDONLY);
+			if (fd_infile == -1)
+				return (0);
+			prev_fd = fd_infile;
+		}
 		if (middle_proc(tmp, child_tab, index++, envp, &prev_fd) == 0)
 			return (-1);
 		tmp = tmp->pipe_to;
@@ -178,7 +189,7 @@ int	pipex(t_exec **lst_exec, char **envp)
 	// 		O_WRONLY | O_TRUNC | O_CREAT, 0666);
 	// if (last_proc(data->envp, data->av[i], data->fd_outfile,
 	// 		data->child_tab) == 0)
-		// return (close(data->fd_outfile), -1);
+	// return (close(data->fd_outfile), -1);
 	return (1);
 }
 
