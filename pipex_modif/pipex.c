@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/05/23 14:04:01 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/05/23 15:30:37 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int	middle_proc(t_exec *exec, pid_t *child_tab, int index, char **envp,
 	int		end[2];
 	pid_t	child;
 	int		fd_outfile;
+	int		i;
 
 	if (exec->pipe_to)
 	{
@@ -113,16 +114,16 @@ int	middle_proc(t_exec *exec, pid_t *child_tab, int index, char **envp,
 	{
 		if (exec->pipe_to == NULL)
 		{
-			// i = 0;
-			// while (child_tab[i])
-			// {
-			// 	waitpid(child_tab[i++], NULL, 0);
-			// }
-			// waitpid(child, NULL, 0);
-			while (wait(NULL) > 0)
+			i = 0;
+			while (child_tab[i])
 			{
+				waitpid(child_tab[i++], NULL, 0);
 			}
-			// free(child_tab);
+			waitpid(child, NULL, 0);
+			// while (wait(NULL) > 0)
+			// {
+			// }
+			free(child_tab);
 			// close(fd_outfile);
 		}
 		else
