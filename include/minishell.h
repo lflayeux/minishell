@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:17:39 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/23 15:27:31 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/05/24 11:55:44 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,11 @@ typedef struct s_exec_pipeline
 	char					**cmd;
 	char					*infile;
 	char					*outfile;
+	char					*delimiter;
 	bool					if_infile;
 	bool					if_outfile;
+	bool					if_append;
+	bool					if_here_doc;
 	struct s_exec_pipeline	*pipe_to;
 }							t_exec;
 
@@ -144,6 +147,9 @@ char						**ft_split_dif(char const *s, char c);
 
 int							exec_cmd(char **envp, char **cmd);
 
+// === HERE_DOC ===
+
+int							loop_here_doc(char *delimiter, int *end);
 
 // === TESTS ===
 

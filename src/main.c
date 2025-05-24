@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:19:08 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/23 15:27:47 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/05/24 11:59:15 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -328,6 +328,8 @@ void	execute_input(char *input, char **env)
 			printf("\t\tcmd inexistante\n");
 		printf("\tinfile:%d,   %s\n", tmp4->if_infile, tmp4->infile);
 		printf("\toutfile:%d,   %s\n", tmp4->if_outfile, tmp4->outfile);
+		printf("\there_doc:%d,   %s\n", tmp4->if_here_doc, tmp4->delimiter);
+		printf("\tappend:%d,   %s\n", tmp4->if_append, tmp4->outfile);
 		tmp4 = tmp4->pipe_to;
 	}
 	//============ FIN TEST LST EXEC PIPE PROCESS===========
