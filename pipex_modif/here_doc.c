@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/05/22 16:02:38 by alex             ###   ########.fr       */
+/*   Updated: 2025/05/24 22:32:22 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,5 @@ int	loop_here_doc(char *delimiter, int *end)
 		free(line);
 		line = get_next_line(0);
 	}
-	return (1);
-}
-
-int	here_doc_proc(char *delimiter)
-{
-	int	end[2];
-
-	if (pipe(end) == -1)
-		return (0);
-	loop_here_doc(delimiter, end);
-	dup2(end[0], 0);
-	close(end[1]);
-	close(end[0]);
 	return (1);
 }

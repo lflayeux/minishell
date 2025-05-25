@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 15:34:14 by aherlaud          #+#    #+#             */
-/*   Updated: 2025/05/24 10:47:56 by alex             ###   ########.fr       */
+/*   Updated: 2025/05/26 00:01:30 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,40 @@ void	exec_init(t_exec *node_exec)
 	node_exec->if_append = 0;
 	node_exec->if_here_doc = 0;
 	node_exec->pipe_to = NULL;
+}
+
+int if_here_doc(t_exec *node_exec, t_tok **init)
+{
+	node_exec->delimiter = ((*init)->next)->word;
+	node_exec->if_here_doc = 1;
+	node_exec->if_infile = 0;
+	(*init) = ((*init)->next);
+	return (1);
+}
+
+int if_append(t_exec *node_exec, t_tok **init)
+{
+	node_exec->outfile = ((*init)->next)->word;
+	node_exec->if_append = 1;
+	node_exec->if_outfile = 0;
+	(*init) = ((*init)->next);
+	return (1);
+}
+
+int if_outfile(t_exec *node_exec, t_tok **init)
+{
+	int temp_fd;
+	
+	temp_fd = open(((*init)->next)->word, O_WRONLY | O_TRUNC | O_CREAT,
+				0666);
+	if(temp_fd == -1)
+		return (0);
+	close(temp_fd);
+	node_exec->outfile = ((*init)->next)->word;
+	node_exec->if_outfile = 1;
+	node_exec->if_append = 0;
+	(*init) = ((*init)->next);
+	return (1);
 }
 
 // CREATE STRUCT AND JOIN&SPLIT COMMAND APPEND AND HERE_DOC MISSING
@@ -52,29 +86,13 @@ t_exec	*ft_lstnew_exec(t_tok *init, t_tok *end)
 			init = init->next;
 		}
 		if (init->type == OUTFILE && (init->next)->type == WORD && init->next)
-		{
-			node_exec->outfile = (init->next)->word;
-			node_exec->if_outfile = 1;
-			node_exec->if_append = 0;
-			init = init->next;
-		}
+			if_outfile(node_exec, &init);
 		if (init->type == APPEND && (init->next)->type == WORD && init->next)
-		{
-			node_exec->outfile = (init->next)->word;
-			node_exec->if_append = 1;
-			node_exec->if_outfile = 0;
-			init = init->next;
-		}
+			if_append(node_exec, &init);
 		if (init->type == HERE_DOC && (init->next)->type == WORD && init->next)
-		{
-			node_exec->delimiter = (init->next)->word;
-			node_exec->if_here_doc = 1;
-			node_exec->if_infile = 0;
-			init = init->next;
-		}
+			if_here_doc(node_exec, &init);
 		init = init->next;
 	}
-	printf("\nsortie de boucle\n");
 	if (cmd)
 		node_exec->cmd = ft_split(cmd, ' ');
 	else
