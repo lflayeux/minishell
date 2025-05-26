@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:17:39 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/24 11:55:44 by alex             ###   ########.fr       */
+/*   Updated: 2025/05/26 18:52:44 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ char						*check_dollar_env(char **token, int *i, char **env);
 int							expansion_len(char **token, char **env);
 char						*get_pid(void);
 char						*find_var_spe(char *s, int index);
+const char					*get_token_name(int type);
 
 // ==============================================
 // ================== SIGNALS ===================
@@ -131,13 +132,13 @@ t_exec						*ft_lstlast_exec(t_exec *lst);
 
 typedef struct s_pipex
 {
-	char	**av;
-	int		ac;
-	char	**envp;
-	pid_t	*child_tab;
-	int		fd_infile;
-	int		fd_outfile;
-}			t_pipex;
+	char					**av;
+	int						ac;
+	char					**envp;
+	pid_t					*child_tab;
+	int						fd_infile;
+	int						fd_outfile;
+}							t_pipex;
 
 int							pipex(t_exec **lst_exec, char **envp);
 
@@ -156,6 +157,6 @@ int							loop_here_doc(char *delimiter, int *end);
 void						test_signals(t_signal signals, char **env);
 
 // === BUILT_IN ===
-void    built_in(t_exec **exec, int *i, char **env);
+void						built_in(t_exec **exec, int *i, char **env);
 
 #endif
