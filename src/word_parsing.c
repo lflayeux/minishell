@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   word_parsing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 14:07:09 by alex              #+#    #+#             */
-/*   Updated: 2025/05/27 11:38:16 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/05/28 00:30:29 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,12 @@ int	add_dollar_env(char **word, char **new_word, int *i, int *j)
 		// (*i)++;
 	}
 	else
+	{
 		var_env = getenv(find_var_spe(*word, *j));
+		(*j) += strlen(find_var_spe(*word, *j));
+		if(!var_env)
+			return (0); 
+	}
 	// var_env = check_dollar_env(word, j, env);
 	// printf("\t\t\t\t\t\tTEST: %s\n", *word);
 	l = 0;
