@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 15:34:14 by aherlaud          #+#    #+#             */
-/*   Updated: 2025/05/26 19:37:17 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/05/27 14:56:18 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,18 +69,20 @@ int	if_infile(t_exec *node_exec, t_tok **init)
 
 int	if_word(t_exec *node_exec, t_tok *init, t_tok *end, char **cmd)
 {
+	(void)node_exec;
+	(void)end;
 	if (!(*cmd))
 		*cmd = ft_strdup("");
 	else
 		*cmd = ft_strjoin(*cmd, ft_strdup(" "));
 	*cmd = ft_strjoin(*cmd, init->word);
-	if (!(init->next) || init->next == end)
-	{
-		if (*cmd)
-			node_exec->cmd = ft_split(*cmd, ' ');
-		else
-			node_exec->cmd = NULL;
-	}
+	// if (!(init->next) || init->next == end)
+	// {
+	// if (*cmd)
+	// 	node_exec->cmd = ft_split(*cmd, ' ');
+	// else
+	// 	node_exec->cmd = NULL;
+	// }
 	return (1);
 }
 
@@ -107,6 +109,10 @@ t_exec	*ft_lstnew_exec(t_tok *init, t_tok *end)
 			if_here_doc(node_exec, &init);
 		init = init->next;
 	}
+	if (cmd)
+		node_exec->cmd = ft_split(cmd, ' ');
+	else
+		node_exec->cmd = NULL;
 	return (node_exec);
 }
 
