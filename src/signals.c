@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:23:58 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/04/16 18:25:49 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/05/27 10:37:13 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	set_signal(t_signal *signals)
 	signals->ctrl_dump.sa_flags = 0;
 	signals->ctrl_dump.sa_handler = SIG_IGN;
 	sigaction(SIGQUIT, &signals->ctrl_dump, NULL);
-
 }
+
 
 void	parent_signals(t_signal *signals)
 {

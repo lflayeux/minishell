@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   word_parsing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 14:07:09 by alex              #+#    #+#             */
-/*   Updated: 2025/05/25 23:46:36 by alex             ###   ########.fr       */
+/*   Updated: 2025/05/27 11:38:16 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	dou_quotes_exp(char **word, char **new_word, int *i, int *j)
 	return (0);
 }
 
-int	expand_word(char **word, char **env)
+int	expand_word(char **word, t_shell **shell)
 {
 	char	*new_word;
 	int		i;
@@ -86,12 +86,12 @@ int	expand_word(char **word, char **env)
 	// if (ft_strchr(*word, '$') && ft_strchr(*word, '\'') && ft_strchr(*word,
 	// 		'"'))
 	// 	return (0);
-	new_word = ft_calloc(expansion_len(word, env) + 1, sizeof(char));
+	new_word = ft_calloc(expansion_len(word, shell) + 1, sizeof(char));
 	if (!new_word)
 		return (-1);
 	i = 0;
 	j = 0;
-	while (i < expansion_len(word, env))
+	while (i < expansion_len(word, shell))
 	{
 		if ((*word)[j] == '\'')
 			sin_quotes_exp(word, &new_word, &i, &j);
@@ -108,16 +108,16 @@ int	expand_word(char **word, char **env)
 	return (free(*word), *word = new_word, 0);
 }
 
-int	word_identification(t_tok **token, char **env)
+int	word_identification(t_shell **shell)
 {
 	t_tok *tmp;
 
-	tmp = *token;
+	tmp = (*shell)->tok;
 	while (tmp)
 	{
 		if (tmp->type == WORD && (ft_strchr(tmp->word, '$')
 				|| ft_strchr(tmp->word, '\'') || ft_strchr(tmp->word, '"')))
-			expand_word(&(tmp->word), env);
+			expand_word(&(tmp->word), shell);
 		tmp = tmp->next;
 	}
 	return (1);

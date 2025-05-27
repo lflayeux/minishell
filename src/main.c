@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:19:08 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/24 11:59:15 by alex             ###   ########.fr       */
+/*   Updated: 2025/05/27 14:23:08 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,17 +102,16 @@ char	*find_var_spe(char *s, int index)
 // }
 
 // PERMET DE RECALCULER LA BONNE LONGUEURE EN CAS DE $
-int	dollar_len(char **token, int *i, char **env)
+int	dollar_len(char **token, int *i, t_shell **shell)
 {
 	int		len;
 	char	*env_path;
 
 	len = 0;
-	(void)env;
+	(void)shell;
 	(*i)++;
 	if ((*token)[*i] == '$')
 	{
-		// printf("pid : %s\n", get_pid());
 		(*i)++;
 		return (ft_strlen(get_pid()));
 	}
@@ -121,18 +120,15 @@ int	dollar_len(char **token, int *i, char **env)
 	{
 		if ((*token)[*i] == '\0' || (*token)[*i] == '"')
 			return (1);
-		// env_path = check_dollar_env(token, i, env);
 		env_path = getenv(find_var_spe(*token, *i));
 		if (env_path)
 			len += ft_strlen(env_path);
-		// else
-		// 	return (0);
 	}
 	return (len);
 }
 
 // PERMET DE RECALCULER LA BONNE LONGUEURE EN CAS DE '' OU ""
-int	quotes_len(char **token, int *i, char **env)
+int	quotes_len(char **token, int *i, t_shell **shell)
 {
 	int	len;
 
@@ -153,7 +149,7 @@ int	quotes_len(char **token, int *i, char **env)
 		while ((*token)[*i] != '"' && (*token)[*i] != '\0')
 		{
 			if ((*token)[*i] == '$')
-				len += dollar_len(token, i, env);
+				len += dollar_len(token, i, shell);
 			else
 			{
 				// printf("%d i\n", *i);
@@ -167,7 +163,7 @@ int	quotes_len(char **token, int *i, char **env)
 }
 
 // FONCTION GLOBALE POUR LE RECALCUL DES ' " et $
-int	expansion_len(char **token, char **env)
+int	expansion_len(char **token, t_shell **shell)
 {
 	int	len;
 	int	i;
@@ -184,9 +180,9 @@ int	expansion_len(char **token, char **env)
 		}
 		// printf("%d iexp\n", i);
 		if ((*token)[i] != '\'' || (*token)[i] != '"')
-			len += quotes_len(token, &i, env);
+			len += quotes_len(token, &i, shell);
 		if ((*token)[i] == '$')
-			len += dollar_len(token, &i, env);
+			len += dollar_len(token, &i, shell);
 	}
 	return (len);
 }
@@ -220,28 +216,30 @@ const char	*get_token_name(int type)
 // ================= FIN TESTS ==================
 // ==============================================
 
-void	execute_input(char *input, char **env)
+void	execute_input(char *input, t_shell **shell)
 {
-	t_tok	*token;
-	t_exec	*exec;
-	int		i;
-	int		j;
 	t_tok	*tmp;
 	t_tok	*tmp2;
-	int		past_len;
-	int		new_len;
 	t_tok	*tmp3;
 	t_exec	*tmp4;
+	int		i;
+	// int		j;
+	// int		old_j;
+	int		past_len;
+	int		new_len;
 
-	(void)env;
-	token = NULL;
+	(*shell)->tok = NULL;
+	(*shell)->exec = NULL;
+	
 	while (*input != '\0')
 	{
-		tokenize(&input, &token);
+		tokenize(&input, &((*shell)->tok));
 	}
-	//============ TEST TOKENISATION ===========
-	tmp = token;
-	tmp2 = token;
+	// ==============================================
+	// ================== TOKENIZE ==================
+	// ==============================================
+	tmp =  (*shell)->tok;
+	tmp2 =  (*shell)->tok;
 	i = 0;
 	printf("\n\n" YLW);
 	printf("==============================================\n");
@@ -250,13 +248,13 @@ void	execute_input(char *input, char **env)
 	printf("\n" RST);
 	while (tmp != NULL)
 	{
-		printf("token num" RED " %d\n" RST, i++);
-		printf("\ttype: %s\n", get_token_name(tmp->type));
-		printf("\tword: %s\n", tmp->word);
+		printf("token num" RED " %d\n" RST"\ttype: %s\n""\tword: %s\n", i++, get_token_name(tmp->type), tmp->word);
 		tmp = tmp->next;
 	}
-	//========== FIN TEST TOKNISATION=========
-	//============ TEST EXPANSION MALLOC===========
+	
+	// ==============================================
+	// ============== EXPANSION MALLOC ==============
+	// ==============================================
 	printf("\n\n" YLW);
 	printf("==============================================\n");
 	printf("============== EXPANSION MALLOC ==============\n");
@@ -268,7 +266,7 @@ void	execute_input(char *input, char **env)
 		if (tmp2->word != NULL)
 		{
 			past_len = ft_strlen(tmp2->word);
-			new_len = expansion_len(&tmp2->word, env);
+			new_len = expansion_len(&tmp2->word, shell);
 			printf("token num" RED " %d\n" RST, i++);
 			printf("============================\n");
 			printf("ancien len: %d\n", past_len);
@@ -280,10 +278,12 @@ void	execute_input(char *input, char **env)
 		}
 		tmp2 = tmp2->next;
 	}
-	//============ FIN TEST EXPANSION MALLOC===========
-	//============ TEST EXPANSION WORD PARSING===========
-	word_identification(&token, env);
-	tmp3 = token;
+	
+	// ==============================================
+	// ============= EXPANSION PARSING ==============
+	// ==============================================
+	word_identification(shell);
+	tmp3 = (*shell)->tok;
 	i = 0;
 	printf("\n\n" YLW);
 	printf("==============================================\n");
@@ -297,71 +297,100 @@ void	execute_input(char *input, char **env)
 		printf("\tword: %s\n", tmp3->word);
 		tmp3 = tmp3->next;
 	}
-	//============ FIN TEST EXPANSION WORD PARSING===========
-	//============ TEST LST EXEC PIPE PROCESS===========
-	exec = NULL;
-	create_lst_exec(&exec, &token);
-	tmp4 = exec;
+// 	// ==============================================
+// 	// ============== EXEC BUILT_IN =================
+// 	// ==============================================
+	create_lst_exec(&((*shell)->exec), &((*shell)->tok));
+	tmp4 = (*shell)->exec;
 	i = 0;
 	printf("\n\n" YLW);
-	printf("==============================================\n");
-	printf("================== EXEC ======================\n");
-	printf("==============================================\n");
-	printf("\n" RST);
-	while (tmp4 != NULL)
-	{
-		j = 0;
-		printf("exec num" RED " %d\n" RST, i++);
-		printf("\tcommand:\n");
-		if (tmp4->cmd)
-		{
-			while ((tmp4->cmd)[j])
-			{
-			    printf("\t\tcmd num %d: %s\n", j, (tmp4->cmd)[j]);
-			    int old_j = j;
-			    built_in(&tmp4, &j, env);
-			    if (j == old_j)
-			        j++;
-			}
-		}
-		else
-			printf("\t\tcmd inexistante\n");
-		printf("\tinfile:%d,   %s\n", tmp4->if_infile, tmp4->infile);
-		printf("\toutfile:%d,   %s\n", tmp4->if_outfile, tmp4->outfile);
-		printf("\there_doc:%d,   %s\n", tmp4->if_here_doc, tmp4->delimiter);
-		printf("\tappend:%d,   %s\n", tmp4->if_append, tmp4->outfile);
-		tmp4 = tmp4->pipe_to;
-	}
-	//============ FIN TEST LST EXEC PIPE PROCESS===========
-
-	//============ TEST REAL EXEC===========
+	// printf("==============================================\n");
+	// printf("================== BUILT_IN ==================\n");
+	// printf("==============================================\n");
+	// printf("\n" RST);
+	// while (tmp4 != NULL)
+	// {
+	// 	j = 0;
+	// 	printf("exec num" RED " %d\n" RST, i++);
+	// 	printf("\tcommand:\n");
+	// 	if (tmp4->cmd)
+	// 	{
+	// 		while ((tmp4->cmd)[j])
+	// 		{
+	// 		    printf("\t\tcmd num %d: %s\n", j, (tmp4->cmd)[j]);
+	// 			old_j = j;
+	// 		    built_in(shell, &j);
+	// 		    if (j == old_j)
+	// 		        j++;
+	// 		}
+	// 	}
+	// 	else
+	// 		printf("\t\tcmd inexistante\n");
+	// 	printf("\tinfile:%d,   %s\n", tmp4->if_infile, tmp4->infile);
+	// 	printf("\toutfile:%d,   %s\n", tmp4->if_outfile, tmp4->outfile);
+	// 	printf("\there_doc:%d,   %s\n", tmp4->if_here_doc, tmp4->delimiter);
+	// 	printf("\tappend:%d,   %s\n", tmp4->if_append, tmp4->outfile);
+	// 	tmp4 = tmp4->pipe_to;
+	// }
+	// ==============================================
+	// ================= REAL EXEC ==================
+	// ==============================================
 	printf("\n\n" YLW);
 	printf("==============================================\n");
 	printf("==============REAL EXEC ======================\n");
 	printf("==============================================\n");
 	printf("\n" RST);
 
-	// token = NULL;
-	// exec = NULL;
 	// while (*input != '\0')
 	// {
-	// 	tokenize(&input, &token);
-	// }
-	// word_identification(&token, env);
+	// 	tokenize(&input, &((*shell)->tok));
+	word_identification(shell);
 	// create_lst_exec(&exec, &token);
-	pipex(&exec, env);
+	pipex((*shell)->exec, (*shell)->env);
 	printf(YLW"\n============ FIN TEST REAL EXEC===========\n"RST);
 }
+char	**init_env(char **envp)
+{
+	int i;
+	int len;
+	char **env;
 
-int	main(int argc, char **argv, char **env)
+	len = 0;
+	i = 0;
+	while (envp[len])
+		len++;
+	env = malloc((len + 1) * sizeof(char *));
+	if (env == NULL)
+		return (NULL);
+	while (envp[i])
+	{
+		env[i] = ft_strdup(envp[i]);
+		i++;
+	}
+	env[i] = NULL;
+	return (env);
+}
+
+int	main(int argc, char **argv, char **envp)
 {
 	char		*input;
-	t_signal	signals;
+	t_shell		*shell;
 
+	shell = malloc(sizeof(t_shell));
+	shell->signals = malloc(sizeof(t_signal));
+	shell->env = init_env(envp);
+	shell->secret = init_env(envp);
 	(void)argc;
 	(void)argv;
-	(void)env;
-	set_signal(&signals);
+//	int i = 0;
+	// while (shell->env[i])
+	// {
+	// 	printf("%s\n", shell->env[i]);
+	// 	i++;
+	// }
+	//========================================================================
+	//========================================================================
+	set_signal(shell->signals);
 	while (1)
 	{
 		input = readline(PROMPT);
@@ -371,9 +400,9 @@ int	main(int argc, char **argv, char **env)
 		{
 			add_history(input);
 			//test_signals(signals, env);
-			execute_input(input, env);
+			execute_input(input, &shell);
 		}
-		reset_signals(&signals);
+		reset_signals(shell->signals);
 	}
 }
 // ==============================================
