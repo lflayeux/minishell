@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 15:54:28 by aherlaud          #+#    #+#             */
-/*   Updated: 2025/05/19 23:27:36 by alex             ###   ########.fr       */
+/*   Updated: 2025/05/27 20:37:52 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_exec	*ft_lstlast_exec(t_exec *lst)
 // AJOUTE LE NVEAU MAILLON A LA FIN DE LA LISTE
 void	ft_lstadd_back_exec(t_exec **token, t_exec *new)
 {
-	t_exec *last;
+	t_exec	*last;
 
 	if (token == NULL)
 		return ;
@@ -35,4 +35,35 @@ void	ft_lstadd_back_exec(t_exec **token, t_exec *new)
 	}
 	last = ft_lstlast_exec(*token);
 	last->pipe_to = new;
+}
+
+void	del_node_exec(void *exec_node)
+{
+	t_exec	*exec;
+
+	exec = (t_exec *)exec_node;
+	if (exec->cmd)
+		ft_free_tab((void *)(exec->cmd));
+	if (exec->infile)
+		free(exec->infile);
+	if (exec->outfile)
+		free(exec->outfile);
+	if (exec->delimiter)
+		free(exec->delimiter);
+}
+
+void	ft_lstclear_exec(t_exec **lst, void (*del)(void *))
+{
+	t_exec *current;
+	t_exec *tmp;
+
+	current = *lst;
+	while (current)
+	{
+		tmp = current;
+		current = current->pipe_to;
+		del(tmp);
+		free(tmp);
+	}
+	*lst = NULL;
 }

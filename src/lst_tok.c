@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_tok.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 17:27:12 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/27 11:19:02 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/05/27 20:35:14 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,20 @@ void	ft_lstadd_back_tok(t_tok **token, t_tok *new)
 	}
 	last = ft_lstlast_tok(*token);
 	last->next = new;
+}
+
+void	ft_lstclear_tok(t_tok **lst)
+{
+	t_tok	*current;
+	t_tok	*tmp;
+
+	current = *lst;
+	while (current)
+	{
+		tmp = current;
+		current = current->next;
+		free(tmp->word);
+		free(tmp);
+	}
+	*lst = NULL;
 }

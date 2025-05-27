@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:19:08 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/27 14:23:08 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/05/27 17:42:05 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,14 +223,13 @@ void	execute_input(char *input, t_shell **shell)
 	t_tok	*tmp3;
 	t_exec	*tmp4;
 	int		i;
-	// int		j;
-	// int		old_j;
 	int		past_len;
 	int		new_len;
+	int		j;
+	int		old_j;
 
 	(*shell)->tok = NULL;
 	(*shell)->exec = NULL;
-	
 	while (*input != '\0')
 	{
 		tokenize(&input, &((*shell)->tok));
@@ -238,8 +237,8 @@ void	execute_input(char *input, t_shell **shell)
 	// ==============================================
 	// ================== TOKENIZE ==================
 	// ==============================================
-	tmp =  (*shell)->tok;
-	tmp2 =  (*shell)->tok;
+	tmp = (*shell)->tok;
+	tmp2 = (*shell)->tok;
 	i = 0;
 	printf("\n\n" YLW);
 	printf("==============================================\n");
@@ -248,10 +247,13 @@ void	execute_input(char *input, t_shell **shell)
 	printf("\n" RST);
 	while (tmp != NULL)
 	{
-		printf("token num" RED " %d\n" RST"\ttype: %s\n""\tword: %s\n", i++, get_token_name(tmp->type), tmp->word);
+		printf("token num" RED " %d\n" RST "\ttype: %s\n"
+				"\tword: %s\n",
+				i++,
+				get_token_name(tmp->type),
+				tmp->word);
 		tmp = tmp->next;
 	}
-	
 	// ==============================================
 	// ============== EXPANSION MALLOC ==============
 	// ==============================================
@@ -278,7 +280,6 @@ void	execute_input(char *input, t_shell **shell)
 		}
 		tmp2 = tmp2->next;
 	}
-	
 	// ==============================================
 	// ============= EXPANSION PARSING ==============
 	// ==============================================
@@ -297,41 +298,41 @@ void	execute_input(char *input, t_shell **shell)
 		printf("\tword: %s\n", tmp3->word);
 		tmp3 = tmp3->next;
 	}
-// 	// ==============================================
-// 	// ============== EXEC BUILT_IN =================
-// 	// ==============================================
+	// 	// ==============================================
+	// 	// ============== EXEC BUILT_IN =================
+	// 	// ==============================================
 	create_lst_exec(&((*shell)->exec), &((*shell)->tok));
 	tmp4 = (*shell)->exec;
 	i = 0;
 	printf("\n\n" YLW);
-	// printf("==============================================\n");
-	// printf("================== BUILT_IN ==================\n");
-	// printf("==============================================\n");
-	// printf("\n" RST);
-	// while (tmp4 != NULL)
-	// {
-	// 	j = 0;
-	// 	printf("exec num" RED " %d\n" RST, i++);
-	// 	printf("\tcommand:\n");
-	// 	if (tmp4->cmd)
-	// 	{
-	// 		while ((tmp4->cmd)[j])
-	// 		{
-	// 		    printf("\t\tcmd num %d: %s\n", j, (tmp4->cmd)[j]);
-	// 			old_j = j;
-	// 		    built_in(shell, &j);
-	// 		    if (j == old_j)
-	// 		        j++;
-	// 		}
-	// 	}
-	// 	else
-	// 		printf("\t\tcmd inexistante\n");
-	// 	printf("\tinfile:%d,   %s\n", tmp4->if_infile, tmp4->infile);
-	// 	printf("\toutfile:%d,   %s\n", tmp4->if_outfile, tmp4->outfile);
-	// 	printf("\there_doc:%d,   %s\n", tmp4->if_here_doc, tmp4->delimiter);
-	// 	printf("\tappend:%d,   %s\n", tmp4->if_append, tmp4->outfile);
-	// 	tmp4 = tmp4->pipe_to;
-	// }
+	printf("==============================================\n");
+	printf("================== BUILT_IN ==================\n");
+	printf("==============================================\n");
+	printf("\n" RST);
+	while (tmp4 != NULL)
+	{
+		j = 0;
+		printf("exec num" RED " %d\n" RST, i++);
+		printf("\tcommand:\n");
+		if (tmp4->cmd)
+		{
+			while ((tmp4->cmd)[j])
+			{
+				printf("\t\tcmd num %d: %s\n", j, (tmp4->cmd)[j]);
+				old_j = j;
+				//  built_in(shell, &j);
+				if (j == old_j)
+					j++;
+			}
+		}
+		else
+			printf("\t\tcmd inexistante\n");
+		printf("\tinfile:%d,   %s\n", tmp4->if_infile, tmp4->infile);
+		printf("\toutfile:%d,   %s\n", tmp4->if_outfile, tmp4->outfile);
+		printf("\there_doc:%d,   %s\n", tmp4->if_here_doc, tmp4->delimiter);
+		printf("\tappend:%d,   %s\n", tmp4->if_append, tmp4->outfile);
+		tmp4 = tmp4->pipe_to;
+	}
 	// ==============================================
 	// ================= REAL EXEC ==================
 	// ==============================================
@@ -340,20 +341,19 @@ void	execute_input(char *input, t_shell **shell)
 	printf("==============REAL EXEC ======================\n");
 	printf("==============================================\n");
 	printf("\n" RST);
-
 	// while (*input != '\0')
 	// {
 	// 	tokenize(&input, &((*shell)->tok));
 	word_identification(shell);
 	// create_lst_exec(&exec, &token);
-	pipex((*shell)->exec, (*shell)->env);
-	printf(YLW"\n============ FIN TEST REAL EXEC===========\n"RST);
+	pipex(*shell);
+	printf(YLW "\n============ FIN TEST REAL EXEC===========\n" RST);
 }
 char	**init_env(char **envp)
 {
-	int i;
-	int len;
-	char **env;
+	int		i;
+	int		len;
+	char	**env;
 
 	len = 0;
 	i = 0;
@@ -373,8 +373,8 @@ char	**init_env(char **envp)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char		*input;
-	t_shell		*shell;
+	char	*input;
+	t_shell	*shell;
 
 	shell = malloc(sizeof(t_shell));
 	shell->signals = malloc(sizeof(t_signal));
@@ -382,7 +382,7 @@ int	main(int argc, char **argv, char **envp)
 	shell->secret = init_env(envp);
 	(void)argc;
 	(void)argv;
-//	int i = 0;
+	//	int i = 0;
 	// while (shell->env[i])
 	// {
 	// 	printf("%s\n", shell->env[i]);
@@ -399,7 +399,7 @@ int	main(int argc, char **argv, char **envp)
 		if (*input)
 		{
 			add_history(input);
-			//test_signals(signals, env);
+			// test_signals(signals, env);
 			execute_input(input, &shell);
 		}
 		reset_signals(shell->signals);
@@ -416,7 +416,7 @@ void	test_signals(t_signal signals, char **env)
 			NULL};
 	int		status;
 
-	//char *caca[] = {"/bin/bash", NULL};
+	// char *caca[] = {"/bin/bash", NULL};
 	pid = fork();
 	if (pid == 0)
 	{

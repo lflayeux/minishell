@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:17:39 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/27 14:34:07 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/05/27 20:36:15 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,15 +93,6 @@ typedef struct s_tok
 	struct s_tok			*next;
 }							t_tok;
 
-void						tokenize(char **input, t_tok **token);
-t_tok						*ft_lstnew_tok(TOK_TYPE type, char *word);
-t_tok						*ft_lstlast_tok(t_tok *lst);
-void						ft_lstadd_back_tok(t_tok **token, t_tok *new);
-
-// ==============================================
-// ================ EXECUTION ===================
-// ==============================================
-
 typedef struct s_exec_pipeline
 {
 	char					**cmd;
@@ -115,6 +106,31 @@ typedef struct s_exec_pipeline
 	struct s_exec_pipeline	*pipe_to;
 }							t_exec;
 
+typedef struct s_shell
+{
+	t_signal				*signals;
+	t_tok					*tok;
+	t_exec					*exec;
+	char					**env;
+	char					**secret;
+	// t_malloc	*malloc;
+	// error
+	// tab pid_t child
+	pid_t					*child_tab;
+	int						child_index;
+	int						prev_fd;
+}							t_shell;
+
+void						tokenize(char **input, t_tok **token);
+t_tok						*ft_lstnew_tok(TOK_TYPE type, char *word);
+t_tok						*ft_lstlast_tok(t_tok *lst);
+void						ft_lstadd_back_tok(t_tok **token, t_tok *new);
+void						ft_lstclear_tok(t_tok **lst);
+
+// ==============================================
+// ================ EXECUTION ===================
+// ==============================================
+
 // === PIPE PROCESS ===
 
 void						create_lst_exec(t_exec **lst_exec, t_tok **token);
@@ -123,20 +139,21 @@ void						create_lst_exec(t_exec **lst_exec, t_tok **token);
 
 void						ft_lstadd_back_exec(t_exec **token, t_exec *new);
 t_exec						*ft_lstlast_exec(t_exec *lst);
+void						ft_lstclear_exec(t_exec **lst, void (*del)(void *));
 
 // === PIPEX MODIF ===
 
 typedef struct s_pipex
 {
-	char	**av;
-	int		ac;
-	char	**envp;
-	pid_t	*child_tab;
-	int		fd_infile;
-	int		fd_outfile;
-}			t_pipex;
+	char					**av;
+	int						ac;
+	char					**envp;
+	pid_t					*child_tab;
+	int						fd_infile;
+	int						fd_outfile;
+}							t_pipex;
 
-int							pipex(t_exec *lst_exec, char **envp);
+int							pipex(t_shell *shell);
 
 char						**ft_split_dif(char const *s, char c);
 
@@ -152,26 +169,12 @@ int							loop_here_doc(char *delimiter, int *end);
 
 void						test_signals(t_signal signals, char **env);
 
-
-
-
-typedef struct	s_shell
-{
-	t_signal	*signals;
-	t_tok		*tok;
-	t_exec		*exec;
-	char		**env;
-	char		**secret;
-	//t_malloc	*malloc;
-	// error
-	//tab pid_t child
-}				t_shell;
 int							expansion_len(char **token, t_shell **shell);
 // === WORD PARSING ===
 
 int							word_identification(t_shell **shell);
 
 // === BUILT_IN ===
-void    built_in(t_shell **shell, int *i);
+void						built_in(t_shell **shell, int *i);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/05/24 22:31:58 by alex             ###   ########.fr       */
+/*   Updated: 2025/05/27 20:38:18 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,27 +86,27 @@ int	exec_proc(char **cmd_parsed, char **all_paths, char **envp, int i)
 }
 
 // int	exec_cmd(char **envp, char **cmd, int *tab_child)
-int	exec_cmd(char **envp, char **cmd)
+int	exec_cmd(char **env, char **cmd)
 {
-	// char	**cmd_parsed;
 	char	**all_paths;
 	int		i;
 
+	// char	**cmd_parsed;
 	// if (ft_is_empty(cmd) == 1)
 	// 	return (free(tab_child), errno = ENOENT, perror(" "), exit(1), 0);
 	// cmd_parsed = ft_split_dif(cmd, ' ');
 	// if (!cmd_parsed)
 	// 	return (0);
-	all_paths = find_path_env(envp);
+	all_paths = find_path_env(env);
 	if (!all_paths)
 		return (free(cmd), 0);
 	i = 0;
 	while (all_paths[i] != NULL)
 	{
-		if (exec_proc(cmd, all_paths, envp, i) == 0)
+		if (exec_proc(cmd, all_paths, env, i) == 0)
 			return (exit(1), 0);
-			// return (free(tab_child), free_tab(all_paths), perror(cmd[0]),
-			// 	free_tab(cmd), exit(1), 0);
+		// return (free(tab_child), free_tab(all_paths), perror(cmd[0]),
+		// 	free_tab(cmd), exit(1), 0);
 		i++;
 	}
 	// return (free(tab_child), free(all_paths), perror(cmd[0]),
