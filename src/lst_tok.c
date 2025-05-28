@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 17:27:12 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/27 20:35:14 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/05/28 18:05:16 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,12 @@ void	ft_lstadd_back_tok(t_tok **token, t_tok *new)
 	last->next = new;
 }
 
-void	ft_lstclear_tok(t_tok **lst)
+void	ft_lstclear_tok(t_tok *lst)
 {
 	t_tok	*current;
 	t_tok	*tmp;
 
-	current = *lst;
+	current = lst;
 	while (current)
 	{
 		tmp = current;
@@ -64,5 +64,5 @@ void	ft_lstclear_tok(t_tok **lst)
 		free(tmp->word);
 		free(tmp);
 	}
-	*lst = NULL;
+	lst = NULL;
 }

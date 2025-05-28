@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 15:54:28 by aherlaud          #+#    #+#             */
-/*   Updated: 2025/05/27 20:37:52 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/05/28 18:05:04 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	del_node_exec(void *exec_node)
 
 	exec = (t_exec *)exec_node;
 	if (exec->cmd)
-		ft_free_tab((void *)(exec->cmd));
+		ft_free_tab((void **)(exec->cmd));
 	if (exec->infile)
 		free(exec->infile);
 	if (exec->outfile)
@@ -52,18 +52,18 @@ void	del_node_exec(void *exec_node)
 		free(exec->delimiter);
 }
 
-void	ft_lstclear_exec(t_exec **lst, void (*del)(void *))
+void	ft_lstclear_exec(t_exec *lst)
 {
 	t_exec *current;
 	t_exec *tmp;
 
-	current = *lst;
+	current = lst;
 	while (current)
 	{
 		tmp = current;
 		current = current->pipe_to;
-		del(tmp);
+		del_node_exec(tmp);
 		free(tmp);
 	}
-	*lst = NULL;
+	lst = NULL;
 }

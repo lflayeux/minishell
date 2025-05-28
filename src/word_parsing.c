@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   word_parsing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 14:07:09 by alex              #+#    #+#             */
-/*   Updated: 2025/05/28 00:30:29 by alex             ###   ########.fr       */
+/*   Updated: 2025/05/28 18:04:27 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,28 @@
 // =============== WORD PARSING =================
 // ==============================================
 
+int	is_openquotes(char *word, int index, char quote)
+{
+	int	i;
+
+	i = 0;
+	while (i < index)
+	{
+		if (word[index + i] == quote)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 int	add_dollar_env(char **word, char **new_word, int *i, int *j)
 {
 	int		l;
 	char	*var_env;
 
 	(*j)++;
-	if ((*word)[*j] == '\0' || (*word)[*j] == '"')
+	if ((*word)[*j] == '\0' || ((*word)[*j] == '"' && is_openquotes(*word, *j,
+				'"') == 0))
 		var_env = ft_strdup("$\0");
 	else if ((*word)[*j] == '$')
 	{
@@ -31,12 +46,14 @@ int	add_dollar_env(char **word, char **new_word, int *i, int *j)
 		// printf("pid : %ld\n", ft_strlen(get_pid()));
 		// (*i)++;
 	}
+	else if (ft_isdelim((*word)[*j], "\'\""))
+		return (0);
 	else
 	{
 		var_env = getenv(find_var_spe(*word, *j));
 		(*j) += strlen(find_var_spe(*word, *j));
-		if(!var_env)
-			return (0); 
+		if (!var_env)
+			return (0);
 	}
 	// var_env = check_dollar_env(word, j, env);
 	// printf("\t\t\t\t\t\tTEST: %s\n", *word);
@@ -115,7 +132,7 @@ int	expand_word(char **word, t_shell **shell)
 
 int	word_identification(t_shell **shell)
 {
-	t_tok *tmp;
+	t_tok	*tmp;
 
 	tmp = (*shell)->tok;
 	while (tmp)

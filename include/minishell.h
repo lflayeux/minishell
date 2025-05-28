@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:17:39 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/28 18:02:02 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/05/28 18:09:50 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,11 @@
 // ==============================================
 
 char						*check_dollar_env(char **token, int *i, char **env);
-char						**init_env(char **envp);
+int							ft_isdelim(char c, char *delim);
 char						*get_pid(void);
 char						*find_var_spe(char *s, int index);
 const char					*get_token_name(int type);
+char						**init_env(char **envp);
 
 // ==============================================
 // ================== SIGNALS ===================
@@ -106,6 +107,13 @@ typedef struct s_exec_pipeline
 	struct s_exec_pipeline	*pipe_to;
 }							t_exec;
 
+typedef struct s_malloc
+{
+	char					**tab;
+	char					*str;
+	struct s_malloc			*next;
+}							t_malloc;
+
 typedef struct s_shell
 {
 	t_signal				*signals;
@@ -113,9 +121,8 @@ typedef struct s_shell
 	t_exec					*exec;
 	char					**env;
 	char					**secret;
-	// t_malloc	*malloc;
-	// error
-	// tab pid_t child
+	t_malloc				*malloc;
+	int						error;
 	pid_t					*child_tab;
 	int						child_index;
 	int						prev_fd;
@@ -125,7 +132,7 @@ void						tokenize(char **input, t_tok **token);
 t_tok						*ft_lstnew_tok(TOK_TYPE type, char *word);
 t_tok						*ft_lstlast_tok(t_tok *lst);
 void						ft_lstadd_back_tok(t_tok **token, t_tok *new);
-void						ft_lstclear_tok(t_tok **lst);
+void						ft_lstclear_tok(t_tok *lst);
 
 // ==============================================
 // ================ EXECUTION ===================
@@ -139,7 +146,7 @@ void						create_lst_exec(t_exec **lst_exec, t_tok **token);
 
 void						ft_lstadd_back_exec(t_exec **token, t_exec *new);
 t_exec						*ft_lstlast_exec(t_exec *lst);
-void						ft_lstclear_exec(t_exec **lst, void (*del)(void *));
+void						ft_lstclear_exec(t_exec *lst);
 
 // === PIPEX MODIF ===
 
