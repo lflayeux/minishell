@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:17:39 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/27 20:36:15 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/05/28 18:02:02 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@
 // ==============================================
 
 char						*check_dollar_env(char **token, int *i, char **env);
-
+char						**init_env(char **envp);
 char						*get_pid(void);
 char						*find_var_spe(char *s, int index);
 const char					*get_token_name(int type);

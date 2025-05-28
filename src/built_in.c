@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 14:33:18 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/28 14:59:59 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/05/28 18:04:18 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,53 +92,62 @@ int is_valid_env(char *exec)
     }
     return (1);
 }
+int ft_get_env(char **env, char *to_check)
+{
+    int i;
 
-// // ========================
-// // ======= UNSET ENV ======
-// // ========================
-// void    unset_env(char ***env, char *unset_env)
-// {
-//     char **new_env;
-//     int len;
-//     int i;
+    i = 0;
+    while (env[i])
+    {
+        if (ft_strncmp(env[i], to_check, ft_strlen(to_check)) == 0)
+            return (1);
+        i++;
+    }
+    return (0);
+}
+// ========================
+// ======= UNSET ENV ======
+// ========================
+char    **unset_env(char *unset_env, char **env)
+{
+    char **new_env;
+    int len;
+    int i;
 
-//     i = 0;
-//     len = 0;
-//     while ((*env)[len])
-//         len++;
-//     new_env = ft_calloc(len + 1, sizeof(char *));
-//     if (new_env == NULL)
-//         return ;
-//     while (env[i])
-//     {
-//         if (ft_strncmp((*env)[i], unset_env, ft_strlen(unset_env)) == 0)
-//             i++;
-//         new_env[i] = ft_strdup((*env)[i]);
-//         i++;
-//     }
-//     ft_free_tab((void **)(*env));
-//     *env = new_env;
-// }
+    i = 0;
+    len = 0;
+    while (env[len])
+        len++;
+    new_env = ft_calloc(len, sizeof(char *));
+    if (new_env == NULL)
+        return (NULL);
+    while (env[i])
+    {
+        if (ft_strncmp(env[i], unset_env, ft_strlen(unset_env)) == 0)
+            i++;
+        new_env[i] = ft_strdup(env[i]);
+        i++;
+    }
+    ft_free_tab((void **)env);
+    return (new_env);
+}
 
-// void    exec_unset(t_exec	**exec, int *i, char ***env)
-// {
-//     char **split;
+void    exec_unset(t_shell **shell, int *i)
+{
+    char **split;
 
-//     while ((*exec)->cmd[*i + 1])
-//     {
-//         if (!is_valid_env((*exec)->cmd[*i + 1]))
-//         {
-//             printf("INVALID ENV: %s\n", (*exec)->cmd[*i + 1]);
-//             return ;
-//         }
-//         split = ft_split((*exec)->cmd[*i + 1], '=');
-//         if (!getenv(split[0]))
-//             return ;
-//         else
-//             unset_env(env, (*exec)->cmd[*i + 1]);
-//         (*i)++;
-//     }
-// }
+    while ((*shell)->exec->cmd[*i + 1])
+    {
+        split = ft_split((*shell)->exec->cmd[*i + 1], '=');
+        if (ft_get_env((*shell)->env, split[0]))
+            (*shell)->env = unset_env((*shell)->exec->cmd[*i + 1], (*shell)->env);
+        else if (ft_get_env((*shell)->secret, split[0]))
+           (*shell)->secret = unset_env((*shell)->exec->cmd[*i + 1], (*shell)->secret);
+        else
+            (*i)++;
+        (*i)++;
+    }
+}
 
 // // ========================
 // // ======= SET NEW ENV ======
@@ -194,60 +203,69 @@ char **set_env(t_shell **shell, int *i, char *split, char **env)
     ft_free_tab((void **)(env));
     return (new_env);
 }
-int ft_get_env(char **env, char *to_check)
-{
-    int i;
 
-    i = 0;
-    while (env[i])
-    {
-        if (ft_strncmp(env[i], to_check, ft_strlen(to_check)) == 0)
-            return (1);
-        i++;
-    }
-    return (0);
-}
 
 void stock_export(t_shell **shell, int *i)
 {
     char **split;
 
-    if (ft_strchr((*shell)->exec->cmd[*i + 1], '=') != 0)
+    if (ft_strchr((*shell)->exec->cmd[*i + 1], '='))
     {
         split = ft_split((*shell)->exec->cmd[*i + 1], '=');
         if (ft_get_env((*shell)->env, split[0]))
+        {
+            (*shell)->env = set_env(shell, i, split[0], (*shell)->env);
             (*shell)->secret = set_env(shell, i, split[0], (*shell)->secret);
+        }
         else
-            (*shell)->secret = put_env(shell, i, (*shell)->secret);
+        {
+            (*shell)->env = put_env(shell, i, (*shell)->env);
+            (*shell)->secret = set_env(shell, i, split[0], (*shell)->secret);
+        }
         ft_free_tab((void **)split);
     }
     else
     {
-        if (ft_get_env((*shell)->env, (*shell)->exec->cmd[*i + 1]))
-            (*shell)->env = set_env(shell, i, (*shell)->exec->cmd[*i + 1], (*shell)->env);
+        if (ft_get_env((*shell)->secret, (*shell)->exec->cmd[*i + 1]))
+            (*shell)->secret = set_env(shell, i, (*shell)->exec->cmd[*i + 1], (*shell)->secret);
         else
-            (*shell)->env = put_env(shell, i,(*shell)->env);
+        (*shell)->secret = put_env(shell, i,(*shell)->secret);
     }
 }
+
 void    exec_export(t_shell	**shell, int *i)
 {
     int j;
+    char **split;
 
     j = 0;
     if (!(*shell)->exec->cmd[*i + 1])
     {
         while ((*shell)->secret[j])
-            printf("declare -x \"%s\"\n", (*shell)->secret[j++]);
-        ft_free_tab((void **)(*shell)->env);
-        (*shell)->env = init_env((*shell)->secret);
+        {
+            split = ft_split((*shell)->secret[j], '=');
+            if (ft_strchr((*shell)->secret[j], '=') == 0)
+            {
+                if (!ft_get_env((*shell)->env, split[0]) && !is_valid_env(split[0]))
+                    (*shell)->env = put_env(shell, i, (*shell)->env);
+                printf("declare -x %s\n", split[0]);
+            }
+            else
+                printf("declare -x %s=\"%s\"\n", split[0], ft_strchr((*shell)->secret[j], '=') + 1);
+            ft_free_tab((void **)split);
+            j++;
+        }
     }
-    while ((*shell)->exec->cmd[*i + 1])
+    else
     {
-        if (!is_valid_env((*shell)->exec->cmd[*i + 1]))
-            printf("INVALID ENV: %s\n",(*shell)->exec->cmd[*i + 1]);
-        else
-            stock_export(shell, i);
-        (*i)++;
+        while ((*shell)->exec->cmd[*i + 1])
+        {
+            if (!is_valid_env((*shell)->exec->cmd[*i + 1]))
+                printf("INVALID ENV: %s\n",(*shell)->exec->cmd[*i + 1]);
+            else
+                stock_export(shell, i);
+            (*i)++;
+        }
     }
  }
 
@@ -305,8 +323,8 @@ void    built_in(t_shell **shell, int *i)
         exec_env(shell, i);
     else if (ft_strcmp((*shell)->exec->cmd[*i], "export") == 0)
         exec_export(shell, i);
-//    else if (ft_strcmp((*shell)->exec->cmd[*i], "unset") == 0)
-//        exec_unset((*shell)->exec, i, (*shell)->env);
+   else if (ft_strcmp((*shell)->exec->cmd[*i], "unset") == 0)
+       exec_unset(shell, i);
     else
         return ;
 }

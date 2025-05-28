@@ -104,3 +104,10 @@ exec num 1
 < Makefile | cat -e
 [1]    805462 segmentation fault (core dumped)  ./minishell  # create_lst_exec
 ```
+
+
+```
+env test -> rien
+export test->
+
+```

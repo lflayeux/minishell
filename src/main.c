@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:19:08 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/27 17:42:05 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/05/28 15:36:41 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -320,7 +320,7 @@ void	execute_input(char *input, t_shell **shell)
 			{
 				printf("\t\tcmd num %d: %s\n", j, (tmp4->cmd)[j]);
 				old_j = j;
-				//  built_in(shell, &j);
+				built_in(shell, &j);
 				if (j == old_j)
 					j++;
 			}
@@ -336,18 +336,18 @@ void	execute_input(char *input, t_shell **shell)
 	// ==============================================
 	// ================= REAL EXEC ==================
 	// ==============================================
-	printf("\n\n" YLW);
-	printf("==============================================\n");
-	printf("==============REAL EXEC ======================\n");
-	printf("==============================================\n");
-	printf("\n" RST);
-	// while (*input != '\0')
-	// {
-	// 	tokenize(&input, &((*shell)->tok));
-	word_identification(shell);
-	// create_lst_exec(&exec, &token);
-	pipex(*shell);
-	printf(YLW "\n============ FIN TEST REAL EXEC===========\n" RST);
+	// printf("\n\n" YLW);
+	// printf("==============================================\n");
+	// printf("==============REAL EXEC ======================\n");
+	// printf("==============================================\n");
+	// printf("\n" RST);
+	// // while (*input != '\0')
+	// // {
+	// // 	tokenize(&input, &((*shell)->tok));
+	// word_identification(shell);
+	// // create_lst_exec(&exec, &token);
+	// pipex(*shell);
+	// printf(YLW "\n============ FIN TEST REAL EXEC===========\n" RST);
 }
 char	**init_env(char **envp)
 {
