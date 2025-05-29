@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:32:56 by aherlaud          #+#    #+#             */
-/*   Updated: 2025/05/28 17:56:15 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/05/29 15:40:05 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,30 @@ void	ft_free_all(t_shell *shell)
 		ft_free_tab((void **)(shell->secret));
 	if (shell->child_tab)
 		ft_free_tab((void **)(shell->child_tab));
+}
+
+void	add_or_free(t_shell *shell, char *str, char **tab_str, int flag)
+{
+	if (flag == 0)
+	{
+		if (!str)
+		{
+			ft_free_all(shell);
+			exit(1);
+		}
+		else
+			ft_lstadd_back_malloc(&(shell->malloc), ft_lstnew_malloc(NULL,
+					str));
+	}
+	else
+	{
+		if (!tab_str)
+		{
+			ft_free_all(shell);
+			exit(1);
+		}
+		else
+			ft_lstadd_back_malloc(&(shell->malloc), ft_lstnew_malloc(tab_str,
+					NULL));
+	}
 }

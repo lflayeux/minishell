@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/05/27 19:49:29 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/05/29 17:05:59 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,16 @@ int	end_or_pipe(t_exec *exec, pid_t child, int *end, t_shell *shell)
 		i = 0;
 		while (shell->child_tab[i])
 		{
-			waitpid(shell->child_tab[i++], NULL, 0);
+			if (waitpid(shell->child_tab[i++], NULL, 0) == -1)
+				return (ft_free_all(shell), exit(1), 0);
 		}
-		waitpid(child, NULL, 0);
-		free(shell->child_tab);
+		if (waitpid(child, NULL, 0) == -1)
+			return (ft_free_all(shell), exit(1), 0);
 	}
 	else
 	{
-		close(end[1]);
+		if (close(end[1]) == -1)
+			return (ft_free_all(shell), exit(1), 0);
 		shell->prev_fd = end[0];
 		shell->child_tab[shell->child_index] = child;
 	}
@@ -92,9 +94,11 @@ int	middle_proc(t_exec *exec, t_shell *shell)
 			close(shell->prev_fd);
 		}
 		outfile_management(exec, end, shell);
-		if (exec_cmd(shell->env, exec->cmd) == 0)
+		// good pour les malloc exec
+		if (exec_cmd(exec->cmd, shell) == 0)
 			return (close(end[1]), exit(EXIT_FAILURE), 0);
 	}
+	// error good
 	else
 		end_or_pipe(exec, child, end, shell);
 	return (1);
@@ -149,6 +153,7 @@ int	pipex(t_shell *shell)
 	t_exec	*tmp;
 
 	shell->prev_fd = STDIN_FILENO;
+	// deja dans shell et free dans free_all
 	shell->child_tab = ft_calloc(node_number(shell->exec) + 1, sizeof(pid_t));
 	if (!(shell->child_tab))
 		return (-1);
@@ -156,6 +161,7 @@ int	pipex(t_shell *shell)
 	tmp = shell->exec;
 	while (tmp)
 	{
+		// good pas de malloc qui traine
 		task_init(tmp, shell);
 		if (middle_proc(tmp, shell) == 0)
 			return (-1);

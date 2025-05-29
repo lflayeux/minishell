@@ -6,26 +6,14 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/05/27 20:38:18 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/05/29 16:48:10 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	free_tab(char **tab)
-{
-	int	i;
-
-	i = 0;
-	while (tab[i])
-	{
-		free(tab[i]);
-		i++;
-	}
-	free(tab);
-}
-
-char	**find_path_env(char **envp)
+// malloc ok
+char	**find_path_env(t_shell *shell)
 {
 	int		i;
 	size_t	len;
@@ -33,83 +21,72 @@ char	**find_path_env(char **envp)
 	char	**all_paths;
 
 	i = 0;
-	while (envp[i] != NULL)
+	while (shell->env[i] != NULL)
 	{
-		if (ft_strncmp("PATH=", envp[i], 5) == 0)
+		if (ft_strncmp("PATH=", shell->env[i], 5) == 0)
 			break ;
 		i++;
 	}
-	len = ft_strlen(envp[i]);
-	path_str = ft_substr(envp[i], 5, len - 5);
-	if (!path_str)
-		return (NULL);
+	len = ft_strlen(shell->env[i]);
+	path_str = ft_substr(shell->env[i], 5, len - 5);
+	add_or_free(shell, path_str, NULL, 0);
 	all_paths = ft_split(path_str, ':');
-	return (free(path_str), all_paths);
+	add_or_free(shell, NULL, all_paths, 1);
+	return (all_paths);
 }
 
-int	handle_path_cmd(char **cmd_parsed, char **envp)
+// malloc ok
+int	handle_path_cmd(char **cmd_parsed, char *path, t_shell *shell)
 {
-	if (access(cmd_parsed[0], X_OK) == 0)
+	if (access(path, X_OK) == 0)
 	{
-		if (execve(cmd_parsed[0], cmd_parsed, envp) == -1)
-			return (0);
+		if (execve(path, cmd_parsed, shell->env) == -1)
+			return (ft_free_all(shell), exit(1), 0);
 	}
-	else
-		return (0);
+	// else
+	// 	return (exit(1), 0);
 	return (1);
 }
 
-int	exec_proc(char **cmd_parsed, char **all_paths, char **envp, int i)
+// malloc ok
+int	exec_proc(char **cmd_parsed, char **all_paths, t_shell *shell, int i)
 {
 	char	*temp;
 	char	*path;
 
 	if (cmd_parsed[0][0] == '/')
 	{
-		if (handle_path_cmd(cmd_parsed, envp) == 0)
+		if (handle_path_cmd(cmd_parsed, cmd_parsed[0], shell) == 0)
 			return (0);
 		return (1);
 	}
 	temp = ft_strjoin("/", cmd_parsed[0]);
-	if (!temp)
-		return (0);
+	add_or_free(shell, temp, NULL, 0);
 	path = ft_strjoin(all_paths[i], temp);
-	if (!path)
-		return (0);
-	if (access(path, X_OK) == 0)
-	{
-		if (execve(path, cmd_parsed, envp) == -1)
-			return (0);
-	}
-	// execve(path, cmd_parsed, envp);
-	return (free(temp), free(path), free(all_paths[i]), 1);
+	add_or_free(shell, path, NULL, 0);
+	// if (access(path, X_OK) == 0)
+	// {
+	// 	if (execve(path, cmd_parsed, shell->env) == -1)
+	// 		return (exit(1), 0);
+	// }
+	handle_path_cmd(cmd_parsed, path, shell);
+	// execve(path, cmd_parsed, shell->env);
+	return (1);
 }
 
 // int	exec_cmd(char **envp, char **cmd, int *tab_child)
-int	exec_cmd(char **env, char **cmd)
+// malloc ok
+int	exec_cmd(char **cmd, t_shell *shell)
 {
 	char	**all_paths;
 	int		i;
 
-	// char	**cmd_parsed;
-	// if (ft_is_empty(cmd) == 1)
-	// 	return (free(tab_child), errno = ENOENT, perror(" "), exit(1), 0);
-	// cmd_parsed = ft_split_dif(cmd, ' ');
-	// if (!cmd_parsed)
-	// 	return (0);
-	all_paths = find_path_env(env);
-	if (!all_paths)
-		return (free(cmd), 0);
+	all_paths = find_path_env(shell);
 	i = 0;
 	while (all_paths[i] != NULL)
 	{
-		if (exec_proc(cmd, all_paths, env, i) == 0)
-			return (exit(1), 0);
-		// return (free(tab_child), free_tab(all_paths), perror(cmd[0]),
-		// 	free_tab(cmd), exit(1), 0);
+		exec_proc(cmd, all_paths, shell, i);
 		i++;
 	}
-	// return (free(tab_child), free(all_paths), perror(cmd[0]),
-	// 	free_tab(cmd), exit(1), 0);
 	return (exit(1), 0);
 }
