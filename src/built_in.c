@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 14:33:18 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/28 18:04:18 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/05/29 10:28:53 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,10 +111,13 @@ int ft_get_env(char **env, char *to_check)
 char    **unset_env(char *unset_env, char **env)
 {
     char **new_env;
+    char **split;
     int len;
     int i;
+    int j;
 
     i = 0;
+    j = 0;
     len = 0;
     while (env[len])
         len++;
@@ -123,9 +126,10 @@ char    **unset_env(char *unset_env, char **env)
         return (NULL);
     while (env[i])
     {
-        if (ft_strncmp(env[i], unset_env, ft_strlen(unset_env)) == 0)
-            i++;
-        new_env[i] = ft_strdup(env[i]);
+        split = ft_split(env[i], '=');
+        if (ft_strncmp(split[0], unset_env, ft_strlen(split[0])))
+            new_env[j++] = ft_strdup(env[i]);
+        ft_free_tab((void **)split);
         i++;
     }
     ft_free_tab((void **)env);
@@ -141,10 +145,8 @@ void    exec_unset(t_shell **shell, int *i)
         split = ft_split((*shell)->exec->cmd[*i + 1], '=');
         if (ft_get_env((*shell)->env, split[0]))
             (*shell)->env = unset_env((*shell)->exec->cmd[*i + 1], (*shell)->env);
-        else if (ft_get_env((*shell)->secret, split[0]))
+        if (ft_get_env((*shell)->secret, split[0]))
            (*shell)->secret = unset_env((*shell)->exec->cmd[*i + 1], (*shell)->secret);
-        else
-            (*i)++;
         (*i)++;
     }
 }
@@ -213,14 +215,13 @@ void stock_export(t_shell **shell, int *i)
     {
         split = ft_split((*shell)->exec->cmd[*i + 1], '=');
         if (ft_get_env((*shell)->env, split[0]))
-        {
             (*shell)->env = set_env(shell, i, split[0], (*shell)->env);
+        if (ft_get_env((*shell)->secret, split[0]))
             (*shell)->secret = set_env(shell, i, split[0], (*shell)->secret);
-        }
-        else
+        if (!ft_get_env((*shell)->secret, split[0]) && !ft_get_env((*shell)->env, split[0]))
         {
             (*shell)->env = put_env(shell, i, (*shell)->env);
-            (*shell)->secret = set_env(shell, i, split[0], (*shell)->secret);
+            (*shell)->secret = put_env(shell, i, (*shell)->secret);
         }
         ft_free_tab((void **)split);
     }
