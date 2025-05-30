@@ -13,6 +13,8 @@ SRC =	src/main.c \
 		src/signals_utils.c \
 		src/tokenize.c \
 		src/lst_tok.c \
+		src/lst_malloc.c \
+		src/free_all.c \
 		src/word_parsing.c \
 		src/lst_exec.c \
 		src/pipe_process.c \

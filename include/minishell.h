@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:17:39 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/28 18:09:50 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/05/30 15:05:41 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ char						*get_pid(void);
 char						*find_var_spe(char *s, int index);
 const char					*get_token_name(int type);
 char						**init_env(char **envp);
+
+// void	ft_lstclear_malloc(t_malloc *lst);
 
 // ==============================================
 // ================== SIGNALS ===================
@@ -148,6 +150,17 @@ void						ft_lstadd_back_exec(t_exec **token, t_exec *new);
 t_exec						*ft_lstlast_exec(t_exec *lst);
 void						ft_lstclear_exec(t_exec *lst);
 
+// === FREE_ALL ===
+
+void						ft_free_all(t_shell *shell);
+void						ft_lstclear_malloc(t_malloc *lst);
+void						add_or_free(t_shell *shell, char *str, char **tab_str, int flag);
+
+// === LST_MALLOC ===
+
+void						ft_lstadd_back_malloc(t_malloc **token, t_malloc *new);
+t_malloc					*ft_lstnew_malloc(char **tab_str, char *str);
+
 // === PIPEX MODIF ===
 
 typedef struct s_pipex
@@ -166,7 +179,7 @@ char						**ft_split_dif(char const *s, char c);
 
 // int							here_doc_proc(char *delimiter);
 
-int							exec_cmd(char **envp, char **cmd);
+int							exec_cmd(char **cmd, t_shell *shell);
 
 // === HERE_DOC ===
 
