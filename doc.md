@@ -99,6 +99,25 @@ exec num 1
 ### ===>        PB A CORRIGER: 
 ---
 
+```
+$$ doit mettre le PID mais "$"$ ou "$""$" doit mettre $$
+corriger dans l'expansion
+
+```
+
+```
+pas de protection sur les close sinon j'ai des double free
+peut etre ajouter un tableau d'int pour tous les fd et pipe ouvert et close à la moindre error
+
+```
+
+```
+pipe avec rien avant : bash: syntax error near unexpected token `|'
+pipe avec rien derriere demande de compléter le prompt comme unclosed quotes
+Je pense pas besoin de gérer le 2eme cas
+```
+
+
 ```bash
 # Prompt simulé : 🦾 miniboss 🦾 >
 < Makefile | cat -e

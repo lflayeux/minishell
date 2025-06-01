@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   lst_malloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 12:43:40 by aherlaud          #+#    #+#             */
-/*   Updated: 2025/05/29 15:32:20 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/06/01 11:21:14 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 // CREER UN NVEAU MAILLON
-t_malloc	*ft_lstnew_malloc(char **tab_str, char *str)
+t_malloc	*ft_lstnew_malloc(char **tab_str, char *str, t_shell *shell)
 {
 	t_malloc	*new;
 
 	new = malloc(sizeof(t_malloc));
 	if (new == NULL)
-		return (0);
+		free_exit(shell);
 	new->tab = tab_str;
 	new->str = str;
 	new->next = NULL;
@@ -49,4 +49,23 @@ void	ft_lstadd_back_malloc(t_malloc **token, t_malloc *new)
 	}
 	last = ft_lstlast_malloc(*token);
 	last->next = new;
+}
+
+void	ft_lstclear_malloc(t_malloc *lst)
+{
+	t_malloc	*current;
+	t_malloc	*tmp;
+
+	current = lst;
+	while (current)
+	{
+		tmp = current;
+		current = current->next;
+		if (tmp->tab)
+			ft_free_tab((void **)tmp->tab);
+		if (tmp->str)
+			free(tmp->str);
+		free(tmp);
+	}
+	lst = NULL;
 }

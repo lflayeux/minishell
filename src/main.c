@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:19:08 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/28 15:36:41 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/01 15:03:02 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 // ==============================================
 
 // RETOURNE LE PID POUR $$
-char	*get_pid(void)
+char	*get_pid(t_shell **shell)
 {
 	int		fd;
 	char	*line;
@@ -25,6 +25,8 @@ char	*get_pid(void)
 	char	*pid;
 
 	fd = open("/proc/self/status", O_RDONLY);
+	if(fd == -1)
+		free_exit(*shell);
 	line = get_next_line(fd);
 	pid = NULL;
 	while (line)
@@ -32,8 +34,10 @@ char	*get_pid(void)
 		if (ft_strncmp(line, "Pid:", 4) == 0)
 		{
 			split = ft_split(line, '\t');
+			add_or_free(*shell, NULL, split, 1);
 			pid = ft_strdup(ft_substr(split[1], 0, ft_strlen(split[1]) - 1));
-			ft_free_tab((void **)split);
+			add_or_free(*shell, pid, NULL, 0);
+			// ft_free_tab((void **)split);
 			break ;
 		}
 		free(line);
@@ -57,7 +61,7 @@ int	ft_isdelim(char c, char *delim)
 	return (0);
 }
 
-char	*find_var_spe(char *s, int index)
+char	*find_var_spe(char *s, int index, t_shell **shell)
 {
 	int		i;
 	char	*var;
@@ -67,8 +71,7 @@ char	*find_var_spe(char *s, int index)
 	while (s[index + len] && ft_isdelim(s[index + len], "|<> \'\"") != 1)
 		len++;
 	var = ft_calloc((len + 1), sizeof(char));
-	if (!var)
-		return (NULL);
+	add_or_free(*shell, var, NULL, 0);
 	i = 0;
 	while (s[index] && ft_isdelim(s[index], "|<> \'\"") != 1)
 		var[i++] = s[index++];
@@ -113,14 +116,14 @@ int	dollar_len(char **token, int *i, t_shell **shell)
 	if ((*token)[*i] == '$')
 	{
 		(*i)++;
-		return (ft_strlen(get_pid()));
+		return (ft_strlen(get_pid(shell)));
 	}
 	//	else if (token[*i] == '$' &&  token[i + 1] == '?')
 	else
 	{
 		if ((*token)[*i] == '\0' || (*token)[*i] == '"')
 			return (1);
-		env_path = getenv(find_var_spe(*token, *i));
+		env_path = getenv(find_var_spe(*token, *i, shell));
 		if (env_path)
 			len += ft_strlen(env_path);
 	}
@@ -230,9 +233,10 @@ void	execute_input(char *input, t_shell **shell)
 
 	(*shell)->tok = NULL;
 	(*shell)->exec = NULL;
+	(*shell)->malloc = NULL;
 	while (*input != '\0')
 	{
-		tokenize(&input, &((*shell)->tok));
+		tokenize(&input, &((*shell)->tok), *shell);
 	}
 	// ==============================================
 	// ================== TOKENIZE ==================
@@ -301,7 +305,7 @@ void	execute_input(char *input, t_shell **shell)
 	// 	// ==============================================
 	// 	// ============== EXEC BUILT_IN =================
 	// 	// ==============================================
-	create_lst_exec(&((*shell)->exec), &((*shell)->tok));
+	create_lst_exec(*shell);
 	tmp4 = (*shell)->exec;
 	i = 0;
 	printf("\n\n" YLW);
@@ -320,13 +324,14 @@ void	execute_input(char *input, t_shell **shell)
 			{
 				printf("\t\tcmd num %d: %s\n", j, (tmp4->cmd)[j]);
 				old_j = j;
-				built_in(shell, &j);
+				// built_in(shell, &j);
 				if (j == old_j)
 					j++;
 			}
 		}
 		else
 			printf("\t\tcmd inexistante\n");
+		// printf("\t\t\t\t\t\t\t\t\t\t\tTEST\n");
 		printf("\tinfile:%d,   %s\n", tmp4->if_infile, tmp4->infile);
 		printf("\toutfile:%d,   %s\n", tmp4->if_outfile, tmp4->outfile);
 		printf("\there_doc:%d,   %s\n", tmp4->if_here_doc, tmp4->delimiter);
@@ -336,19 +341,55 @@ void	execute_input(char *input, t_shell **shell)
 	// ==============================================
 	// ================= REAL EXEC ==================
 	// ==============================================
-	// printf("\n\n" YLW);
-	// printf("==============================================\n");
-	// printf("==============REAL EXEC ======================\n");
-	// printf("==============================================\n");
-	// printf("\n" RST);
-	// // while (*input != '\0')
-	// // {
-	// // 	tokenize(&input, &((*shell)->tok));
-	// word_identification(shell);
-	// // create_lst_exec(&exec, &token);
-	// pipex(*shell);
-	// printf(YLW "\n============ FIN TEST REAL EXEC===========\n" RST);
+	printf("\n\n" YLW);
+	printf("==============================================\n");
+	printf("==============REAL EXEC ======================\n");
+	printf("==============================================\n");
+	printf("\n" RST);
+	// while (*input != '\0')
+	// {
+	// 	tokenize(&input, &((*shell)->tok));
+	word_identification(shell);
+	// create_lst_exec(&exec, &token);
+	pipex(*shell);
+	printf(YLW "\n============ FIN TEST REAL EXEC===========\n" RST);
+
+	// ==============================================
+	// ================= LST MALLOC ==================
+	// ==============================================
+	printf("\n\n" YLW);
+	printf("==============================================\n");
+	printf("==============LST MALLOC ======================\n");
+	printf("==============================================\n");
+	printf("\n" RST);
+	t_malloc *tmp5;
+
+	tmp5 = (*shell)->malloc;
+	if(!tmp5)
+		printf("Ya rien a free en fait chef\n");
+	// i = 0;
+	while (tmp5 != NULL)
+	{
+		// printf("malloc num" RED " %d\n" RST, i++);
+		printf("\tcommand:\n");
+		if (tmp5->tab)
+		{
+			j = 0;
+			while ((tmp5->tab)[j])
+			{
+				printf("\t\ttab_str num:%d: %s\n", j, (tmp5->tab)[j]);
+				j++;
+			}
+		}
+		if (tmp5->str)
+			printf("\t\tstr is: %s\n", (tmp5->str));
+		tmp5 = tmp5->next;
+	}
+
+	printf(YLW "\n============ FIN LST MALLOC===========\n" RST);
+
 }
+
 char	**init_env(char **envp)
 {
 	int		i;

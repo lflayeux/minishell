@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:17:39 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/30 15:05:41 by alex             ###   ########.fr       */
+/*   Updated: 2025/06/01 15:02:26 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,38 +45,7 @@
 # define GOLD "\033[38;5;220m"
 
 // ==============================================
-// ================ MAIN.C ======================
-// ==============================================
-
-char						*check_dollar_env(char **token, int *i, char **env);
-int							ft_isdelim(char c, char *delim);
-char						*get_pid(void);
-char						*find_var_spe(char *s, int index);
-const char					*get_token_name(int type);
-char						**init_env(char **envp);
-
-// void	ft_lstclear_malloc(t_malloc *lst);
-
-// ==============================================
-// ================== SIGNALS ===================
-// ==============================================
-
-typedef struct s_signal
-{
-	struct sigaction		ctrl_c;
-	struct sigaction		ctrl_dump;
-}							t_signal;
-
-void						set_signal(t_signal *signals);
-void						parent_signals(t_signal *signals);
-void						child_signals(t_signal *signals);
-void						reset_signals(t_signal *signals);
-void						handle_ctrl_c_interactive(int signal);
-void						handle_ctrl_c_action(int signal);
-void						handle_ctrl_dump(int signal);
-
-// ==============================================
-// ================ TOKENISATION ================
+// ================== STRUCT ====================
 // ==============================================
 
 typedef enum e_tok_type
@@ -116,6 +85,12 @@ typedef struct s_malloc
 	struct s_malloc			*next;
 }							t_malloc;
 
+typedef struct s_signal
+{
+	struct sigaction		ctrl_c;
+	struct sigaction		ctrl_dump;
+}							t_signal;
+
 typedef struct s_shell
 {
 	t_signal				*signals;
@@ -130,8 +105,38 @@ typedef struct s_shell
 	int						prev_fd;
 }							t_shell;
 
-void						tokenize(char **input, t_tok **token);
-t_tok						*ft_lstnew_tok(TOK_TYPE type, char *word);
+// ==============================================
+// ================ MAIN.C ======================
+// ==============================================
+
+char						*check_dollar_env(char **token, int *i, char **env);
+int							ft_isdelim(char c, char *delim);
+char						*get_pid(t_shell **shell);
+char						*find_var_spe(char *s, int index, t_shell **shell);
+const char					*get_token_name(int type);
+char						**init_env(char **envp);
+
+// void	ft_lstclear_malloc(t_malloc *lst);
+
+// ==============================================
+// ================== SIGNALS ===================
+// ==============================================
+
+void						set_signal(t_signal *signals);
+void						parent_signals(t_signal *signals);
+void						child_signals(t_signal *signals);
+void						reset_signals(t_signal *signals);
+void						handle_ctrl_c_interactive(int signal);
+void						handle_ctrl_c_action(int signal);
+void						handle_ctrl_dump(int signal);
+
+// ==============================================
+// ================ TOKENISATION ================
+// ==============================================
+
+void						tokenize(char **input, t_tok **token, t_shell *shell);
+t_tok						*ft_lstnew_tok(TOK_TYPE type, char *word, t_shell *shell);
+// t_tok						*ft_lstnew_tok(TOK_TYPE type, char *word);
 t_tok						*ft_lstlast_tok(t_tok *lst);
 void						ft_lstadd_back_tok(t_tok **token, t_tok *new);
 void						ft_lstclear_tok(t_tok *lst);
@@ -142,7 +147,7 @@ void						ft_lstclear_tok(t_tok *lst);
 
 // === PIPE PROCESS ===
 
-void						create_lst_exec(t_exec **lst_exec, t_tok **token);
+void						create_lst_exec(t_shell *shell);
 
 // === LST EXEC ===
 
@@ -155,11 +160,13 @@ void						ft_lstclear_exec(t_exec *lst);
 void						ft_free_all(t_shell *shell);
 void						ft_lstclear_malloc(t_malloc *lst);
 void						add_or_free(t_shell *shell, char *str, char **tab_str, int flag);
+int						free_exit(t_shell *shell);
+
 
 // === LST_MALLOC ===
 
 void						ft_lstadd_back_malloc(t_malloc **token, t_malloc *new);
-t_malloc					*ft_lstnew_malloc(char **tab_str, char *str);
+t_malloc					*ft_lstnew_malloc(char **tab_str, char *str, t_shell *shell);
 
 // === PIPEX MODIF ===
 

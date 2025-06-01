@@ -21,8 +21,8 @@ SRC =	src/main.c \
 		src/built_in.c \
 		pipex_modif/execute_cmd.c \
 		pipex_modif/here_doc.c \
-		pipex_modif/split_cmd.c \
-		pipex_modif/pipex.c
+		pipex_modif/pipex.c \
+		# pipex_modif/split_cmd.c \
 
 
 GREEN = \033[32m

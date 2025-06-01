@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/05/29 16:48:10 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/05/31 18:24:39 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	handle_path_cmd(char **cmd_parsed, char *path, t_shell *shell)
 	if (access(path, X_OK) == 0)
 	{
 		if (execve(path, cmd_parsed, shell->env) == -1)
-			return (ft_free_all(shell), exit(1), 0);
+			free_exit(shell);
 	}
 	// else
 	// 	return (exit(1), 0);
@@ -56,8 +56,9 @@ int	exec_proc(char **cmd_parsed, char **all_paths, t_shell *shell, int i)
 
 	if (cmd_parsed[0][0] == '/')
 	{
-		if (handle_path_cmd(cmd_parsed, cmd_parsed[0], shell) == 0)
-			return (0);
+		handle_path_cmd(cmd_parsed, cmd_parsed[0], shell);
+		// if (handle_path_cmd(cmd_parsed, cmd_parsed[0], shell) == 0)
+		// 	return (0);
 		return (1);
 	}
 	temp = ft_strjoin("/", cmd_parsed[0]);

@@ -3,23 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   lst_tok.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 17:27:12 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/28 18:05:16 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/06/01 15:08:16 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 // CREER UN NVEAU MAILLON
-t_tok	*ft_lstnew_tok(TOK_TYPE type, char *word)
+// t_tok	*ft_lstnew_tok(TOK_TYPE type, char *word, t_shell *shell)
+t_tok	*ft_lstnew_tok(TOK_TYPE type, char *word, t_shell *shell)
 {
 	t_tok	*new;
 
 	new = malloc(sizeof(t_tok));
 	if (new == NULL)
-		return (0);
+		free_exit(shell);
 	new->type = type;
 	new->word = word;
 	new->next = NULL;
