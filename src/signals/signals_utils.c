@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   signals_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:26:35 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/04/16 18:27:05 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/02 10:55:01 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 void	handle_ctrl_c_interactive(int signal)
 {

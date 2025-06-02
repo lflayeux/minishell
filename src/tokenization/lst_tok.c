@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   lst_tok.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 17:27:12 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/01 15:08:16 by alex             ###   ########.fr       */
+/*   Updated: 2025/06/02 11:45:09 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 // CREER UN NVEAU MAILLON
-// t_tok	*ft_lstnew_tok(TOK_TYPE type, char *word, t_shell *shell)
 t_tok	*ft_lstnew_tok(TOK_TYPE type, char *word, t_shell *shell)
 {
 	t_tok	*new;

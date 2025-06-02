@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:17:39 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/01 15:02:26 by alex             ###   ########.fr       */
+/*   Updated: 2025/06/02 20:33:03 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@
 // ==============================================
 
 # include "../libft/libft.h"
+# include "struct.h" 
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
-# include <stdbool.h>
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
@@ -45,79 +45,12 @@
 # define GOLD "\033[38;5;220m"
 
 // ==============================================
-// ================== STRUCT ====================
-// ==============================================
-
-typedef enum e_tok_type
-{
-	PIPE,
-	INFILE,
-	OUTFILE,
-	HERE_DOC,
-	APPEND,
-	WORD,
-}							TOK_TYPE;
-
-typedef struct s_tok
-{
-	TOK_TYPE				type;
-	char					*word;
-	struct s_tok			*next;
-}							t_tok;
-
-typedef struct s_exec_pipeline
-{
-	char					**cmd;
-	char					*infile;
-	char					*outfile;
-	char					*delimiter;
-	bool					if_infile;
-	bool					if_outfile;
-	bool					if_append;
-	bool					if_here_doc;
-	struct s_exec_pipeline	*pipe_to;
-}							t_exec;
-
-typedef struct s_malloc
-{
-	char					**tab;
-	char					*str;
-	struct s_malloc			*next;
-}							t_malloc;
-
-typedef struct s_signal
-{
-	struct sigaction		ctrl_c;
-	struct sigaction		ctrl_dump;
-}							t_signal;
-
-typedef struct s_shell
-{
-	t_signal				*signals;
-	t_tok					*tok;
-	t_exec					*exec;
-	char					**env;
-	char					**secret;
-	t_malloc				*malloc;
-	int						error;
-	pid_t					*child_tab;
-	int						child_index;
-	int						prev_fd;
-}							t_shell;
-
-// ==============================================
 // ================ MAIN.C ======================
 // ==============================================
 
-char						*check_dollar_env(char **token, int *i, char **env);
-int							ft_isdelim(char c, char *delim);
-char						*get_pid(t_shell **shell);
-char						*find_var_spe(char *s, int index, t_shell **shell);
-const char					*get_token_name(int type);
-char						**init_env(char **envp);
+char	**init_env(char **envp);
 
-// void	ft_lstclear_malloc(t_malloc *lst);
-
+char	**init_env(char **envp);
 // ==============================================
 // ================== SIGNALS ===================
 // ==============================================
@@ -134,12 +67,35 @@ void						handle_ctrl_dump(int signal);
 // ================ TOKENISATION ================
 // ==============================================
 
-void						tokenize(char **input, t_tok **token, t_shell *shell);
 t_tok						*ft_lstnew_tok(TOK_TYPE type, char *word, t_shell *shell);
-// t_tok						*ft_lstnew_tok(TOK_TYPE type, char *word);
-t_tok						*ft_lstlast_tok(t_tok *lst);
+void						tokenize(char **input, t_tok **token, t_shell *shell);
 void						ft_lstadd_back_tok(t_tok **token, t_tok *new);
 void						ft_lstclear_tok(t_tok *lst);
+
+// ==============================================
+// ================ EXPANSION ===================
+// ==============================================
+
+
+char	*get_pid(t_shell **shell);
+int	expansion_len(char **token, t_shell **shell);
+int	word_identification(t_shell **shell);
+char	*find_var_spe(char *s, int index, t_shell **shell);
+int	ft_isdelim(char c, char *delim);
+int	add_dollar_env(char **word, char **new_word, int *i, int *j, t_shell **shell);
+
+// ==============================================
+// ================ BUILT_IN ===================
+// ==============================================
+
+void    exec_export(t_shell	**shell, int *i);
+void exec_env(t_shell **shell, int *i);
+void    exec_unset(t_shell **shell, int *i);
+char    **unset_env(char *unset_env, char **env);
+char **put_env(t_shell **shell, int *i, char **env);
+char **set_env(t_shell **shell, int *i, char *split, char **env);
+int ft_get_env(char **env, char *to_check);
+int is_valid_env(char *exec);
 
 // ==============================================
 // ================ EXECUTION ===================
@@ -169,16 +125,6 @@ void						ft_lstadd_back_malloc(t_malloc **token, t_malloc *new);
 t_malloc					*ft_lstnew_malloc(char **tab_str, char *str, t_shell *shell);
 
 // === PIPEX MODIF ===
-
-typedef struct s_pipex
-{
-	char					**av;
-	int						ac;
-	char					**envp;
-	pid_t					*child_tab;
-	int						fd_infile;
-	int						fd_outfile;
-}							t_pipex;
 
 int							pipex(t_shell *shell);
 

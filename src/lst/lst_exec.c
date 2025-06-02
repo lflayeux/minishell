@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lst_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 15:54:28 by aherlaud          #+#    #+#             */
-/*   Updated: 2025/05/28 18:05:04 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/06/02 00:16:14 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 t_exec	*ft_lstlast_exec(t_exec *lst)
 {

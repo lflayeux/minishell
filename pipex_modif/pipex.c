@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/05/31 18:28:36 by alex             ###   ########.fr       */
+/*   Updated: 2025/06/02 17:48:25 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,7 @@ int	pipex(t_shell *shell)
 	tmp = shell->exec;
 	while (tmp)
 	{
+		printf("test");
 		// check si commande vide
 		if(ft_strcmp((tmp->cmd)[0], "") == 0)
 			return (ft_printf("Command '' not found"),1);

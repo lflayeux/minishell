@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lst_malloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 12:43:40 by aherlaud          #+#    #+#             */
-/*   Updated: 2025/06/01 11:21:14 by alex             ###   ########.fr       */
+/*   Updated: 2025/06/02 00:16:06 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 // CREER UN NVEAU MAILLON
 t_malloc	*ft_lstnew_malloc(char **tab_str, char *str, t_shell *shell)

@@ -9,16 +9,21 @@ RL_FLAGS = -lreadline
 NAME = minishell
 
 SRC =	src/main.c \
-		src/signals.c \
-		src/signals_utils.c \
-		src/tokenize.c \
-		src/lst_tok.c \
-		src/lst_malloc.c \
+		src/signals/signals.c \
+		src/signals/signals_utils.c \
+		src/tokenization/tokenize.c \
+		src/tokenization/lst_tok.c \
+		src/expansion/expansion.c \
+		src/expansion/expansion_utils.c \
+		src/expansion/expansion_utils2.c \
+		src/built_in/built_in.c \
+		src/built_in/built_in_env.c \
+		src/built_in/built_in_utils.c \
+		src/lst/lst_malloc.c \
+		src/lst/lst_exec.c \
 		src/free_all.c \
-		src/word_parsing.c \
-		src/lst_exec.c \
 		src/pipe_process.c \
-		src/built_in.c \
+		src/init.c \
 		pipex_modif/execute_cmd.c \
 		pipex_modif/here_doc.c \
 		pipex_modif/pipex.c \
@@ -30,15 +35,24 @@ RED = \033[31m
 YELLOW = \033[33m
 RESET = \033[0m
 
-OBJ_DIR = build/
+build/%.o: src/%.c
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) -c $< -o $@
 
-OBJ = $(SRC:src/%.c=$(OBJ_DIR)%.o)
+build/pipex_modif/%.o: pipex_modif/%.c
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+OBJ = $(SRC:.c=.o)
+OBJ := $(OBJ:src/%=build/%)
+OBJ := $(OBJ:pipex_modif/%=build/pipex_modif/%)
+
 
 LIBFT_DIR = ./libft
 
 LIBFT_A = $(LIBFT_DIR)/libft.a
 
-$(OBJ_DIR)%.o : src/%.c
+$(OBJ_DIR)%.o : src/%/%.c
 	@mkdir -p $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
@@ -64,5 +78,3 @@ fclean : clean
 re : fclean all
 
 .PHONY: clean fclean re
-
-

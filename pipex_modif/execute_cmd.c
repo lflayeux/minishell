@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/05/31 18:24:39 by alex             ###   ########.fr       */
+/*   Updated: 2025/06/02 17:51:47 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	handle_path_cmd(char **cmd_parsed, char *path, t_shell *shell)
 {
 	if (access(path, X_OK) == 0)
 	{
+		printf("ici je vais ");
 		if (execve(path, cmd_parsed, shell->env) == -1)
 			free_exit(shell);
 	}
