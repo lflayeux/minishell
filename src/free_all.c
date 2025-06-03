@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_all.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:32:56 by aherlaud          #+#    #+#             */
-/*   Updated: 2025/06/01 11:22:51 by alex             ###   ########.fr       */
+/*   Updated: 2025/06/03 15:27:08 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int free_exit(t_shell *shell)
 	printf("\t\t\t\t\t\t\t\tTEST\n");
 	// pritnf
 	// code erreur à changer
-	exit(1);
+	exit(shell->exit_code);
 	return (1);
 }
 

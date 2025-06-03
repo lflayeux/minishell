@@ -60,8 +60,6 @@ enum TYPE_OF_TOKEN
     // À définir : WORD, REDIR_IN, REDIR_OUT, PIPE, etc.
 };
 
-==> dhieuh$PATHde"dedede$PATH'deded'"'$PATH'
-
 
 ## ✅ Execution
 

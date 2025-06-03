@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_tok.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 17:27:12 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/02 11:45:09 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/06/03 15:05:59 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void	ft_lstclear_tok(t_tok *lst)
 	t_tok	*current;
 	t_tok	*tmp;
 
+	if (!lst)
+		return;
 	current = lst;
 	while (current)
 	{

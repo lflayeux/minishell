@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:17:39 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/02 20:33:03 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/06/03 11:48:55 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,9 @@
 char	**init_env(char **envp);
 
 char	**init_env(char **envp);
+void	init_shell(t_shell **shell, char **envp);
+// ==========TEST=============
+const char	*get_token_name(int type);
 // ==============================================
 // ================== SIGNALS ===================
 // ==============================================

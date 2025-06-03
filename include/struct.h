@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 22:48:23 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/01 22:56:58 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/06/03 15:27:20 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,10 @@ typedef struct s_shell
 	t_signal				*signals;
 	t_tok					*tok;
 	t_exec					*exec;
+	t_malloc				*malloc;
 	char					**env;
 	char					**secret;
-	t_malloc				*malloc;
-	int						error;
+	int						exit_code;
 	pid_t					*child_tab;
 	int						child_index;
 	int						prev_fd;

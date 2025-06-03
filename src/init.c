@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 18:09:30 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/02 18:10:01 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/06/03 15:27:30 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,19 @@ char	**init_env(char **envp)
 	}
 	env[i] = NULL;
 	return (env);
+}
+
+void	init_shell(t_shell **shell, char **envp)
+{
+	(*shell)->signals = malloc(sizeof(t_signal));
+	(*shell)->tok = NULL;
+	(*shell)->exec = NULL;
+	(*shell)->malloc = NULL;
+	(*shell)->env = init_env(envp);
+	(*shell)->secret = init_env(envp);	
+	(*shell)->exit_code = 0;
+	(*shell)->child_tab = NULL;
+	(*shell)->child_index = 0;
+	(*shell)->prev_fd = STDIN_FILENO;
+	
 }

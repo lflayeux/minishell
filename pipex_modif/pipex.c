@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/06/02 17:48:25 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/06/03 15:26:10 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	outfile_management(t_exec *exec, int *end, t_shell *shell)
 {
 	int	fd_outfile;
 
+	fd_outfile = 1;
 	(void)shell;
 	if (exec->if_outfile == 1 || exec->if_append == 1)
 	{
@@ -109,7 +110,14 @@ int	middle_proc(t_exec *exec, t_shell *shell)
 	return (1);
 }
 
-// CALCUL DU NOMBRE DE NODE DANS LA LISTE CHAINEE POUR AVOIR LE NOMBRE DE PROCESS À WAIT
+/**
+	CALCUL DU NOMBRE DE NODE DANS LA LISTE CHAINEE POUR AVOIR LE NOMBRE DE PROCESS À WAIT
+	
+	@param lst_exec La liste chaine sur laquelle on compte
+
+	@return			Le nombre de node dans la liste chainee. 0 si pas de liste chainee
+	
+*/
 int	node_number(t_exec *lst_exec)
 {
 	t_exec	*tmp;
@@ -164,20 +172,16 @@ int	pipex(t_shell *shell)
 {
 	t_exec	*tmp;
 
-	shell->prev_fd = STDIN_FILENO;
 	// deja dans shell et free dans free_all
 	shell->child_tab = ft_calloc(node_number(shell->exec) + 1, sizeof(pid_t));
 	if (!(shell->child_tab))
 		return (free_exit(shell), -1);
-	shell->child_index = 0;
 	tmp = shell->exec;
 	while (tmp)
 	{
-		printf("test");
 		// check si commande vide
 		if(ft_strcmp((tmp->cmd)[0], "") == 0)
 			return (ft_printf("Command '' not found"),1);
-		// good pas de malloc qui traine
 		task_init(tmp, shell);
 		// if(task_init(tmp, shell) == 0)
 		// 	return (free_exit(shell));
