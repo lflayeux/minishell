@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 22:48:23 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/03 15:27:20 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/04 11:08:47 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ typedef struct s_shell
 	pid_t					*child_tab;
 	int						child_index;
 	int						prev_fd;
+	int						end[2];
 }							t_shell;
 
 # endif

@@ -66,7 +66,7 @@ $(LIBFT_A):
 all : $(NAME)
 
 clean :
-	@rm -rf $(OBJ_DIR)
+	@rm -rf build/
 	@$(MAKE) -C $(LIBFT_DIR) clean --no-print-directory 
 	@echo "$(YELLOW)All object files cleaned. 🧹$(RESET)"
 

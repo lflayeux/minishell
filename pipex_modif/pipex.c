@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/06/03 15:26:10 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/04 11:09:20 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,17 +79,17 @@ int	end_or_pipe(t_exec *exec, pid_t child, int *end, t_shell *shell)
 // PROCESS REDIRECTION)
 int	middle_proc(t_exec *exec, t_shell *shell)
 {
-	int		end[2];
 	pid_t	child;
 
+	init_fd(shell);
 	if (exec->pipe_to)
 	{
-		if (pipe(end) == -1)
+		if (pipe(shell->end) == -1)
 			free_exit(shell);
 	}
 	child = fork();
 	if (child < 0)
-		return (close(end[0]), close(end[1]), free_exit(shell));
+		return (close_fd(shell), free_exit(shell));
 	else if (child == 0)
 	{
 		if (shell->prev_fd != STDIN_FILENO)
@@ -98,7 +98,7 @@ int	middle_proc(t_exec *exec, t_shell *shell)
 				free_exit(shell);
 			close(shell->prev_fd);
 		}
-		outfile_management(exec, end, shell);
+		outfile_management(exec, shell->end, shell);
 		// good pour les malloc exec
 		exec_cmd(exec->cmd, shell);
 		// if (exec_cmd(exec->cmd, shell) == 0)
@@ -106,7 +106,7 @@ int	middle_proc(t_exec *exec, t_shell *shell)
 	}
 	// error good
 	else
-		end_or_pipe(exec, child, end, shell);
+		end_or_pipe(exec, child, shell->end, shell);
 	return (1);
 }
 
@@ -138,33 +138,25 @@ int	node_number(t_exec *lst_exec)
 // INITIALISATION POUR L'EXEC ENTRE L'HERE_DOC (GESTION AVEC PIPE) OU L'INFILE SI IL Y A
 void	task_init(t_exec *exec, t_shell *shell)
 {
-	int	end[2];
 	int	fd_infile;
 
+	init_fd(shell);
 	if (exec->if_here_doc == 1)
 	{
-		if (pipe(end) == -1)
+		if (pipe(shell->end) == -1)
 			free_exit(shell);
-			// return (0);
-		if(loop_here_doc(exec->delimiter, end) == 0)
+		if (loop_here_doc(exec->delimiter, shell->end) == 0)
 			free_exit(shell);
-		close(end[1]);
-		// if(close(end[1]) == -1)
-		// 	free_exit(shell);
-		shell->prev_fd = end[0];
+		shell->prev_fd = shell->end[0];
+		close_fd(shell);
 	}
 	if (exec->if_infile == 1)
 	{
 		fd_infile = open((exec->infile), O_RDONLY);
 		if (fd_infile == -1)
 			free_exit(shell);
-			// return (0);
-		close(end[0]);
-		// if(close(end[0]) == -1)
-		// 	free_exit(shell);
 		shell->prev_fd = fd_infile;
 	}
-	// return (1);
 }
 
 // GESTION DE LA BOUCLE DE TOUTES LES EXECS À FAIRE ET INIT TU TABLEAU DE CHILD À WAIT

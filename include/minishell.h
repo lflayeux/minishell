@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 11:17:39 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/03 11:48:55 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/04 11:08:34 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,8 @@
 
 char	**init_env(char **envp);
 
-char	**init_env(char **envp);
 void	init_shell(t_shell **shell, char **envp);
-// ==========TEST=============
+
 const char	*get_token_name(int type);
 // ==============================================
 // ================== SIGNALS ===================
@@ -80,25 +79,26 @@ void						ft_lstclear_tok(t_tok *lst);
 // ==============================================
 
 
-char	*get_pid(t_shell **shell);
-int	expansion_len(char **token, t_shell **shell);
-int	word_identification(t_shell **shell);
-char	*find_var_spe(char *s, int index, t_shell **shell);
-int	ft_isdelim(char c, char *delim);
-int	add_dollar_env(char **word, char **new_word, int *i, int *j, t_shell **shell);
+char						*get_pid(t_shell **shell);
+int							expansion_len(char **token, t_shell **shell);
+int							word_identification(t_shell **shell);
+char						*find_var_spe(char *s, int index, t_shell **shell);
+int							ft_isdelim(char c, char *delim);
+int							add_dollar_env(char **word, char **new_word, int *i, int *j, t_shell **shell);
 
 // ==============================================
 // ================ BUILT_IN ===================
 // ==============================================
 
-void    exec_export(t_shell	**shell, int *i);
-void exec_env(t_shell **shell, int *i);
-void    exec_unset(t_shell **shell, int *i);
-char    **unset_env(char *unset_env, char **env);
-char **put_env(t_shell **shell, int *i, char **env);
-char **set_env(t_shell **shell, int *i, char *split, char **env);
-int ft_get_env(char **env, char *to_check);
-int is_valid_env(char *exec);
+void						exec_export(t_shell	**shell, int *i);
+void						exec_env(t_shell **shell, int *i);
+void						exec_unset(t_shell **shell, int *i);
+char						**unset_env(char *unset_env, char **env);
+char						**put_env(t_shell **shell, int *i, char **env);
+char						**set_env(t_shell **shell, int *i, char *split, char **env);
+int							ft_get_env(char **env, char *to_check);
+int							is_valid_env(char *exec);
+void    built_in(t_shell **shell, int *i);
 
 // ==============================================
 // ================ EXECUTION ===================
@@ -114,12 +114,27 @@ void						ft_lstadd_back_exec(t_exec **token, t_exec *new);
 t_exec						*ft_lstlast_exec(t_exec *lst);
 void						ft_lstclear_exec(t_exec *lst);
 
-// === FREE_ALL ===
+// === PIPEX MODIF ===
+
+int							pipex(t_shell *shell);
+char						**ft_split_dif(char const *s, char c);
+
+// int							here_doc_proc(char *delimiter);
+
+int							exec_cmd(char **cmd, t_shell *shell);
+int							loop_here_doc(char *delimiter, int *end);
+
+void	close_fd(t_shell *shell);
+void	init_fd(t_shell *shell);
+
+// ==============================================
+// ================ FREE ALL ====================
+// ==============================================
 
 void						ft_free_all(t_shell *shell);
 void						ft_lstclear_malloc(t_malloc *lst);
 void						add_or_free(t_shell *shell, char *str, char **tab_str, int flag);
-int						free_exit(t_shell *shell);
+int							free_exit(t_shell *shell);
 
 
 // === LST_MALLOC ===
@@ -130,27 +145,12 @@ t_malloc					*ft_lstnew_malloc(char **tab_str, char *str, t_shell *shell);
 // === PIPEX MODIF ===
 
 int							pipex(t_shell *shell);
-
 char						**ft_split_dif(char const *s, char c);
 
 // int							here_doc_proc(char *delimiter);
 
 int							exec_cmd(char **cmd, t_shell *shell);
-
-// === HERE_DOC ===
-
 int							loop_here_doc(char *delimiter, int *end);
 
-// === TESTS ===
-
-void						test_signals(t_signal signals, char **env);
-
-int							expansion_len(char **token, t_shell **shell);
-// === WORD PARSING ===
-
-int							word_identification(t_shell **shell);
-
-// === BUILT_IN ===
-void						built_in(t_shell **shell, int *i);
 
 #endif

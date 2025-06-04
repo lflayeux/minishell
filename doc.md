@@ -3,6 +3,11 @@
 ---
 ## ✅ TODO
 
+> Cet aprem =>
+>
+>	- [] Faire malloc clean partout + free
+>	- [] Code d'erreur
+
 
 - [ ] `echo -n`       
 - [ ] `cd`
