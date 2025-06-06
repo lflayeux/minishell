@@ -16,6 +16,7 @@ SRC =	src/main.c \
 		src/error/error.c \
 		src/tokenization/lst_tok.c \
 		src/tokenization/tokenize.c \
+		src/tokenization/tokenize_utils.c \
 
 GREEN = \033[32m
 RED = \033[31m
