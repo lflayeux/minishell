@@ -1,21 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   ft_intlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/06 11:59:10 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/07 00:55:15 by pandemonium      ###   ########.fr       */
+/*   Created: 2025/06/07 00:10:02 by pandemonium       #+#    #+#             */
+/*   Updated: 2025/06/07 00:57:53 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "libft.h"
 
-void    print_error(t_shell *shell, int err)
+int	ft_intlen(int nb)
 {
-    if (err == MALLOC)
-        printf("malloc error");
-    free_all(shell);
-    exit(1);
+	int len;
+
+	if (nb == 0)
+		return (1);
+	len = 0;
+	if (nb < 0)
+	{
+		len++;
+		nb = -nb;
+	}
+	while (nb > 0)
+	{
+		nb = nb / 10;
+		len++;
+	}
+	return (len);
 }

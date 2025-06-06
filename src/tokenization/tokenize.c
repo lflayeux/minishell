@@ -3,18 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 12:19:00 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/06 16:44:20 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/07 00:47:49 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-int is_symbol(char c);
-int is_space(char c);
-void    add_word_tok(char *input, t_shell *shell, char *word);
-int len_word_tok(char *input);
 
 int symbol_token(char *input, t_shell *shell)
 {
@@ -44,8 +40,6 @@ int word_token(char *input, t_shell *shell)
     word = calloc(len + 1, sizeof(char));
     if (!word)
         print_error(shell, MALLOC);
-        shell->error
-        print shell-error shell-exec
     add_word_tok(input, shell, word);
     return (len);
 }

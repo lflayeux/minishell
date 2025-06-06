@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 18:28:20 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/21 11:31:00 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/07 00:12:35 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,11 @@ int		ft_toupper(int c);
 
 void	*ft_calloc(size_t nb, size_t size);
 
-int	ft_strcmp(const char *s1, const char *s2);
+int		ft_strcmp(const char *s1, const char *s2);
 
 void	ft_free_tab(void **tab);
+
+int		ft_intlen(int nb);
 
 // GET_NEXT_LINE
 

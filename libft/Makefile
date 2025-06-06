@@ -44,7 +44,8 @@ SRC =	ft_atoi.c \
 		ft_putstr.c \
 		ft_printf.c \
 		ft_strcmp.c \
-		ft_free_tab.c
+		ft_free_tab.c \
+		ft_intlen.c
 
 BONUS = ft_lstnew_bonus.c \
 		ft_lstadd_front_bonus.c \
