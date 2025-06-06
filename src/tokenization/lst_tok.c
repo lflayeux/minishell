@@ -6,20 +6,12 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 23:30:08 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/06 13:51:46 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/06 18:43:20 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-/**
- * @brief Creates a new token node.
- *
- * @param type The type of the token.
- * @param word The string value of the token.
- * @param shell Pointer to the shell context (used for error handling).
- * @return Pointer to the newly created token node, or NULL on failure.
- */
 t_tok	*ft_lstnew_tok(TOK_TYPE type, char *word, t_shell *shell)
 {
 	t_tok	*new;

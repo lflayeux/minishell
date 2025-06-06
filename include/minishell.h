@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:41:38 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/06 13:58:05 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/06 18:44:12 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,17 @@ void	reset_signals(t_signal *signals);
 // ==============================================
 // =================== TOKENS ===================
 // ==============================================
+
 # define NEW_TOK ft_lstnew_tok
 # define ADD_TOK ft_lstadd_back_tok
-
+/**
+ * @brief Creates a new token node.
+ *
+ * @param type The type of the token.
+ * @param word The string value of the token.
+ * @param shell Pointer to the shell context (used for error handling).
+ * @return Pointer to the newly created token node, or NULL on failure.
+ */
 t_tok	*ft_lstnew_tok(TOK_TYPE type, char *word, t_shell *shell);
 void	ft_lstadd_back_tok(t_tok **token, t_tok *new);
 void	ft_lstclear_tok(t_tok *lst);

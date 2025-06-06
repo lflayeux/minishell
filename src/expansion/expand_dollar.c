@@ -1,23 +1,13 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   expand_dollar.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/06 11:59:10 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/06 16:42:21 by lflayeux         ###   ########.fr       */
+/*   Created: 2025/06/06 19:22:45 by lflayeux          #+#    #+#             */
+/*   Updated: 2025/06/06 19:22:59 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-void    print_error(t_shell *shell, int err)
-{
-    if (err == MALLOC)
-        printf("malloc error");
-    free_all(shell);
-    exit(1);
-}
-
-error

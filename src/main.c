@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:43:33 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/06 16:18:00 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/06 18:06:49 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	tester(t_shell *shell)
 		printf("\ttype => %d\n", tmp->type);
 		tmp = tmp->next;
 	}
-	
 }
 int	main(int argc, char **argv, char **envp)
 {
@@ -45,6 +44,7 @@ int	main(int argc, char **argv, char **envp)
 		else
 		{
 			tokenize(shell);
+			expand(shell);
 			tester(shell);
 			add_history(shell->input);
 		}

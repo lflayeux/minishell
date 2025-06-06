@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 12:19:00 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/06 16:35:22 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/06 16:44:20 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ int word_token(char *input, t_shell *shell)
     word = calloc(len + 1, sizeof(char));
     if (!word)
         print_error(shell, MALLOC);
+        shell->error
+        print shell-error shell-exec
     add_word_tok(input, shell, word);
     return (len);
 }
