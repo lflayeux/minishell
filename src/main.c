@@ -3,15 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:43:33 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/05 00:13:23 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/06/06 16:18:00 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+void	tester(t_shell *shell)
+{
+	t_tok	*tmp;
+	int i;
 
+	tmp = shell->tok;
+	i = 1;
+	while(tmp)
+	{
+		printf("TOKEN %d\n", i++);
+		printf("\tword => %s\n", tmp->word);
+		printf("\ttype => %d\n", tmp->type);
+		tmp = tmp->next;
+	}
+	
+}
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
@@ -20,18 +35,18 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	shell = malloc(sizeof(t_shell));
 	if (!shell)
-		return (free_all(shell), write(2, "malloc error\n", 13));
+		return (free_all(shell), print_error(shell, MALLOC), 1);
 	init_shell(shell, envp);
 	while (1)
 	{
 		shell->input = readline(PROMPT);
-		if (input == NULL || ft_strcmp(input, "exit") == 0)
+		if (shell->input == NULL || ft_strcmp(shell->input, "exit") == 0)
 			return (free_all(shell), printf("exit"), 0);
 		else
 		{
-			tokenize();
-			add_history(input);
-		
+			tokenize(shell);
+			tester(shell);
+			add_history(shell->input);
 		}
 		reset_shell(shell);
 	}

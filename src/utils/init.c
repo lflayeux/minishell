@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 22:16:13 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/04 23:52:54 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/06/06 12:03:55 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 void	reset_shell(t_shell *shell)
 {
@@ -22,7 +22,7 @@ void	reset_shell(t_shell *shell)
 	if (shell->input)
 		free(shell->input);
 	if (shell->signals)
-		reset_signals(shell->signals)
+		reset_signals(shell->signals);
 }
 
 void	init_shell(t_shell *shell, char **envp)

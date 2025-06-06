@@ -11,8 +11,11 @@ NAME = minishell
 SRC =	src/main.c \
 		src/signals/signals.c \
 		src/signals/signals_utils.c \
-		src/free.c \
-		src/init.c 
+		src/utils/free.c \
+		src/utils/init.c \
+		src/error/error.c \
+		src/tokenization/lst_tok.c \
+		src/tokenization/tokenize.c \
 
 GREEN = \033[32m
 RED = \033[31m

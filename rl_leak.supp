@@ -1,0 +1,51 @@
+
+{
+   readline_leak
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   ...
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.*
+   ...
+   fun:readline
+}
+{
+   readline_leak
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   ...
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.*
+   ...
+   fun:readline
+}
+{
+   readline_leak
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   ...
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.*
+   ...
+   fun:readline
+}
+{
+   readline_leak
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   ...
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.*
+   ...
+   fun:readline
+}
+{
+   readline_leak
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   ...
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.*
+   ...
+   fun:add_history
+}

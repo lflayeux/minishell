@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_tok.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 23:30:08 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/04 23:38:32 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/06/06 13:51:46 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_tok	*ft_lstnew_tok(TOK_TYPE type, char *word, t_shell *shell)
 
 	new = malloc(sizeof(t_tok));
 	if (new == NULL)
-		free_exit(shell);
+		print_error(shell, MALLOC);
 	new->type = type;
 	new->word = word;
 	new->next = NULL;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:41:38 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/04 23:37:14 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/06/06 13:58:05 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,13 @@
 # define GOLD "\033[38;5;220m"
 
 // ==============================================
+// ==================  ERRORS ===================
+// ==============================================
+
+# define MALLOC 0
+
+void    print_error(t_shell *shell, int err);
+// ==============================================
 // ================== SIGNALS ===================
 // ==============================================
 
@@ -51,15 +58,20 @@ void	reset_signals(t_signal *signals);
 // ==============================================
 // =================== TOKENS ===================
 // ==============================================
+# define NEW_TOK ft_lstnew_tok
+# define ADD_TOK ft_lstadd_back_tok
 
+t_tok	*ft_lstnew_tok(TOK_TYPE type, char *word, t_shell *shell);
 void	ft_lstadd_back_tok(t_tok **token, t_tok *new);
 void	ft_lstclear_tok(t_tok *lst);
+void    tokenize(t_shell *shell);
 
 // ==============================================
 // ==================  UTILS ====================
 // ==============================================
 
 void	init_shell(t_shell *shell, char **envp);
+void	reset_shell(t_shell *shell);
 void	free_all(t_shell *shell);
 
 #endif
