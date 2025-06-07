@@ -1,26 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   error.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/04 22:29:14 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/07 13:32:07 by lflayeux         ###   ########.fr       */
+/*   Created: 2025/06/07 18:02:54 by lflayeux          #+#    #+#             */
+/*   Updated: 2025/06/07 18:05:58 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#ifndef ERROR_H
+# define ERROR_H
 
-void	free_all(t_shell *shell)
-{
-	(void)shell;
-	if (shell->signals)
-		free(shell->signals);
-	if (shell->tok)
-		ft_lstclear_tok(shell->tok);
-	if (shell->env)
-		ft_free_tab((void **)shell->env);
-	if (shell)
-		free(shell);
-}
+# define MALLOC 0
+
+void    print_error(t_shell *shell, int err);
+
+#endif

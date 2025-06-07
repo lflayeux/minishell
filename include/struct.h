@@ -3,28 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:51:06 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/07 00:36:34 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/06/07 18:05:11 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCT_H
 # define STRUCT_H
-
-# define _POSIX_C_SOURCE 200809L
-# include <signal.h>
-
-// ==============================================
-// ================== SIGNALS ===================
-// ==============================================
-
-typedef struct s_signal
-{
-	struct sigaction		ctrl_c;
-	struct sigaction		ctrl_dump;
-}							t_signal;
 
 // ==============================================
 // ================== TOKEN =====================
@@ -59,5 +46,6 @@ typedef struct s_shell
 	char					*pid;
 	int						error;
 	char					*var;
+	char					**env;
 }							t_shell;
 #endif

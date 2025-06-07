@@ -3,35 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:07:12 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/07 01:01:07 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/06/07 18:42:01 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	is_dollar_valid(char *word)
-{
-	int i;
-	int quotes;
-
-	i = 0;
-	quotes = 0;
-	while (word[i])
-	{
-		if (word[i] == '$' && !quotes)
-			return (1);
-		else if (word[i] == '\'' && !quotes)
-			quotes = 1;
-		else if (word[i] == '\'' && quotes == 1)
-			quotes = 0;
-		i++;
-	}
-	return (0);
-}
-void	find_var_spe(char **word, t_shell *shell)
+void	find_var_spe(char *word, t_shell *shell)
 {
 	int		len;
 	int		i;
@@ -40,70 +21,108 @@ void	find_var_spe(char **word, t_shell *shell)
 	len = 0;
 	i = 0;
 	j = 0;
-	while ((*word)[len] && !is_space((*word)[len]) && !is_symbol((*word)[len]))
+	while (word[len] && (ft_isalnum(word[len]) || word[len] == '_'))
 		len++;
 	shell->var = ft_calloc((len + 1), sizeof(char));
 	if (!shell->var)
         print_error(shell, MALLOC);
 	i = 0;
-	while ((*word)[i] && !is_space((*word)[i]) && !is_symbol((*word)[i]))
-		shell->var[j++] = (*word)[i++];
+	while (word[i] && (ft_isalnum(word[len]) || word[len] == '_'))
+		shell->var[j++] = word[i++];
 }
-
-int	len_dollar(char *word, t_shell *shell)
+char	*ft_getenv(char **env, t_shell *shell)
 {
 	int	i;
 	int	len;
 
 	i = 0;
-	len = 0;
-	while (word[i])
+	if (!env || !shell || !shell->var)
+		return (NULL);
+
+	len = ft_strlen(shell->var);
+	while (env[i])
 	{
-		if (word[i] == '$' && word[i + 1] && word[i + 1] == '$')
-		{
-			i += 2;
-			len += ft_strlen(shell->pid);
-		}
-		else if (word[i] == '$' && word[i + 1] && word[i + 1] == '?')
-		{
-			i += 2;
-			len += ft_intlen(shell->error);
-		}
-		else if (word[i] == '$' && word[i + 1])
-		{
-			i += ft_strlen(find_var_spe(&word[i], shell));
-			len += ft_strlen(ft_get_env(find_var(&word[i], shell)));
-		}
+		if (!ft_strncmp(env[i], shell->var, len) && env[i][len] == '=')
+			return (&env[i][len + 1]);
+		i++;
+	}
+	return (NULL);
+}
+
+
+int	handle_env_var(const char *word, int *i, t_shell *shell)
+{
+	char	*val;
+	int		start = *i + 1;
+
+	find_var_spe((char *)&word[start], shell);
+	*i += ft_strlen(shell->var);
+
+	val = ft_getenv(shell->env, shell);
+	if (val)
+		return ft_strlen(val);
+	return 0;
+}
+
+
+int	len_dollar(char *word, int *i, t_shell *shell)
+{
+	int	len;
+	
+	len = 0;
+	if (word[*i] == '$' && word[*i + 1] == '$')
+	{
+		*i += 2;
+		len += ft_strlen(shell->pid);
+	}
+	else if (word[*i] == '$' && word[*i + 1] == '?')
+	{
+		*i += 2;
+		len += ft_intlen(shell->error);
+	}
+	else if (word[*i] == '$' && (ft_isalnum(word[*i + 1]) || word[*i + 1] == '_'))
+			len += handle_env_var(word, i, shell);
+	else
+	{
+		(*i)++;
+		len++;
 	}
 	return (len);
 }
 
-void	expand_dollar(t_tok *tok, t_shell shell)
-{
-	// calcul taille apres  dollar 
-	// realloc word avec word changer
-	int	len;
 
+void	expand_len(t_tok *tok, t_shell *shell)
+{
+	int i;
+	int	len;
+	
 	len = 0;
-	len += len_dollar(tok->word, shell);
+	i = 0;
+	while (tok->word[i])
+	{
+		if (tok->word[i] == '$' && quotes != 1)
+				len += len_dollar(tok->word, &i,shell);
+		else if (tok->word[i] == '\'' && tok->word[i] == '"')
+				quotes = 1;
+		else
+		{
+			i++;
+			len++;
+		}
+	}
+	printf("new_len : %d\n", len);
 }
 
-int	check_dollar(t_tok *token)
+void	expand(t_shell *shell)
 {
 	int	i;
 	t_tok	*tmp;
 
 	i = 0;
+	tmp = shell->tok;
 	while (tmp)
 	{
-		if (tmp->word && is_dollar_valid(tmp->word))
-			expand_dollar(tmp, shell);
+		expand_len(tmp, shell);
 		tmp = tmp->next;
 	}
-	return (0);
-}
-
-void	expand(t_shell *shell)
-{
-    check_dollar(shell);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:43:33 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/07 00:58:29 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/06/07 14:36:58 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	tester(t_shell *shell)
 {
 	t_tok	*tmp;
-	t_tok	*tmp2;
 	int i;
 
 	tmp = shell->tok;
@@ -30,16 +29,6 @@ void	tester(t_shell *shell)
 		tmp = tmp->next;
 	}
 	expand(shell);
-	tmp2 = shell->tok;
-	while(tmp2)
-	{
-		printf("TOKEN %d\n", i++);
-		printf("\tword => %s\n", tmp2->word);
-		if (tmp2->word)
-			printf("\tlen_word => %ld\n", ft_strlen(tmp2->word));
-		printf("\ttype => %d\n", tmp2->type);
-		tmp2 = tmp2->next;
-	}
 }
 int	main(int argc, char **argv, char **envp)
 {

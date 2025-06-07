@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 22:16:13 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/07 00:54:45 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/06/07 13:38:21 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,29 @@ void	reset_shell(t_shell *shell)
 	if (shell->signals)
 		reset_signals(shell->signals);
 }
+char	**init_env(char **envp)
+{
+	int		i;
+	int		len;
+	char	**env;
 
-int ft_get_env(char **env, char *to_check)
+	len = 0;
+	i = 0;
+	while (envp[len])
+		len++;
+	env = malloc((len + 1) * sizeof(char *));
+	if (env == NULL)
+		return (NULL);
+	while (envp[i])
+	{
+		env[i] = ft_strdup(envp[i]);
+		i++;
+	}
+	env[i] = NULL;
+	return (env);
+}
+
+int ft_check_env(char **env, char *to_check)
 {
     int i;
 
@@ -43,6 +64,7 @@ int ft_get_env(char **env, char *to_check)
     }
     return (0);
 }
+
 void	get_pid(t_shell *shell)
 {
 	int		fd;
@@ -79,4 +101,5 @@ void	init_shell(t_shell *shell, char **envp)
 	get_pid(shell);
 	shell->error = 0;
 	shell->var = NULL;
+	shell->env = init_env(envp);
 }

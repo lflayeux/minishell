@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:41:38 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/07 00:53:42 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/06/07 18:28:12 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 
 # include "../libft/libft.h"
 # include "struct.h"
+# include "error.h"
+# include "signals.h"
+# include "tokenization.h"
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <fcntl.h>
@@ -41,49 +44,11 @@
 # define GOLD "\033[38;5;220m"
 
 // ==============================================
-// ==================  ERRORS ===================
-// ==============================================
-
-# define MALLOC 0
-
-void    print_error(t_shell *shell, int err);
-// ==============================================
-// ================== SIGNALS ===================
-// ==============================================
-
-void	set_signal(t_signal *signals);
-void	parent_signals(t_signal *signals);
-void	child_signals(t_signal *signals);
-void	reset_signals(t_signal *signals);
-
-// ==============================================
-// =================== TOKENS ===================
-// ==============================================
-
-# define NEW_TOK ft_lstnew_tok
-# define ADD_TOK ft_lstadd_back_tok
-/**
- * @brief Creates a new token node.
- *
- * @param type The type of the token.
- * @param word The string value of the token.
- * @param shell Pointer to the shell context (used for error handling).
- * @return Pointer to the newly created token node, or NULL on failure.
- */
-t_tok	*ft_lstnew_tok(TOK_TYPE type, char *word, t_shell *shell);
-void	ft_lstadd_back_tok(t_tok **token, t_tok *new);
-void	ft_lstclear_tok(t_tok *lst);
-void    tokenize(t_shell *shell);
-int is_symbol(char c);
-int is_space(char c);
-void    add_word_tok(char *input, t_shell *shell, char *word);
-int		len_word_tok(char *input);
-
-// ==============================================
 // =================  EXPAND ====================
 // ==============================================
 
 void	expand(t_shell *shell);
+
 // ==============================================
 // ==================  UTILS ====================
 // ==============================================
