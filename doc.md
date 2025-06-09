@@ -13,3 +13,15 @@
 > |139|Segmentation fault: Indicates a segmentation fault occurred in the program.|
 > |143|Script terminated by SIGTERM (e.g., kill command without -9).|
 > |255|Exit status out of range: Typically, this happens when a script or command exits with a number > 255.|
+
+
+
+
+
+
+>   Expand $
+>   $"$" => $ donc si in double quotes 
+>   $'$'
+>
+>
+>

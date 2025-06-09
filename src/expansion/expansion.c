@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:07:12 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/07 18:42:01 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/09 17:50:05 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	find_var_spe(char *word, t_shell *shell)
 	if (!shell->var)
         print_error(shell, MALLOC);
 	i = 0;
-	while (word[i] && (ft_isalnum(word[len]) || word[len] == '_'))
+	while (word[i] && (ft_isalnum(word[i]) || word[i] == '_'))
 		shell->var[j++] = word[i++];
 }
 char	*ft_getenv(char **env, t_shell *shell)
@@ -48,69 +48,91 @@ char	*ft_getenv(char **env, t_shell *shell)
 	}
 	return (NULL);
 }
-
-
-int	handle_env_var(const char *word, int *i, t_shell *shell)
+// PERMET DE RECALCULER LA BONNE LONGUEURE EN CAS DE $
+int	dollar_len(char *word, int *i, t_shell *shell)
 {
-	char	*val;
-	int		start = *i + 1;
+	int		len;
+	char	*env_path;
 
-	find_var_spe((char *)&word[start], shell);
-	*i += ft_strlen(shell->var);
-
-	val = ft_getenv(shell->env, shell);
-	if (val)
-		return ft_strlen(val);
-	return 0;
-}
-
-
-int	len_dollar(char *word, int *i, t_shell *shell)
-{
-	int	len;
-	
 	len = 0;
-	if (word[*i] == '$' && word[*i + 1] == '$')
-	{
-		*i += 2;
-		len += ft_strlen(shell->pid);
-	}
-	else if (word[*i] == '$' && word[*i + 1] == '?')
-	{
-		*i += 2;
-		len += ft_intlen(shell->error);
-	}
-	else if (word[*i] == '$' && (ft_isalnum(word[*i + 1]) || word[*i + 1] == '_'))
-			len += handle_env_var(word, i, shell);
-	else
+	(void)shell;
+	(*i)++;
+	if (word[*i] == '$')
 	{
 		(*i)++;
-		len++;
+		return (ft_strlen(shell->pid));
+	}
+	else if (word[*i] == '$' &&  word[i + 1] == '?')
+	{
+		(*i)++;
+		return (ft_strlen(shell->pid));		
+	}
+	else
+	{
+		if (word[*i] == '\0' || word[*i] == '"')
+			return (1);
+		env_path = getenv(find_var_spe(word, *i, shell));
+		if (env_path)
+			len += ft_strlen(env_path);
 	}
 	return (len);
 }
 
-
-void	expand_len(t_tok *tok, t_shell *shell)
+int	quotes_len(char *word, int *i, t_shell *shell)
 {
-	int i;
 	int	len;
-	
+
+	len = 0;
+	if (word[*i] == '\'')
+	{
+		(*i)++;
+		while (word[*i] != '\'' && word[*i] != '\0')
+		{
+			(*i)++;
+			len++;
+		}
+		(*i)++;
+	}
+	else if (word[*i] == '"')
+	{
+		(*i)++;
+		while (word[*i] != '"' && word[*i] != '\0')
+		{
+			if (word[*i] == '$')
+				len += dollar_len(word, i, shell);
+			else
+			{
+				(*i)++;
+				len++;
+			}
+		}
+		(*i)++;
+	}
+	return (len);
+}
+
+// FONCTION GLOBALE POUR LE RECALCUL DES ' " et $
+int	expansion_len(char *word, t_shell *shell)
+{
+	int	len;
+	int	i;
+
 	len = 0;
 	i = 0;
-	while (tok->word[i])
+	while (word[i])
 	{
-		if (tok->word[i] == '$' && quotes != 1)
-				len += len_dollar(tok->word, &i,shell);
-		else if (tok->word[i] == '\'' && tok->word[i] == '"')
-				quotes = 1;
-		else
+		while (word[i] != '\0' && word[i] != '\'' && word[i] != '"'
+			&& word[i] != '$')
 		{
 			i++;
 			len++;
 		}
+		if (word[i] != '\'' || word[i] != '"')
+			len += quotes_len(word, &i, shell);
+		if (word[i] == '$')
+			len += dollar_len(word, &i, shell);
 	}
-	printf("new_len : %d\n", len);
+	return (len);
 }
 
 void	expand(t_shell *shell)
@@ -122,7 +144,7 @@ void	expand(t_shell *shell)
 	tmp = shell->tok;
 	while (tmp)
 	{
-		expand_len(tmp, shell);
+		expansion_len(tmp->word, shell);
 		tmp = tmp->next;
 	}
 }

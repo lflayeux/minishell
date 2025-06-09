@@ -6,12 +6,26 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:51:06 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/07 18:05:11 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/09 14:05:17 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCT_H
 # define STRUCT_H
+
+
+# define _POSIX_C_SOURCE 200809L
+# include <signal.h>
+
+// ==============================================
+// ================== SIGNALS ===================
+// ==============================================
+
+typedef struct s_signal
+{
+	struct sigaction		ctrl_c;
+	struct sigaction		ctrl_dump;
+}							t_signal;
 
 // ==============================================
 // ================== TOKEN =====================
