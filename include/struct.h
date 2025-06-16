@@ -6,12 +6,16 @@
 /*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:51:06 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/16 10:21:41 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/06/16 10:26:20 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCT_H
 # define STRUCT_H
+
+# define _POSIX_C_SOURCE 200809L
+# include <stddef.h>
+# include <signal.h>
 
 // ==============================================
 // ================== TOKEN =====================
