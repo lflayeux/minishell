@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:43:33 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/07 14:36:58 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/16 17:57:30 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 void	tester(t_shell *shell)
 {
 	t_tok	*tmp;
+	t_tok	*tmp2;
 	int i;
 
 	tmp = shell->tok;
+	tmp2 = shell->tok;
 	i = 1;
 	while(tmp)
 	{
@@ -29,6 +31,15 @@ void	tester(t_shell *shell)
 		tmp = tmp->next;
 	}
 	expand(shell);
+	while(tmp2)
+	{
+		printf("TOKEN %d\n", i++);
+		printf("\tword => %s\n", tmp2->word);
+		if (tmp2->word)
+			printf("\tlen_word => %ld\n", ft_strlen(tmp2->word));
+		printf("\ttype => %d\n", tmp2->type);
+		tmp2 = tmp2->next;
+	}
 }
 int	main(int argc, char **argv, char **envp)
 {

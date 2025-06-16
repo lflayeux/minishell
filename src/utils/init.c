@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 22:16:13 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/07 13:38:21 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/16 16:04:20 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ void	get_pid(t_shell *shell)
 		free(line);
 		line = get_next_line(fd);
 	}
+	if (line)
+		free(line);
 	close(fd);
 }
 void	init_shell(t_shell *shell, char **envp)

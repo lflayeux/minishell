@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 22:29:14 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/07 13:32:07 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/16 18:03:08 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@ void	free_all(t_shell *shell)
 		ft_lstclear_tok(shell->tok);
 	if (shell->env)
 		ft_free_tab((void **)shell->env);
+	if (shell->var)
+		free(shell->var);
+	if (shell->pid)
+		free(shell->pid);
 	if (shell)
 		free(shell);
 }

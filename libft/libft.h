@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 18:28:20 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/14 00:42:38 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/06/16 18:10:21 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ char	*ft_realloc(char *ptr, size_t size);
 // GET_NEXT_LINE
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10
+#  define BUFFER_SIZE 99999
 # endif
 
 char	*ft_realloc_gnl(char *full_buf, char *buf);

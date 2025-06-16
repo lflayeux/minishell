@@ -182,6 +182,7 @@ void	expand_word(t_expand *expand, t_shell *shell)
 	{
 		free(expand->word);
 		expand->word = expand->new;
+		expand->new = NULL;
 	}
 
 	printf("%s\n", expand->word);
@@ -211,12 +212,15 @@ void	expand(t_shell *shell)
 		{
 			expand->word = tmp->word;
 			expand_word(expand, shell);
+			//free(tmp->word);
+			tmp->word = expand->word;
 		}
 		if (shell->var)
 		{
 			free(shell->var);
 			shell->var = NULL;
 		}
+		printf("end :%s\n", tmp->word);
 		tmp = tmp->next;
 	}
 }
