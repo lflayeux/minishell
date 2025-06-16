@@ -1,128 +1,221 @@
-/* ************************************************************************** */
+	/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:07:12 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/07 18:42:01 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/14 13:24:55 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	find_var_spe(char *word, t_shell *shell)
-{
-	int		len;
-	int		i;
-	int		j;
+void	quotes_expand(t_expand *expand, char sep, t_shell *shell);
 
-	len = 0;
-	i = 0;
-	j = 0;
-	while (word[len] && (ft_isalnum(word[len]) || word[len] == '_'))
+void	ft_getenv(char **env, char *word, t_expand *expand, t_shell *shell)
+{
+	int		i = 0;
+	int		len = 0;
+
+	if (!env || !shell)
+		return ;
+	while (ft_isalnum(word[len]) || word[len] == '_')
+	{
 		len++;
-	shell->var = ft_calloc((len + 1), sizeof(char));
-	if (!shell->var)
-        print_error(shell, MALLOC);
-	i = 0;
-	while (word[i] && (ft_isalnum(word[len]) || word[len] == '_'))
-		shell->var[j++] = word[i++];
-}
-char	*ft_getenv(char **env, t_shell *shell)
-{
-	int	i;
-	int	len;
-
-	i = 0;
-	if (!env || !shell || !shell->var)
-		return (NULL);
-
-	len = ft_strlen(shell->var);
+		expand->i++;
+	}
 	while (env[i])
 	{
-		if (!ft_strncmp(env[i], shell->var, len) && env[i][len] == '=')
-			return (&env[i][len + 1]);
+		if (!ft_strncmp(env[i], word, len) && env[i][len] == '=')
+		{
+			shell->var = ft_strdup(&env[i][len + 1]);
+			if (!shell->var)
+				print_error(shell, MALLOC);
+		}
 		i++;
 	}
-	return (NULL);
 }
 
 
-int	handle_env_var(const char *word, int *i, t_shell *shell)
+void	pid_expand(t_expand *expand, t_shell *shell)
 {
-	char	*val;
-	int		start = *i + 1;
+	expand->i++;
+	expand->new = ft_realloc(expand->new, strlen(expand->new) + strlen(shell->pid) + 1);
+	if (!expand->new)
+		print_error(shell, MALLOC);
+	ft_strlcat(expand->new, shell->pid, strlen(expand->new) + strlen(shell->pid) + 1);
+}
 
-	find_var_spe((char *)&word[start], shell);
-	*i += ft_strlen(shell->var);
+void	error_expand(t_expand *expand, t_shell *shell)
+{
+	char	*error_str;
 
-	val = ft_getenv(shell->env, shell);
-	if (val)
-		return ft_strlen(val);
-	return 0;
+	expand->i++;
+	error_str = ft_itoa((int)shell->error);
+	if (!error_str)
+		print_error(shell, MALLOC);
+	expand->new = ft_realloc(expand->new, strlen(expand->new) + strlen(error_str) + 1);
+	if (!expand->new)
+		print_error(shell, MALLOC);
+	ft_strlcat(expand->new, error_str, strlen(expand->new) + strlen(error_str) + 1);
+	free(error_str);
+}
+void	base_expand(t_expand *expand, t_shell *shell)
+{
+	expand->new = ft_realloc(expand->new, strlen(expand->new) + 2);
+	if (!expand->new)
+		print_error(shell, MALLOC);
+	expand->new[ft_strlen(expand->new)] = expand->word[expand->i];
+	expand->i++;
+}
+void	var_expand(t_expand *expand, t_shell *shell)
+{
+
+	ft_getenv(shell->env, &(expand->word[expand->i]), expand, shell);
+	if (shell->var == NULL)
+	{
+		base_expand(expand, shell);
+		return ;
+	}
+	expand->new = ft_realloc(expand->new, strlen(expand->new) + strlen(shell->var) + 1);
+	if (!expand->new)
+		print_error(shell, MALLOC);
+	ft_strlcat(expand->new, shell->var, strlen(expand->new) + strlen(shell->var) + 1);
 }
 
 
-int	len_dollar(char *word, int *i, t_shell *shell)
+void	dollar_expand(t_expand *expand, t_shell *shell)
 {
-	int	len;
-	
-	len = 0;
-	if (word[*i] == '$' && word[*i + 1] == '$')
+	expand->i++;
+	if ((expand->word[expand->i] == '"' || expand->word[expand->i] == '"') && expand->quotes)
 	{
-		*i += 2;
-		len += ft_strlen(shell->pid);
+		expand->i--;
+		base_expand(expand, shell);
 	}
-	else if (word[*i] == '$' && word[*i + 1] == '?')
-	{
-		*i += 2;
-		len += ft_intlen(shell->error);
-	}
-	else if (word[*i] == '$' && (ft_isalnum(word[*i + 1]) || word[*i + 1] == '_'))
-			len += handle_env_var(word, i, shell);
+	else if (expand->word[expand->i] == '$')
+		pid_expand(expand, shell);
+	else if (expand->word[expand->i] == '?')
+		error_expand(expand, shell);	
+	else if (expand->word[expand->i] == '"' || expand->word[expand->i] == '\'')
+		return ;
+	else if (ft_isalnum(expand->word[expand->i]) || \
+			expand->word[expand->i] == '_')
+		var_expand(expand, shell);
 	else
 	{
-		(*i)++;
-		len++;
+		expand->i--;
+		base_expand(expand, shell);
 	}
-	return (len);
 }
 
 
-void	expand_len(t_tok *tok, t_shell *shell)
-{
-	int i;
-	int	len;
-	
-	len = 0;
-	i = 0;
-	while (tok->word[i])
+void	quotes_expand(t_expand *expand, char sep, t_shell *shell)
+{	
+	int		start;
+
+	start = expand->i;
+	while (expand->word[expand->i] != sep && expand->word[expand->i])
 	{
-		if (tok->word[i] == '$' && quotes != 1)
-				len += len_dollar(tok->word, &i,shell);
-		else if (tok->word[i] == '\'' && tok->word[i] == '"')
-				quotes = 1;
-		else
-		{
-			i++;
-			len++;
-		}
+		if (expand->word[expand->i] == '$' && sep == '"')
+			break;
+		expand->i++;
 	}
-	printf("new_len : %d\n", len);
+	expand->new = ft_realloc(expand->new, strlen(expand->new) \
+			+ (expand->i - start) + 1);
+	if (expand->new == NULL)
+		print_error(shell, MALLOC);
+	ft_strlcat(expand->new, &(expand->word[start]), expand->i - start + 1);
+	if (expand->word[expand->i] == '$' && sep == '"')
+	{
+		dollar_expand(expand, shell);
+		quotes_expand(expand, sep, shell);
+	}
+	expand->i++;
+}
+
+void	expanded_one(t_expand *expand, t_shell *shell)
+{
+	expand->i = 0;
+	expand->new = ft_calloc(1, 1);
+	if (expand->new == NULL)
+		print_error(shell, MALLOC);
+	while (expand->word[expand->i])
+	{
+		if (expand->word[expand->i] == '\'' && expand->quotes == 0)
+			expand->quotes = 1;
+		else if (expand->word[expand->i] == '"' && expand->quotes == 0)
+			expand->quotes = 2;
+		else if (expand->word[expand->i] == '\'' && expand->quotes == 1)
+			expand->quotes = 0;
+		else if (expand->word[expand->i] == '"' && expand->quotes == 2)
+			expand->quotes = 0;
+		if (expand->word[expand->i] == '$' && expand->quotes != 1)
+			dollar_expand(expand, shell);
+		else
+			base_expand(expand, shell);
+	}
+
+}
+void	expanded_two(t_expand *expand, t_shell *shell)
+{
+	expand->i = 0;
+	expand->new = ft_calloc(1, 1);
+	if (expand->new == NULL)
+		print_error(shell, MALLOC);
+	while (expand->word[expand->i])
+	{
+		if (expand->word[expand->i] == '\'')
+			quotes_expand(expand, '\'', shell);
+		else if (expand->word[expand->i] == '"')
+			quotes_expand(expand, '"', shell);
+		else
+			base_expand(expand, shell);
+	}
+
+}
+void	expand_word(t_expand *expand, t_shell *shell)
+{
+	expanded_one(expand, shell);
+	if (expand->new)
+	{
+		free(expand->word);
+		expand->word = expand->new;
+	}
+	printf("%s\n", expand->word);
+	expanded_two(expand, shell);
+	if (expand->new)
+	{
+		free(expand->word);
+		expand->word = expand->new;
+	}
+	printf("%s\n", expand->word);
 }
 
 void	expand(t_shell *shell)
 {
-	int	i;
-	t_tok	*tmp;
+	t_tok		*tmp;
+	t_expand	*expand;
 
-	i = 0;
 	tmp = shell->tok;
+	expand = malloc(sizeof(t_expand));
+	expand->new = NULL;
+	expand->quotes = 0;
+	if (!expand)
+		print_error(shell, MALLOC);
 	while (tmp)
 	{
-		expand_len(tmp, shell);
+		if (tmp->type == WORD)
+		{
+			expand->word = tmp->word;
+			expand_word(expand, shell);
+		}
+		if (shell->var)
+		{
+			free(shell->var);
+			shell->var = NULL;
+		}
 		tmp = tmp->next;
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:41:38 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/07 18:28:12 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/14 13:29:53 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,18 @@
 // ================== LIBRARIES =================
 // ==============================================
 
+// ============ LIBRARIES ============
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <fcntl.h>
 # include "../libft/libft.h"
+
+// ============ INTERNAL HEADERS ============
 # include "struct.h"
 # include "error.h"
 # include "signals.h"
 # include "tokenization.h"
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <fcntl.h>
+# include "expansion.h"
 
 // ==============================================
 // ================== PROMPT ====================
@@ -54,7 +58,6 @@ void	expand(t_shell *shell);
 // ==============================================
 
 void	init_shell(t_shell *shell, char **envp);
-int		ft_get_env(char **env, char *to_check);
 void	reset_shell(t_shell *shell);
 void	free_all(t_shell *shell);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:58:39 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/05/21 11:30:41 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/14 00:42:02 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char	*ft_strjoin_gnl(char const *s1, char const *s2)
 	return (dest);
 }
 
-char	*ft_realloc(char *buf, char *full_buf)
+char	*ft_realloc_gnl(char *buf, char *full_buf)
 {
 	char	*new;
 

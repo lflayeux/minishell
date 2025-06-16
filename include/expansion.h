@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.h                                            :+:      :+:    :+:   */
+/*   expansion.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/07 18:02:54 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/08 12:17:53 by pandemonium      ###   ########.fr       */
+/*   Created: 2025/06/13 22:13:21 by pandemonium       #+#    #+#             */
+/*   Updated: 2025/06/16 09:14:24 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ERROR_H
-# define ERROR_H
+#ifndef EXPANSION_H
+# define EXPANSION_H
 
-struct s_shell;
-
-# define MALLOC 0
-
-void    print_error(t_shell *shell, int err);
+typedef struct s_expand
+{
+	char	*word;
+	char	*new;
+	int		quotes;
+	int		i;
+}				t_expand;
 
 #endif

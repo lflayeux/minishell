@@ -3,15 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:51:06 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/07 18:05:11 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/14 13:45:26 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCT_H
 # define STRUCT_H
+
+# define _POSIX_C_SOURCE 200809L
+# include <stddef.h>
+# include <signal.h>
 
 // ==============================================
 // ================== TOKEN =====================
@@ -33,6 +37,17 @@ typedef struct s_tok
 	char					*word;
 	struct s_tok			*next;
 }			t_tok;
+
+// ==============================================
+// ================== SIGNALS ===================
+// ==============================================
+
+typedef struct s_signal
+{
+	struct sigaction		ctrl_c;
+	struct sigaction		ctrl_dump;
+}							t_signal;
+
 
 // ==============================================
 // ============== GLOBAL STRUCT =================

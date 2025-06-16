@@ -4,7 +4,10 @@
 		"minishell.h": "c",
 		"history.h": "c",
 		"signal.h": "c",
-		"error.h": "c"
+		"error.h": "c",
+		"tokenization.h": "c",
+		"readline.h": "c",
+		"struct.h": "c"
 	},
 	"C_Cpp.errorSquiggles": "disabled"
 }

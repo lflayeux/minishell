@@ -3,28 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   signals.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 18:03:42 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/07 18:09:21 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/13 00:14:53 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SIGNALS_H
 # define SIGNALS_H
-
-# define _POSIX_C_SOURCE 200809L
-# include <signal.h>
-
-// ==============================================
-// ================== SIGNALS ===================
-// ==============================================
-
-typedef struct s_signal
-{
-	struct sigaction		ctrl_c;
-	struct sigaction		ctrl_dump;
-}							t_signal;
 
 // ==============================================
 // ================== SIGNALS ===================

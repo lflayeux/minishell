@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 15:05:49 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/03/18 18:36:25 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/14 00:42:25 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*ft_read(char *full_buf, int fd)
 			return (NULL);
 		}
 		buf[byte_read] = '\0';
-		full_buf = ft_realloc(full_buf, buf);
+		full_buf = ft_realloc_gnl(full_buf, buf);
 		if (full_buf == NULL)
 			return (NULL);
 		if (ft_strchr_split(full_buf, '\n'))

@@ -6,7 +6,7 @@
 /*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 18:28:20 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/07 00:12:35 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/06/14 00:42:38 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,13 +111,15 @@ void	ft_free_tab(void **tab);
 
 int		ft_intlen(int nb);
 
+char	*ft_realloc(char *ptr, size_t size);
+
 // GET_NEXT_LINE
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 10
 # endif
 
-char	*ft_realloc(char *full_buf, char *buf);
+char	*ft_realloc_gnl(char *full_buf, char *buf);
 char	*ft_strjoin_gnl(char const *s1, char const *s2);
 int		ft_strchr_split(char *str, char c);
 char	*ft_read(char *full_buf, int fd);
