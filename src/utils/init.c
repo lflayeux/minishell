@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 22:16:13 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/16 16:04:20 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/17 14:47:01 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	get_pid(t_shell *shell)
 	int		fd;
 	char	*line;
 	char	**split;
+	char	*tmp;
 
 	fd = open("/proc/self/status", O_RDONLY);
 	if (fd == -1)
@@ -82,15 +83,13 @@ void	get_pid(t_shell *shell)
 			split = ft_split(line, '\t');
 			if (!split)
 				print_error(shell, MALLOC);
-			shell->pid = ft_strdup(ft_substr(split[1], 0, ft_strlen(split[1]) - 1));
+			tmp = ft_substr(split[1], 0, ft_strlen(split[1]) - 1);
+			shell->pid = tmp;
 			ft_free_tab((void **)split);
-			break ;
 		}
 		free(line);
 		line = get_next_line(fd);
 	}
-	if (line)
-		free(line);
 	close(fd);
 }
 void	init_shell(t_shell *shell, char **envp)

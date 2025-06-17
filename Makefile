@@ -18,6 +18,8 @@ SRC =	src/main.c \
 		src/tokenization/tokenize.c \
 		src/tokenization/tokenize_utils.c \
 		src/expansion/expansion.c \
+		src/expansion/expand_utils.c \
+		src/expansion/expand_part.c \
 
 GREEN = \033[32m
 RED = \033[31m

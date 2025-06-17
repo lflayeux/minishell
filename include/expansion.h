@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 22:13:21 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/16 09:14:24 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/06/17 14:55:17 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,21 @@ typedef struct s_expand
 	int		quotes;
 	int		i;
 }				t_expand;
+
+
+void	dollar_expand(t_expand *expand, t_shell *shell);
+void	quotes_expand(t_expand *expand, char sep, t_shell *shell);
+void	expanded_one(t_expand *expand, t_shell *shell);
+void	expanded_two(t_expand *expand, t_shell *shell);
+
+// =============================
+// ========= UTILS =============
+// =============================
+
+void	ft_getenv(char **env, char *word, t_expand *expand, t_shell *shell);
+void	pid_expand(t_expand *expand, t_shell *shell);
+void	error_expand(t_expand *expand, t_shell *shell);
+void	base_expand(t_expand *expand, t_shell *shell);
+void	var_expand(t_expand *expand, t_shell *shell);
 
 #endif

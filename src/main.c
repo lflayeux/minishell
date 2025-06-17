@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:43:33 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/16 17:57:30 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/17 14:21:31 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@ void	tester(t_shell *shell)
 		tmp = tmp->next;
 	}
 	expand(shell);
+
+	printf("\n"RED"============================"RST"\n");
+	i = 1;
 	while(tmp2)
 	{
 		printf("TOKEN %d\n", i++);
