@@ -19,9 +19,9 @@
 
 
 
->   Expand $
->   $"$" => $ donc si in double quotes 
->   $'$'
+>   ## TODO
 >
->
->
+>   - [x] ajouter la partie preparation exec
+>   - [] Modifier prepare_exec
+>   - [] faire une erreur si | ou > ou < ou << ou >>  suivi de rien
+>   - [] Revoir Gestion d'erreur.

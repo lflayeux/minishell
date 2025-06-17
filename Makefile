@@ -20,7 +20,9 @@ SRC =	src/main.c \
 		src/expansion/expansion.c \
 		src/expansion/expand_utils.c \
 		src/expansion/expand_part.c \
-
+		src/execution/prepare_exec.c \
+		src/execution/lst_exec.c \
+		
 GREEN = \033[32m
 RED = \033[31m
 YELLOW = \033[33m

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 18:02:54 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/08 12:17:53 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/06/17 18:49:20 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,16 @@
 
 struct s_shell;
 
-# define MALLOC 0
+//# define MALLOC 0
+typedef enum e_error_type
+{
+	MALLOC,
+	SYNTAX_PIPE,
+	SYNTAX_END,
 
-void    print_error(t_shell *shell, int err);
+}							ERROR_TYPE;
+
+void    print_error(t_shell *shell, ERROR_TYPE err);
+int     parse_error(t_shell *shell);
 
 #endif

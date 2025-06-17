@@ -22,15 +22,12 @@ void	expand_word(t_expand *expand, t_shell *shell)
 		expand->word = expand->new;
 		expand->new = NULL;
 	}
-
-	printf("%s\n", expand->word);
 	expanded_two(expand, shell);
 	if (expand->new)
 	{
 		free(expand->word);
 		expand->word = expand->new;
 	}
-	printf("%s\n", expand->word);
 }
 
 void	expand(t_shell *shell)

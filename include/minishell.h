@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:41:38 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/14 13:29:53 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/06/17 18:48:56 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # include "signals.h"
 # include "tokenization.h"
 # include "expansion.h"
+# include "execution.h"
 
 // ==============================================
 // ================== PROMPT ====================

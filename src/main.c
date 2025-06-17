@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:43:33 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/17 14:21:31 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/17 18:46:46 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	tester(t_shell *shell)
 	tmp = shell->tok;
 	tmp2 = shell->tok;
 	i = 1;
+	printf("\n"RED"=> BASE TOKEN"RST"\n");
 	while(tmp)
 	{
 		printf("TOKEN %d\n", i++);
@@ -36,6 +37,7 @@ void	tester(t_shell *shell)
 	i = 1;
 	while(tmp2)
 	{
+		printf("\n"RED"=> AFTER EXPANSE"RST"\n");
 		printf("TOKEN %d\n", i++);
 		printf("\tword => %s\n", tmp2->word);
 		if (tmp2->word)
@@ -43,6 +45,8 @@ void	tester(t_shell *shell)
 		printf("\ttype => %d\n", tmp2->type);
 		tmp2 = tmp2->next;
 	}
+	printf("\n"RED"============================"RST"\n");
+	create_lst_exec(shell);
 }
 int	main(int argc, char **argv, char **envp)
 {

@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 22:16:13 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/17 14:47:01 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/17 18:57:19 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,18 @@ void	reset_shell(t_shell *shell)
 		free(shell->input);
 	if (shell->signals)
 		reset_signals(shell->signals);
+}
+void	exec_init(t_exec *node_exec)
+{
+	node_exec->cmd = NULL;
+	node_exec->infile = NULL;
+	node_exec->outfile = NULL;
+	node_exec->delimiter = NULL;
+	node_exec->if_infile = 0;
+	node_exec->if_outfile = 0;
+	node_exec->if_append = 0;
+	node_exec->if_here_doc = 0;
+	node_exec->pipe_to = NULL;
 }
 char	**init_env(char **envp)
 {
@@ -94,10 +106,10 @@ void	get_pid(t_shell *shell)
 }
 void	init_shell(t_shell *shell, char **envp)
 {
-	(void)envp;
 	shell->signals = malloc(sizeof(t_signal));
 	set_signal(shell->signals);
 	shell->tok = NULL;
+	shell->exec = NULL;
 	shell->input = NULL;
 	get_pid(shell);
 	shell->error = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:51:06 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/16 10:26:20 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/06/17 17:11:39 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,24 @@
 # define _POSIX_C_SOURCE 200809L
 # include <stddef.h>
 # include <signal.h>
+# include <stdbool.h>
+
+// ==============================================
+// ================== EXEC ======================
+// ==============================================
+
+typedef struct s_exec_pipeline
+{
+	char					**cmd;
+	char					*infile;
+	char					*outfile;
+	char					*delimiter;
+	bool					if_infile;
+	bool					if_outfile;
+	bool					if_append;
+	bool					if_here_doc;
+	struct s_exec_pipeline	*pipe_to;
+}							t_exec;
 
 // ==============================================
 // ================== TOKEN =====================
@@ -57,6 +75,7 @@ typedef struct s_shell
 {
 	t_signal				*signals;
 	t_tok					*tok;
+	t_exec					*exec;
 	char					*input;
 	char					*pid;
 	int						error;
