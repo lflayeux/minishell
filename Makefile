@@ -21,6 +21,7 @@ SRC =	src/main.c \
 		src/expansion/expand_utils.c \
 		src/expansion/expand_part.c \
 		src/execution/prepare_exec.c \
+		src/execution/prepare_exec_utils.c \
 		src/execution/lst_exec.c \
 		
 GREEN = \033[32m

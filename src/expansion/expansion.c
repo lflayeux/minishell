@@ -12,7 +12,6 @@
 
 #include "../../include/minishell.h"
 
-
 void	expand_word(t_expand *expand, t_shell *shell)
 {
 	expanded_one(expand, shell);

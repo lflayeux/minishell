@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 22:16:13 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/17 18:57:19 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/18 15:40:36 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@ void	reset_shell(t_shell *shell)
 	{
 		ft_lstclear_tok(shell->tok);
 		shell->tok = NULL;
+	}
+	if (shell->exec)
+	{
+		ft_lstclear_exec(shell->exec);
+		shell->exec = NULL;
 	}
 	if (shell->var)
 	{

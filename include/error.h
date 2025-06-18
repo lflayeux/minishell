@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 18:02:54 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/17 18:49:20 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/18 15:57:13 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,12 @@
 
 struct s_shell;
 
-//# define MALLOC 0
 typedef enum e_error_type
 {
 	MALLOC,
 	SYNTAX_PIPE,
 	SYNTAX_END,
-
+	OPEN,
 }							ERROR_TYPE;
 
 void    print_error(t_shell *shell, ERROR_TYPE err);
