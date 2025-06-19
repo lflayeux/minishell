@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:41:38 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/17 18:48:56 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/19 22:18:29 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # include "tokenization.h"
 # include "expansion.h"
 # include "execution.h"
+# include "pipex.h"
 
 // ==============================================
 // ================== PROMPT ====================
@@ -48,6 +49,11 @@
 # define GRN "\033[32m"
 # define GOLD "\033[38;5;220m"
 
+
+
+# define FALSE 0
+# define TRUE 1
+
 // ==============================================
 // =================  EXPAND ====================
 // ==============================================
@@ -58,6 +64,7 @@ void	expand(t_shell *shell);
 // ==================  UTILS ====================
 // ==============================================
 
+void	init_pipex(t_shell *shell);
 void	init_shell(t_shell *shell, char **envp);
 void	reset_shell(t_shell *shell);
 void	free_all(t_shell *shell);

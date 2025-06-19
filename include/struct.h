@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:51:06 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/17 17:11:39 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/19 21:43:40 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,15 @@
 # include <stddef.h>
 # include <signal.h>
 # include <stdbool.h>
+
+
+typedef struct s_pipex
+{
+	pid_t					*child_tab;
+	int						child_index;
+	int						prev_fd;
+	int						end[2];
+}							t_pipex;
 
 // ==============================================
 // ================== EXEC ======================
@@ -76,6 +85,7 @@ typedef struct s_shell
 	t_signal				*signals;
 	t_tok					*tok;
 	t_exec					*exec;
+	t_pipex					*pipex;
 	char					*input;
 	char					*pid;
 	int						error;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 22:16:13 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/18 15:40:36 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/19 21:56:00 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,15 @@ void	get_pid(t_shell *shell)
 	}
 	close(fd);
 }
+void	init_pipex(t_shell *shell)
+{
+	t_pipex	*pipex;
+
+	pipex = malloc(sizeof(t_pipex));
+	if (!pipex)
+		return (print_error(shell, MALLOC), -1);
+	shell->pipex = pipex;
+}
 void	init_shell(t_shell *shell, char **envp)
 {
 	shell->signals = malloc(sizeof(t_signal));
@@ -116,6 +125,7 @@ void	init_shell(t_shell *shell, char **envp)
 	shell->tok = NULL;
 	shell->exec = NULL;
 	shell->input = NULL;
+	init_pipex(shell);
 	get_pid(shell);
 	shell->error = 0;
 	shell->var = NULL;

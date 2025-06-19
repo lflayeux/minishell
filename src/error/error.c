@@ -3,14 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 11:59:10 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/18 15:56:31 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/19 00:32:20 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+void    print_error_2(char *s2, char *s3, t_shell *shell)
+{
+
+
+
+
+}
 
 void    print_error(t_shell *shell, ERROR_TYPE err)
 {

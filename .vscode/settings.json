@@ -7,7 +7,8 @@
 		"error.h": "c",
 		"tokenization.h": "c",
 		"readline.h": "c",
-		"struct.h": "c"
+		"struct.h": "c",
+		"initializer_list": "c"
 	},
 	"C_Cpp.errorSquiggles": "disabled"
 }

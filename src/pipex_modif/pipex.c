@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/06/18 16:06:57 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/19 23:14:06 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,20 @@ int	outfile_management(t_exec *exec, int *end, t_shell *shell)
 	int	fd_outfile;
 
 	fd_outfile = 1;
-	(void)shell;
 	if (exec->if_outfile == 1 || exec->if_append == 1)
 	{
 		close(end[1]);
 		close(end[0]);
-		if (exec->if_outfile == 1)
+		if (exec->if_outfile == TRUE)
 			fd_outfile = open((exec->outfile), O_WRONLY | O_TRUNC | O_CREAT,
 					0666);
 		else
 			fd_outfile = open((exec->outfile), O_WRONLY | O_CREAT | O_APPEND,
 					0666);
 		if (fd_outfile == -1)
-			return (free_exit(shell));
+			return (FALSE);
 		if (dup2(fd_outfile, STDOUT_FILENO) == -1)
-			free_exit(shell);
+			return (FALSE);
 		close(fd_outfile);
 	}
 	else
@@ -41,11 +40,11 @@ int	outfile_management(t_exec *exec, int *end, t_shell *shell)
 		if (exec->pipe_to != NULL)
 		{
 			if(dup2(end[1], 1) == -1)
-				free_exit(shell);
+				return (FALSE);
 			close(end[1]);
 		}
 	}
-	return (1);
+	return (TRUE);
 }
 
 //  MANAGEMENT IN PARENT PROCESS IF END OF EXEC STRUCT OR NEXT PIPE
@@ -84,27 +83,23 @@ int	middle_proc(t_exec *exec, t_shell *shell)
 	init_fd(shell);
 	if (exec->pipe_to)
 	{
-		if (pipe(shell->end) == -1)
-			free_exit(shell);
+		if (pipe(PIPEX->end) == -1)
+			return (FALSE);
 	}
 	child = fork();
 	if (child < 0)
-		return (close_fd(shell), free_exit(shell));
+		return (close_fd(shell), FALSE);
 	else if (child == 0)
 	{
-		if (shell->prev_fd != STDIN_FILENO)
+		if (PIPEX->prev_fd != STDIN_FILENO)
 		{
-			if(dup2(shell->prev_fd, STDIN_FILENO) == -1)
-				free_exit(shell);
-			close(shell->prev_fd);
+			if(dup2(PIPEX->prev_fd, STDIN_FILENO) == -1)
+				return (FALSE);
+			close(PIPEX->prev_fd);
 		}
-		outfile_management(exec, shell->end, shell);
-		// good pour les malloc exec
+		outfile_management(exec, PIPEX->end, shell);
 		exec_cmd(exec->cmd, shell);
-		// if (exec_cmd(exec->cmd, shell) == 0)
-		// 	return (close(end[1]), exit(EXIT_FAILURE), 0);
 	}
-	// error good
 	else
 		end_or_pipe(exec, child, shell->end, shell);
 	return (1);
@@ -136,26 +131,26 @@ int	node_number(t_exec *lst_exec)
 }
 
 // INITIALISATION POUR L'EXEC ENTRE L'HERE_DOC (GESTION AVEC PIPE) OU L'INFILE SI IL Y A
-void	task_init(t_exec *exec, t_shell *shell)
+int	task_init(t_exec *exec, t_shell *shell)
 {
 	int	fd_infile;
 
 	init_fd(shell);
-	if (exec->if_here_doc == 1)
+	if (exec->if_here_doc == TRUE)
 	{
-		if (pipe(shell->end) == -1)
-			free_exit(shell);
-		if (loop_here_doc(exec->delimiter, shell->end) == 0)
-			free_exit(shell);
-		shell->prev_fd = shell->end[0];
+		if (pipe(PIPEX->end) == -1)
+			return FALSE;
+		if (loop_here_doc(exec->delimiter, PIPEX->end) == FALSE)
+			return (FALSE);
+		PIPEX->prev_fd = PIPEX->end[0];
 		close_fd(shell);
 	}
-	if (exec->if_infile == 1)
+	if (exec->if_infile == TRUE)
 	{
 		fd_infile = open((exec->infile), O_RDONLY);
 		if (fd_infile == -1)
-			free_exit(shell);
-		shell->prev_fd = fd_infile;
+			return (FALSE);
+		PIPEX->prev_fd = fd_infile;
 	}
 }
 
@@ -164,24 +159,19 @@ int	pipex(t_shell *shell)
 {
 	t_exec	*tmp;
 
-	// deja dans shell et free dans free_all
-	shell->child_tab = ft_calloc(node_number(shell->exec) + 1, sizeof(pid_t));
-	if (!(shell->child_tab))
-		return (free_exit(shell), -1);
+	PIPEX->child_tab = ft_calloc(node_number(shell->exec) + 1, sizeof(pid_t));
+	if (!(PIPEX->child_tab))
+		return (print_error(shell, MALLOC), FALSE);
 	tmp = shell->exec;
 	while (tmp)
 	{
 		// check si commande vide
 		if(ft_strcmp((tmp->cmd)[0], "") == 0)
-			return (ft_printf("Command '' not found"),1);
-		task_init(tmp, shell);
-		// if(task_init(tmp, shell) == 0)
-		// 	return (free_exit(shell));
-		// printf("\t\t\t\t\t\t\t\t\t\t\tTEST\n");
+			return (ft_printf("Command '' not found"), TRUE);
+		if (task_init(tmp, shell) == FALSE)
+			return (FALSE);
 		middle_proc(tmp, shell);
-		// if (middle_proc(tmp, shell) == 0)
-		// 	return (-1);
 		tmp = tmp->pipe_to;
 	}
-	return (1);
+	return (TRUE);
 }
