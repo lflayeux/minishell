@@ -22,6 +22,7 @@
 >   ## TODO
 >
 >   - [x] ajouter la partie preparation exec
->   - [] Modifier prepare_exec
->   - [] faire une erreur si | ou > ou < ou << ou >>  suivi de rien
+>   - [x] Modifier prepare_exec
+>   - [x] faire une erreur si | ou > ou < ou << ou >>  suivi de rien
 >   - [] Revoir Gestion d'erreur.
+>	- [] Refaire exec en biiiiiien
