@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 22:13:21 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/17 14:55:17 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/20 16:46:17 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	expanded_two(t_expand *expand, t_shell *shell);
 // ========= UTILS =============
 // =============================
 
-void	ft_getenv(char **env, char *word, t_expand *expand, t_shell *shell);
+char	*ft_getenv(char **env, char *word, t_expand *expand, t_shell *shell);
 void	pid_expand(t_expand *expand, t_shell *shell);
 void	error_expand(t_expand *expand, t_shell *shell);
 void	base_expand(t_expand *expand, t_shell *shell);

@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:43:33 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/18 15:44:51 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/20 16:33:18 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	shell = malloc(sizeof(t_shell));
 	if (!shell)
-		return (free_all(shell), print_error(shell, MALLOC), 1);
+		return (free_all(shell), print_error("malloc", NULL, shell, GEN_ERROR), 1);
 	init_shell(shell, envp);
 	while (1)
 	{

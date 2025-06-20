@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:41:38 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/20 11:10:22 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/20 16:45:01 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,6 @@ void	init_pipex(t_shell *shell);
 void	init_shell(t_shell *shell, char **envp);
 void	reset_shell(t_shell *shell);
 void	free_all(t_shell *shell);
+const char	*get_token_name(int type);
 
 #endif

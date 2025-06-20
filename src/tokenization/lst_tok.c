@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 23:30:08 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/07 18:14:51 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/20 16:35:21 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_tok	*ft_lstnew_tok(TOK_TYPE type, char *word, t_shell *shell)
 
 	new = malloc(sizeof(t_tok));
 	if (new == NULL)
-		print_error(shell, MALLOC);
+		print_error("malloc", NULL, shell, GEN_ERROR);
 	new->type = type;
 	new->word = word;
 	new->next = NULL;

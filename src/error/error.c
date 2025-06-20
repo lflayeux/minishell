@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 11:59:10 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/20 15:54:33 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/20 16:45:46 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	parse_error(t_shell *shell)
 
 	init = shell->tok;
 	if(TYPE == PIPE)
-		return (print_error(shell, SYNTAX_PIPE), 0);
+		return (print_error(PARSE_MESS, (char *)get_token_name(shell->tok->type), shell, GEN_ERROR), FALSE);
 	while (init)
 	{
 		if(TYPE == PIPE && !(init->next))
