@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/06/20 15:48:37 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/20 18:11:51 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	outfile_management(t_exec *exec, int *end, t_shell *shell)
 			fd_outfile = open((exec->outfile), O_WRONLY | O_CREAT | O_APPEND,
 					0666);
 		if (fd_outfile == ERROR)
-			return (FALSE);
+			return (print_error(exec->outfile, FILE_MESS, shell, N_FOUND), FALSE);
 		if (dup2(fd_outfile, STDOUT_FILENO) == ERROR)
 			return (FALSE);
 		close(fd_outfile);
@@ -59,16 +59,16 @@ int	end_or_pipe(t_exec *exec, pid_t child, int *end, t_shell *shell)
 		while (PIPEX->child_tab[i])
 		{
 			if (waitpid(PIPEX->child_tab[i++], &status, 0) == -1)
-				return (exit_status(status, shell), FALSE);
+				return (/*exit_status(status, shell),*/ FALSE);
 		}
 		if (waitpid(child, &status, 0) == -1)
-			return (exit_status(status, shell), FALSE);
+			return (/*exit_status(status, shell),*/ FALSE);
 	}
 	else
 	{
 		close(end[1]);
 		PIPEX->prev_fd = end[0];
-		PIPEX->child_tab[shell->child_index] = child;
+		PIPEX->child_tab[PIPEX->child_index] = child;
 	}
 	return (TRUE);
 }
@@ -100,7 +100,7 @@ int	middle_proc(t_exec *exec, t_shell *shell)
 		exec_cmd(exec->cmd, shell);
 	}
 	else
-		end_or_pipe(exec, child, shell->end, shell);
+		end_or_pipe(exec, child, PIPEX->end, shell);
 	return (TRUE);
 }
 
@@ -151,6 +151,7 @@ int	task_init(t_exec *exec, t_shell *shell)
 			return (FALSE);
 		PIPEX->prev_fd = fd_infile;
 	}
+	return (TRUE);
 }
 
 // GESTION DE LA BOUCLE DE TOUTES LES EXECS À FAIRE ET INIT TU TABLEAU DE CHILD À WAIT
@@ -166,7 +167,7 @@ int	pipex(t_shell *shell)
 	{
 		// check si commande vide
 		if(ft_strcmp((tmp->cmd)[0], "") == 0)
-			return (print_error(" ", N_CMD_MESS, shell, CMD_N_FOUND), TRUE);
+			return (print_error(" ", N_CMD_MESS, shell, N_FOUND), TRUE);
 		if (task_init(tmp, shell) == FALSE)
 			return (FALSE);
 		middle_proc(tmp, shell);

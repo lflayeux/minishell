@@ -8,7 +8,13 @@
 		"tokenization.h": "c",
 		"readline.h": "c",
 		"struct.h": "c",
-		"initializer_list": "c"
+		"initializer_list": "c",
+		"pipex.h": "c",
+		"expansion.h": "c",
+		"signals.h": "c",
+		"wait.h": "c",
+		"fcntl.h": "c",
+		"execution.h": "c"
 	},
 	"C_Cpp.errorSquiggles": "disabled"
 }

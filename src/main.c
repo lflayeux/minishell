@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:43:33 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/20 16:33:18 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/20 18:17:33 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,12 @@ void	tester(t_shell *shell)
 			printf("\toutfile\t\t===> %s\n", tmp_exec->outfile);
 		tmp_exec = tmp_exec->pipe_to;
 	}
+	printf("\n"RED"============================"RST"\n");
+	printf(""RED"========== EXEC ============"RST"\n");
+	printf(""RED"============================"RST"\n");
+	printf("\n\n");
+	pipex(shell);
+	printf("\n\n");
 }
 int	main(int argc, char **argv, char **envp)
 {

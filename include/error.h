@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 18:02:54 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/20 16:41:13 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/20 17:09:40 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ struct s_shell;
 # define GEN_ERROR		1
 # define BUILTIN_ERROR	2
 # define CMD_EXEC		126
-# define CMD_N_FOUND	127
+# define N_FOUND		127
 # define EXIT_ARG		128
 # define CTRL_C			130
 # define CTRL_D			137

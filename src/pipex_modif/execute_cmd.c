@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/06/20 16:22:33 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/20 18:14:03 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	handle_path_cmd(char **cmd_parsed, char *path, t_shell *shell)
 	if (access(path, X_OK) == 0)
 	{
 		if (execve(path, cmd_parsed, shell->env) == -1)
-			free_exit(shell);
+			print_error(cmd_parsed[0], NULL, shell, CMD_EXEC);
 	}
 	return (TRUE);
 }

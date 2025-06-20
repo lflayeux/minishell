@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/06/19 22:18:41 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/06/20 18:12:19 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,14 @@ int	loop_here_doc(char *delimiter, int *end)
 
 void	close_fd(t_shell *shell)
 {
-	if (shell->end[0] != NONE && shell->end[0] != -1)
-		close(shell->end[0]);
-	if (shell->end[1] != NONE && shell->end[1] != -1)
-		close(shell->end[1]);
+	if (PIPEX->end[0] != NONE && PIPEX->end[0] != -1)
+		close(PIPEX->end[0]);
+	if (PIPEX->end[1] != NONE && PIPEX->end[1] != -1)
+		close(PIPEX->end[1]);
 }
 
 void	init_fd(t_shell *shell)
 {
-	shell->end[0] = NONE;
-	shell->end[1] = NONE;
+	PIPEX->end[0] = NONE;
+	PIPEX->end[1] = NONE;
 }

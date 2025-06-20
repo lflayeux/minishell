@@ -23,7 +23,10 @@ SRC =	src/main.c \
 		src/execution/prepare_exec.c \
 		src/execution/prepare_exec_utils.c \
 		src/execution/lst_exec.c \
-		
+		src/pipex_modif/pipex.c \
+		src/pipex_modif/here_doc.c \
+		src/pipex_modif/execute_cmd.c \
+
 GREEN = \033[32m
 RED = \033[31m
 YELLOW = \033[33m
