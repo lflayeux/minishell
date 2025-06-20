@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 14:51:37 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/17 18:19:21 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/20 16:19:06 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	quotes_expand(t_expand *expand, char sep, t_shell *shell)
 	expand->new = ft_realloc(expand->new, ft_strlen(expand->new) \
 			+ (expand->i - start) + 1);
 	if (expand->new == NULL)
-		print_error(shell, MALLOC);
+		print_error("malloc", NULL, shell, GEN_ERROR);
 	ft_memcpy(expand->new + ft_strlen(expand->new), &(expand->word[start]), expand->i - start);
 	expand->new[ft_strlen(expand->new) + (expand->i - start)] = '\0';
 	if (expand->word[expand->i] == '$' && sep == '"')
@@ -69,7 +69,7 @@ void	expanded_one(t_expand *expand, t_shell *shell)
 	expand->i = 0;
 	expand->new = ft_calloc(1, 1);
 	if (expand->new == NULL)
-		print_error(shell, MALLOC);
+		print_error("malloc", NULL, shell, GEN_ERROR);
 	while (expand->word[expand->i])
 	{
 		if (expand->word[expand->i] == '\'' && expand->quotes == 0)
@@ -93,7 +93,7 @@ void	expanded_two(t_expand *expand, t_shell *shell)
 	expand->quotes = 0;
 	expand->new = ft_calloc(1, 1);
 	if (expand->new == NULL)
-		print_error(shell, MALLOC);
+		print_error("malloc", NULL, shell, GEN_ERROR);
 	while (expand->word[expand->i])
 	{
 		if (expand->word[expand->i] == '\'' && expand->quotes == 0)

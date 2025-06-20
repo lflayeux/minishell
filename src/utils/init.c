@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 22:16:13 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/19 21:56:00 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/06/20 12:37:47 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ void	init_pipex(t_shell *shell)
 
 	pipex = malloc(sizeof(t_pipex));
 	if (!pipex)
-		return (print_error(shell, MALLOC), -1);
+		return (print_error(shell, MALLOC));
 	shell->pipex = pipex;
 }
 void	init_shell(t_shell *shell, char **envp)

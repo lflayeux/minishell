@@ -39,7 +39,7 @@ void	expand(t_shell *shell)
 	expand->new = NULL;
 	expand->quotes = 0;
 	if (!expand)
-		print_error(shell, MALLOC);
+		print_error("malloc", NULL, shell, GEN_ERROR);
 	while (tmp)
 	{
 		if (tmp->type == WORD)

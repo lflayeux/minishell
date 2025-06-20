@@ -26,3 +26,14 @@
 >   - [x] faire une erreur si | ou > ou < ou << ou >>  suivi de rien
 >   - [] Revoir Gestion d'erreur.
 >	- [] Refaire exec en biiiiiien
+
+
+>   ## ERROR
+
+> bash: export: ʻ9HOLA=': not a valid identifier
+> bash: export: -H: invalid option
+> bash: !LA=bonjour: event not found
+> bash: jour: command not found
+> bash: ls: No such file or directory
+> chdir: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
+

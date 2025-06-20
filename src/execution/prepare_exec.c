@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 15:31:21 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/18 16:03:28 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/20 15:57:29 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	init_exec(t_tok *init, t_exec *node_exec,t_tok *end, t_shell *shell)
 		{
 			(node_exec->cmd)[i] = ft_strdup(init->word);
 			if(!((node_exec->cmd)[i]))
-				print_error(shell, MALLOC);
+				print_error("malloc", NULL, shell, GEN_ERROR);
 			i++;
 		}
 		if (TYPE == INFILE && N->type == WORD && N)
@@ -43,11 +43,11 @@ t_exec	*ft_lstnew_exec(t_tok *init, t_tok *end, t_shell *shell)
 
 	node_exec = malloc(sizeof(t_exec));
 	if(!node_exec)
-		print_error(shell, MALLOC);
+		print_error("malloc", NULL, shell, GEN_ERROR);
 	exec_init(node_exec);
 	node_exec->cmd = ft_calloc(word_number(init, end) + 1, sizeof(char *));
 	if(!(node_exec->cmd))
-		print_error(shell, MALLOC);
+		print_error("malloc", NULL, shell, GEN_ERROR);
 	init_exec(init, node_exec, end, shell);
 	return (node_exec);
 }

@@ -3,40 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 11:59:10 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/19 00:32:20 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/06/20 15:54:33 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void    print_error_2(char *s2, char *s3, t_shell *shell)
+// A renommer print_error apres changement de l'orioginale
+void    print_error(char *s1, char *s2, t_shell *shell, int type)
 {
-
-
-
-
-}
-
-void    print_error(t_shell *shell, ERROR_TYPE err)
-{
-    if (err == MALLOC)
-    {
-        printf("minishell: allocation error");
-        free_all(shell);
-        exit(1);
-	}
-	else if (err == SYNTAX_PIPE)
-	{
-		ft_printf("syntax error near unexpected token '|'\n"); 
-		handle_ctrl_c_interactive(SIGINT);
-	}
-	else if (err == OPEN)
-	{
-		printf("OPEN ERROR");	
-	}
+	shell->error = type;
+	if (s1 && s2)
+		printf("minishell: %s: %s: %s\n", s1, s2, strerror(errno));
+	else if (s1 && !s2)
+		printf("minishell: %s: %s\n", s1, strerror(errno));
+	
 }
 int	parse_error(t_shell *shell)
 {

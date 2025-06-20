@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_exec_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 15:46:44 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/19 21:56:10 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/06/20 16:11:15 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	if_here_doc(t_exec *node_exec, t_tok **init)
 	node_exec->if_here_doc = 1;
 	node_exec->if_infile = 0;
 	(*init) = ((*init)->next);
-	return (1);
+	return (TRUE);
 }
 
 int	if_append(t_exec *node_exec, t_tok **init)
@@ -44,7 +44,7 @@ int	if_append(t_exec *node_exec, t_tok **init)
 	node_exec->if_append = 1;
 	node_exec->if_outfile = 0;
 	(*init) = ((*init)->next);
-	return (1);
+	return (TRUE);
 }
 
 int	if_outfile(t_exec *node_exec, t_tok **init, t_shell *shell)
@@ -53,13 +53,13 @@ int	if_outfile(t_exec *node_exec, t_tok **init, t_shell *shell)
 
 	temp_fd = open(((*init)->next)->word, O_WRONLY | O_TRUNC | O_CREAT, 0666);
 	if (temp_fd == -1)
-		print_error_2(shell, OPEN);
+		print_error(((*init)->next)->word, FILE_MESS, shell, GEN_ERROR);
 	close(temp_fd);
 	node_exec->outfile = ((*init)->next)->word;
 	node_exec->if_outfile = 1;
 	node_exec->if_append = 0;
 	(*init) = ((*init)->next);
-	return (1);
+	return (TRUE);
 }
 
 int	if_infile(t_exec *node_exec, t_tok **init)
@@ -67,5 +67,5 @@ int	if_infile(t_exec *node_exec, t_tok **init)
 	node_exec->infile = ((*init)->next)->word;
 	node_exec->if_infile = 1;
 	(*init) = ((*init)->next);
-	return (1);
+	return (TRUE);
 }
