@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:43:33 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/20 18:17:33 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/20 18:42:48 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,50 @@ const char	*get_token_name(int type)
 		return ("WORD");
 	return ("error");
 }
+
+void	new_prompt(t_shell *shell)
+{
+	t_tok	*tmp;
+	char	*new_prompt;
+
+	tmp = shell->tok;
+	new_prompt = "";
+	while (tmp)
+	{
+		if (ft_strcmp(new_prompt, "") != 0)
+			new_prompt = ft_strjoin(new_prompt, " ");
+		if (tmp->type == WORD)
+			new_prompt = ft_strjoin(new_prompt, tmp->word);
+		else
+			new_prompt = ft_strjoin(new_prompt, get_token_name(tmp->type));
+		tmp = tmp->next;
+	}
+	ft_lstclear_tok(shell->tok);
+	shell->tok = NULL;
+	shell->input = new_prompt;
+}
+
+void	expand_tok(t_shell *shell)
+{
+	expand(shell);
+	new_prompt(shell);
+	tokenize(shell);
+}
 void	tester(t_shell *shell)
 {
 	t_tok	*tmp_tok1;
 	t_tok	*tmp2_tok2;
 	t_exec	*tmp_exec;
-	int i;
+	int		i;
+	int		j;
 
 	tmp_tok1 = shell->tok;
 	tmp2_tok2 = shell->tok;
 	i = 1;
-	printf("\n"RED"============================"RST"\n");
-	printf(""RED"========== DEBUG ==========="RST"\n");
-	printf(""RED"============================"RST"\n");
-	while(tmp_tok1)
+	printf("\n" RED "============================" RST "\n");
+	printf("" RED "========== DEBUG ===========" RST "\n");
+	printf("" RED "============================" RST "\n");
+	while (tmp_tok1)
 	{
 		printf("TOKEN %d\n", i++);
 		printf("\tword\t\t===> %s\n", tmp_tok1->word);
@@ -50,12 +80,12 @@ void	tester(t_shell *shell)
 		printf("\ttype\t\t===> %s\n", get_token_name(tmp_tok1->type));
 		tmp_tok1 = tmp_tok1->next;
 	}
-	expand(shell);
-	printf("\n"RED"============================"RST"\n");
-	printf(""RED"====== AFTER EXPANSE ======="RST"\n");
-	printf(""RED"============================"RST"\n");
+	expand_tok(shell);
+	printf("\n" RED "============================" RST "\n");
+	printf("" RED "====== AFTER EXPANSE =======" RST "\n");
+	printf("" RED "============================" RST "\n");
 	i = 1;
-	while(tmp2_tok2)
+	while (tmp2_tok2)
 	{
 		printf("TOKEN %d\n", i++);
 		printf("\tword\t\t===> %s\n", tmp2_tok2->word);
@@ -65,12 +95,11 @@ void	tester(t_shell *shell)
 		tmp2_tok2 = tmp2_tok2->next;
 	}
 	create_lst_exec(shell);
-	printf("\n"RED"============================"RST"\n");
-	printf(""RED"= AFTER EXEC_LIST CREATION ="RST"\n");
-	printf(""RED"============================"RST"\n");
+	printf("\n" RED "============================" RST "\n");
+	printf("" RED "= AFTER EXEC_LIST CREATION =" RST "\n");
+	printf("" RED "============================" RST "\n");
 	tmp_exec = shell->exec;
 	i = 1;
-	int j;
 	while (tmp_exec)
 	{
 		j = 0;
@@ -88,9 +117,9 @@ void	tester(t_shell *shell)
 			printf("\toutfile\t\t===> %s\n", tmp_exec->outfile);
 		tmp_exec = tmp_exec->pipe_to;
 	}
-	printf("\n"RED"============================"RST"\n");
-	printf(""RED"========== EXEC ============"RST"\n");
-	printf(""RED"============================"RST"\n");
+	printf("\n" RED "============================" RST "\n");
+	printf("" RED "========== EXEC ============" RST "\n");
+	printf("" RED "============================" RST "\n");
 	printf("\n\n");
 	pipex(shell);
 	printf("\n\n");
@@ -98,12 +127,13 @@ void	tester(t_shell *shell)
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
-	
+
 	(void)argc;
 	(void)argv;
 	shell = malloc(sizeof(t_shell));
 	if (!shell)
-		return (free_all(shell), print_error("malloc", NULL, shell, GEN_ERROR), 1);
+		return (free_all(shell), print_error("malloc", NULL, shell, GEN_ERROR),
+			1);
 	init_shell(shell, envp);
 	while (1)
 	{
@@ -113,7 +143,7 @@ int	main(int argc, char **argv, char **envp)
 		else
 		{
 			tokenize(shell);
-			//expand(shell);
+			// expand(shell);
 			tester(shell);
 			add_history(shell->input);
 		}
