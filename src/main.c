@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:43:33 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/23 11:41:11 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/23 14:35:20 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,37 +29,12 @@ const char	*get_token_name(int type)
 	return ("error");
 }
 
-void	new_prompt(t_shell *shell)
-{
-	t_tok	*tmp;
-	char	*new_prompt;
-	char	*new_tmp;
-
-	tmp = shell->tok;
-	new_prompt = "";
-	while (tmp)
-	{
-		if (ft_strcmp(new_prompt, "") != 0)
-			new_tmp = ft_strjoin(new_prompt, " ");
-		if (tmp->type == WORD)
-			new_prompt = ft_strjoin(new_tmp, tmp->word);
-		else
-			new_prompt = ft_strjoin(new_tmp, get_token_name(tmp->type));
-		if (new_tmp)
-			free(new_tmp);
-		tmp = tmp->next;
-	}
-	ft_lstclear_tok(shell->tok);
-	shell->tok = NULL;
-	shell->input = new_prompt;
-}
-
-void	expand_tok(t_shell *shell)
-{
-	expand(shell);
-	new_prompt(shell);
-	tokenize(shell);
-}
+// void	expand_tok(t_shell *shell)
+// {
+// 	expand(shell);
+// 	new_prompt(shell);
+// 	tokenize(shell);
+// }
 void	tester(t_shell *shell)
 {
 	t_tok	*tmp_tok1;
@@ -82,7 +57,7 @@ void	tester(t_shell *shell)
 		printf("\ttype\t\t===> %s\n", get_token_name(tmp_tok1->type));
 		tmp_tok1 = tmp_tok1->next;
 	}
-	expand_tok(shell);
+	expand(shell);
 	tmp2_tok2 = shell->tok;
 	printf("\n" RED "============================" RST "\n");
 	printf("" RED "====== AFTER EXPANSE =======" RST "\n");

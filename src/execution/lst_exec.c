@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 18:52:48 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/18 16:06:09 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/23 14:49:28 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ void	del_node_exec(void *exec_node)
 		ft_free_tab((void **)(exec->cmd));
 	if (exec->infile)
 		free(exec->infile);
-	if (exec->outfile)
-		free(exec->outfile);
+	// if (exec->outfile)
+	// 	free(exec->outfile);
 	if (exec->delimiter)
 		free(exec->delimiter);
 }
