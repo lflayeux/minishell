@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 11:59:10 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/20 16:45:46 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/21 16:50:21 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,20 @@ int	parse_error(t_shell *shell)
 		return (print_error(PARSE_MESS, (char *)get_token_name(shell->tok->type), shell, GEN_ERROR), FALSE);
 	while (init)
 	{
-		if(TYPE == PIPE && !(init->next))
+		if (init->type != WORD && (init->next)->type != WORD)
 		{
-			ft_printf("missing command after a pipe");
-			// handle_ctrl_c_interactive(SIGINT);
-			return (0);
-		}
-		else if ((TYPE == INFILE || TYPE == OUTFILE || TYPE == APPEND || TYPE == HERE_DOC) && !(init->next))
-		{
-			ft_printf("syntax error near unexpected token '\\n'\n");
-			// handle_ctrl_c_interactive(SIGINT);
-			return (0);
+			if(TYPE == PIPE && !(init->next))
+			{
+				ft_printf("missing command after a pipe");
+				// handle_ctrl_c_interactive(SIGINT);
+				exit (1);
+			}
+			else if ((TYPE == INFILE || TYPE == OUTFILE || TYPE == APPEND || TYPE == HERE_DOC) && !(init->next))
+			{
+				ft_printf(" error near unexpected token '\\n'\n");
+				// handle_ctrl_c_interactive(SIGINT);
+				exit (1);
+			}
 		}
 		init = init->next;
 	}

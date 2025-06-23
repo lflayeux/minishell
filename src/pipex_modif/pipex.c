@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/06/20 18:11:51 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/23 11:28:37 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	middle_proc(t_exec *exec, t_shell *shell)
 		return (close_fd(shell), FALSE);
 	else if (child == 0)
 	{
-		if (PIPEX->prev_fd != STDIN_FILENO)
+		if (PIPEX->prev_fd != NONE && PIPEX->prev_fd != STDIN_FILENO)
 		{
 			if(dup2(PIPEX->prev_fd, STDIN_FILENO) == -1)
 				return (FALSE);

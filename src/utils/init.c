@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 22:16:13 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/20 16:36:46 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/23 11:27:28 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ void	init_pipex(t_shell *shell)
 	if (!pipex)
 		return (print_error("malloc", NULL, shell, GEN_ERROR));
 	shell->pipex = pipex;
+	shell->pipex->prev_fd = NONE;
 }
 void	init_shell(t_shell *shell, char **envp)
 {
