@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 15:31:21 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/20 15:57:29 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/23 17:13:00 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	init_exec(t_tok *init, t_exec *node_exec,t_tok *end, t_shell *shell)
+void	init_exec(t_tok *init, t_exec *node_exec, t_tok *end, t_shell *shell)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (init && init != end)
@@ -22,7 +22,7 @@ void	init_exec(t_tok *init, t_exec *node_exec,t_tok *end, t_shell *shell)
 		if (TYPE == WORD)
 		{
 			(node_exec->cmd)[i] = ft_strdup(init->word);
-			if(!((node_exec->cmd)[i]))
+			if (!((node_exec->cmd)[i]))
 				print_error("malloc", NULL, shell, GEN_ERROR);
 			i++;
 		}
@@ -42,23 +42,23 @@ t_exec	*ft_lstnew_exec(t_tok *init, t_tok *end, t_shell *shell)
 	t_exec	*node_exec;
 
 	node_exec = malloc(sizeof(t_exec));
-	if(!node_exec)
+	if (!node_exec)
 		print_error("malloc", NULL, shell, GEN_ERROR);
 	exec_init(node_exec);
 	node_exec->cmd = ft_calloc(word_number(init, end) + 1, sizeof(char *));
-	if(!(node_exec->cmd))
+	if (!(node_exec->cmd))
 		print_error("malloc", NULL, shell, GEN_ERROR);
 	init_exec(init, node_exec, end, shell);
 	return (node_exec);
 }
 // CREATE THE LIST OF ALL EXEC TO MAKE
-void	create_lst_exec(t_shell *shell)
+int	create_lst_exec(t_shell *shell)
 {
 	t_tok	*tmp_tok1;
 	t_tok	*tmp_tok2;
 
 	if (parse_error(shell) == 0)
-		return ;
+		return (0);
 	tmp_tok1 = shell->tok;
 	tmp_tok2 = shell->tok;
 	while (tmp_tok1)
@@ -70,4 +70,5 @@ void	create_lst_exec(t_shell *shell)
 			tmp_tok1 = tmp_tok1->next;
 		tmp_tok2 = tmp_tok1;
 	}
+	return (1);
 }

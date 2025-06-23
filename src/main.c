@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:43:33 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/23 14:35:20 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/06/23 17:14:13 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ void	tester(t_shell *shell)
 		printf("\ttype\t\t===> %s\n", get_token_name(tmp2_tok2->type));
 		tmp2_tok2 = tmp2_tok2->next;
 	}
-	create_lst_exec(shell);
+	if (create_lst_exec(shell) == 0)
+		return ;
 	printf("\n" RED "============================" RST "\n");
 	printf("" RED "= AFTER EXEC_LIST CREATION =" RST "\n");
 	printf("" RED "============================" RST "\n");

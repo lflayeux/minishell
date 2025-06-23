@@ -3,48 +3,56 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 11:59:10 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/21 16:50:21 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/23 17:16:04 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 // A renommer print_error apres changement de l'orioginale
-void    print_error(char *s1, char *s2, t_shell *shell, int type)
+void	print_error(char *s1, char *s2, t_shell *shell, int type)
 {
 	shell->error = type;
 	if (s1 && s2)
 		printf("minishell: %s: %s: %s\n", s1, s2, strerror(errno));
 	else if (s1 && !s2)
 		printf("minishell: %s: %s\n", s1, strerror(errno));
-	
 }
 int	parse_error(t_shell *shell)
 {
 	t_tok	*init;
 
 	init = shell->tok;
-	if(TYPE == PIPE)
-		return (print_error(PARSE_MESS, (char *)get_token_name(shell->tok->type), shell, GEN_ERROR), FALSE);
+	if (TYPE == PIPE)
+		return (print_error(PARSE_MESS,
+				(char *)get_token_name(shell->tok->type), shell, GEN_ERROR),
+			FALSE, 0);
 	while (init)
 	{
-		if (init->type != WORD && (init->next)->type != WORD)
+		if (init->type != WORD && !(init->next))
 		{
-			if(TYPE == PIPE && !(init->next))
+			if (TYPE == PIPE)
 			{
-				ft_printf("missing command after a pipe");
+				ft_printf("missing command after a pipe\n");
 				// handle_ctrl_c_interactive(SIGINT);
-				exit (1);
+				return (0);
 			}
-			else if ((TYPE == INFILE || TYPE == OUTFILE || TYPE == APPEND || TYPE == HERE_DOC) && !(init->next))
+			else
 			{
 				ft_printf(" error near unexpected token '\\n'\n");
 				// handle_ctrl_c_interactive(SIGINT);
-				exit (1);
+				return (0);
 			}
+		}
+		if (init->type != WORD && (init->next)->type != WORD)
+		{
+			ft_printf(" error near unexpected token '%s'\n",
+				get_token_name((init->next)->type));
+			// handle_ctrl_c_interactive(SIGINT);
+			return (0);
 		}
 		init = init->next;
 	}
