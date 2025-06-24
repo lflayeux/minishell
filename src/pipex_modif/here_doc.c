@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/06/20 18:12:19 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/24 17:11:52 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	loop_here_doc(char *delimiter, int *end)
 	char	*line;
 
 	line = get_next_line(0);
-	if(!line)
+	if (!line)
 		return (0);
 	while (line)
 	{
@@ -41,14 +41,13 @@ int	loop_here_doc(char *delimiter, int *end)
 			free(line);
 			break ;
 		}
-		write(end[1], line, ft_strlen(line));
+		if (end)
+			write(end[1], line, ft_strlen(line));
 		free(line);
 		line = get_next_line(0);
-		if(!line)
+		if (!line)
 			return (0);
 	}
-	if (line)
-		free(line);
 	return (1);
 }
 

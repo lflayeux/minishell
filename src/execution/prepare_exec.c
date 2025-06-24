@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 15:31:21 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/23 17:13:00 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/06/24 17:09:32 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,21 @@ t_exec	*ft_lstnew_exec(t_tok *init, t_tok *end, t_shell *shell)
 	init_exec(init, node_exec, end, shell);
 	return (node_exec);
 }
+
+int	activate_heredoc(t_tok *tok)
+{
+	t_tok	*tmp;
+
+	tmp = tok;
+	while (tmp)
+	{
+		if (tmp->next && tmp->type == HERE_DOC && tmp->next->type == WORD)
+			return (loop_here_doc(tmp->next->word, NULL), 0);
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
 // CREATE THE LIST OF ALL EXEC TO MAKE
 int	create_lst_exec(t_shell *shell)
 {
@@ -58,7 +73,8 @@ int	create_lst_exec(t_shell *shell)
 	t_tok	*tmp_tok2;
 
 	if (parse_error(shell) == 0)
-		return (0);
+		return (activate_heredoc(shell->tok), 0);
+	// return (0);
 	tmp_tok1 = shell->tok;
 	tmp_tok2 = shell->tok;
 	while (tmp_tok1)

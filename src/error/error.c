@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 11:59:10 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/23 17:16:04 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/06/24 17:02:08 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	print_error(char *s1, char *s2, t_shell *shell, int type)
 	else if (s1 && !s2)
 		printf("minishell: %s: %s\n", s1, strerror(errno));
 }
+
 int	parse_error(t_shell *shell)
 {
 	t_tok	*init;
