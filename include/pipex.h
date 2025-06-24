@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 21:46:44 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/20 18:05:34 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/23 15:18:11 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define PIPEX_H
 
 # define PIPEX shell->pipex
-# define NONE 999
+# define NONE -999
 
 
 int	pipex(t_shell *shell);

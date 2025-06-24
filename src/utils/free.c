@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 22:29:14 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/23 11:31:43 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/24 19:56:39 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	free_all(t_shell *shell)
 {
 	(void)shell;
+	close_fd(shell);
 	if (shell->signals)
 		free(shell->signals);
 	if (shell->tok)
@@ -26,7 +27,7 @@ void	free_all(t_shell *shell)
 	if (PIPEX)
 	{
 		if (PIPEX->child_tab)
-			ft_free_tab((void**)PIPEX->child_tab);
+			free(PIPEX->child_tab);
 		free(PIPEX);
 	}
 	if (shell->var)

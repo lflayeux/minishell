@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:07:12 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/23 14:39:14 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/06/24 17:47:23 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,24 +29,47 @@
 // 	}
 // }
 
+char	*ft_strjoin_free(char const *s1, char const *s2)
+{
+	char	*dest;
+	size_t	i;
+	size_t	j;
+	size_t	len;
+
+	i = 0;
+	j = 0;
+	len = ft_strlen(s1) + ft_strlen(s2);
+	dest = ft_calloc(len + 1, sizeof(char));
+	if (!dest)
+		return (0);
+	while (s1[i])
+	{
+		dest[i] = s1[i];
+		i++;
+	}
+	while (s2[j])
+	{
+		dest[i + j] = s2[j];
+		j++;
+	}
+	free((void *)s1);
+	return (dest);
+}
 void	new_prompt(t_shell *shell)
 {
 	t_tok	*tmp;
 	char	*new_prompt;
 
-	// char	*new_tmp;
 	tmp = shell->tok;
 	new_prompt = "";
 	while (tmp)
 	{
 		if (ft_strcmp(new_prompt, "") != 0)
-			new_prompt = ft_strjoin(new_prompt, " ");
+			new_prompt = ft_strjoin_free(new_prompt, " ");
 		if (tmp->type == WORD)
-			new_prompt = ft_strjoin(new_prompt, tmp->word);
+			new_prompt = ft_strjoin_free(new_prompt, tmp->word);
 		else
-			new_prompt = ft_strjoin(new_prompt, get_token_name(tmp->type));
-		// if (new_tmp)
-		// 	free(new_tmp);
+			new_prompt = ft_strjoin_free(new_prompt, get_token_name(tmp->type));
 		tmp = tmp->next;
 	}
 	ft_lstclear_tok(shell->tok);
