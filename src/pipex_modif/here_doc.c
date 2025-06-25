@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/06/24 17:11:52 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/06/25 15:29:33 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,10 @@ int	loop_here_doc(char *delimiter, int *end)
 		free(line);
 		line = get_next_line(0);
 		if (!line)
-			return (0);
+		{
+			ft_printf("EOF before delimiter '%s' is reached\n", delimiter);
+			break ;
+		}
 	}
 	return (1);
 }
