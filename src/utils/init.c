@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 22:16:13 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/25 11:11:37 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/25 14:59:37 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	reset_shell(t_shell *shell)
 		free(shell->var);
 		shell->var = NULL;
 	}
+	PIPEX->prev_fd = NONE;
 }
 void	exec_init(t_exec *node_exec)
 {
@@ -68,18 +69,18 @@ char	**init_env(char **envp)
 	return (env);
 }
 
-int ft_check_env(char **env, char *to_check)
+int	ft_check_env(char **env, char *to_check)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (env[i])
-    {
-        if (ft_strncmp(env[i], to_check, ft_strlen(to_check)) == 0)
-            return (1);
-        i++;
-    }
-    return (0);
+	i = 0;
+	while (env[i])
+	{
+		if (ft_strncmp(env[i], to_check, ft_strlen(to_check)) == 0)
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 void	get_pid(t_shell *shell)
