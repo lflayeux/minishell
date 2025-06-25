@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/06/25 11:35:27 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/25 14:41:33 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ int	outfile_management(t_exec *exec, int *end, t_shell *shell)
 			fd_outfile = open((exec->outfile), O_WRONLY | O_CREAT | O_APPEND,
 					0666);
 		if (fd_outfile == ERROR)
-			return (print_error(exec->outfile, FILE_MESS, shell, N_FOUND), FALSE);
+			return (print_error(exec->outfile, FILE_MESS, shell, N_FOUND),
+				FALSE);
 		if (dup2(fd_outfile, STDOUT_FILENO) == ERROR)
 			return (FALSE);
 		close(fd_outfile);
@@ -39,10 +40,11 @@ int	outfile_management(t_exec *exec, int *end, t_shell *shell)
 		close(end[0]);
 		if (exec->pipe_to != NULL)
 		{
-			if(dup2(end[1], 1) == ERROR)
+			if (dup2(end[1], 1) == ERROR)
 				return (FALSE);
 			close(end[1]);
 		}
+		close(end[1]);
 	}
 	return (TRUE);
 }
@@ -94,9 +96,10 @@ int	middle_proc(t_exec *exec, t_shell *shell)
 	{
 		if (PIPEX->prev_fd != NONE && PIPEX->prev_fd != STDIN_FILENO)
 		{
-			if(dup2(PIPEX->prev_fd, STDIN_FILENO) == -1)
+			if (dup2(PIPEX->prev_fd, STDIN_FILENO) == -1)
 				return (FALSE);
 			close(PIPEX->prev_fd);
+			// PIPEX->prev_fd = NONE;
 		}
 		outfile_management(exec, PIPEX->end, shell);
 		exec_cmd(exec->cmd, shell);
@@ -108,11 +111,11 @@ int	middle_proc(t_exec *exec, t_shell *shell)
 
 /**
 	CALCUL DU NOMBRE DE NODE DANS LA LISTE CHAINEE POUR AVOIR LE NOMBRE DE PROCESS À WAIT
-	
+
 	@param lst_exec La liste chaine sur laquelle on compte
 
 	@return			Le nombre de node dans la liste chainee. 0 si pas de liste chainee
-	
+
 */
 int	node_number(t_exec *lst_exec)
 {
@@ -140,11 +143,12 @@ int	task_init(t_exec *exec, t_shell *shell)
 	if (exec->if_here_doc == TRUE)
 	{
 		if (pipe(PIPEX->end) == -1)
-			return FALSE;
+			return (FALSE);
 		if (loop_here_doc(exec->delimiter, PIPEX->end) == FALSE)
 			return (FALSE);
 		PIPEX->prev_fd = PIPEX->end[0];
-		close_fd(shell);
+		close(PIPEX->end[1]);
+		// close_fd(shell);
 	}
 	if (exec->if_infile == TRUE)
 	{
@@ -153,6 +157,8 @@ int	task_init(t_exec *exec, t_shell *shell)
 			return (FALSE);
 		PIPEX->prev_fd = fd_infile;
 	}
+	if (exec->if_here_doc == FALSE && exec->if_infile == FALSE)
+		PIPEX->prev_fd = NONE;
 	return (TRUE);
 }
 
@@ -168,7 +174,7 @@ int	pipex(t_shell *shell)
 	while (tmp)
 	{
 		// check si commande vide
-		if(ft_strcmp((tmp->cmd)[0], "") == 0)
+		if (ft_strcmp((tmp->cmd)[0], "") == 0)
 			return (print_error(" ", N_CMD_MESS, shell, N_FOUND), TRUE);
 		if (task_init(tmp, shell) == FALSE)
 			return (FALSE);

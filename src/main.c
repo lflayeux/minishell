@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:43:33 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/24 17:20:34 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/25 12:25:04 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ void	tester(t_shell *shell)
 		printf("\ttype\t\t===> %s\n", get_token_name(tmp_tok1->type));
 		tmp_tok1 = tmp_tok1->next;
 	}
-	expand(shell);
+	if (expand(shell) == FALSE)
+		return ;
 	tmp2_tok2 = shell->tok;
 	printf("\n" RED "============================" RST "\n");
 	printf("" RED "====== AFTER EXPANSE =======" RST "\n");

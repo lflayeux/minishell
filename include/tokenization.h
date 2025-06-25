@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 18:10:25 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/14 11:01:24 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/06/25 12:23:29 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_tok	*ft_lstnew_tok(TOK_TYPE type, char *word, t_shell *shell);
  * @return Pointer to the last token in the list, or NULL if the list is empty.
  */
 t_tok	*ft_lstlast_tok(t_tok *lst);
- /**
+/**
  * @brief Adds a new token node at the end of the list.
  *
  * @param token Address of the pointer to the first element of the list.
@@ -52,7 +52,8 @@ void	ft_lstadd_back_tok(t_tok **token, t_tok *new);
  */
 void	ft_lstclear_tok(t_tok *lst);
 /**
- * @brief Analyse un symbole de redirection ou de pipe et l'ajoute à la liste de tokens.
+
+	* @brief Analyse un symbole de redirection ou de pipe et l'ajoute à la liste de tokens.
  *
  * @param input Chaîne d'entrée à partir du caractère courant.
  * @param shell Structure principale contenant la liste de tokens.
@@ -68,19 +69,21 @@ int		symbol_token(char *input, t_shell *shell);
  */
 int		word_token(char *input, t_shell *shell);
 /**
- * @brief Tokenise toute l'entrée utilisateur en séparant les mots, espaces et symboles.
+ * @brief Tokenise toute l'entrée utilisateur en séparant les mots,
+	espaces et symboles.
  *
  * @param shell Structure principale contenant l'entrée et la liste de tokens.
  */
-void    tokenize(t_shell *shell);
+int		tokenize(t_shell *shell);
 /**
- * @brief Extrait un mot depuis l'entrée (gère les quotes) et l'ajoute comme token.
+
+	* @brief Extrait un mot depuis l'entrée (gère les quotes) et l'ajoute comme token.
  *
  * @param input Chaîne d'entrée à partir du caractère courant.
  * @param shell Structure contenant la liste de tokens.
  * @param word Pointeur vers la mémoire allouée pour contenir le mot.
  */
-void    add_word_tok(char *input, t_shell *shell, char *word);
+void	add_word_tok(char *input, t_shell *shell, char *word);
 /**
  * @brief Calcule la longueur d’un mot à tokeniser (gère les quotes).
  *
@@ -94,13 +97,14 @@ int		len_word_tok(char *input);
  * @param c Caractère à tester.
  * @return 1 si c'est un symbole, 0 sinon.
  */
-int     is_symbol(char c);
+int		is_symbol(char c);
 /**
- * @brief Vérifie si un caractère est un espace ou un séparateur de type `isspace()`.
+
+	* @brief Vérifie si un caractère est un espace ou un séparateur de type `isspace()`.
  *
  * @param c Caractère à tester.
  * @return 1 si c'est un caractère d'espacement, 0 sinon.
  */
-int     is_space(char c);
+int		is_space(char c);
 
 #endif

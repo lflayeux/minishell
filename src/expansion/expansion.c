@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:07:12 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/24 17:47:23 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/25 12:24:39 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ char	*ft_strjoin_free(char const *s1, char const *s2)
 	size_t	j;
 	size_t	len;
 
+	if (!s1)
+		return (ft_strdup(s2));
 	i = 0;
 	j = 0;
 	len = ft_strlen(s1) + ft_strlen(s2);
@@ -52,7 +54,8 @@ char	*ft_strjoin_free(char const *s1, char const *s2)
 		dest[i + j] = s2[j];
 		j++;
 	}
-	free((void *)s1);
+	if (s1)
+		free((void *)s1);
 	return (dest);
 }
 void	new_prompt(t_shell *shell)
@@ -61,10 +64,10 @@ void	new_prompt(t_shell *shell)
 	char	*new_prompt;
 
 	tmp = shell->tok;
-	new_prompt = "";
+	new_prompt = NULL;
 	while (tmp)
 	{
-		if (ft_strcmp(new_prompt, "") != 0)
+		if (new_prompt != NULL)
 			new_prompt = ft_strjoin_free(new_prompt, " ");
 		if (tmp->type == WORD)
 			new_prompt = ft_strjoin_free(new_prompt, tmp->word);
@@ -77,7 +80,7 @@ void	new_prompt(t_shell *shell)
 	shell->input = new_prompt;
 }
 
-void	expand(t_shell *shell)
+int	expand(t_shell *shell)
 {
 	t_tok		*tmp;
 	t_expand	*expand;
@@ -110,7 +113,9 @@ void	expand(t_shell *shell)
 		tmp = tmp->next;
 	}
 	new_prompt(shell);
-	tokenize(shell);
+	printf("%s\n", shell->input);
+	if (tokenize(shell) == FALSE)
+		return (FALSE);
 	tmp = shell->tok;
 	while (tmp)
 	{
@@ -133,4 +138,5 @@ void	expand(t_shell *shell)
 		tmp = tmp->next;
 	}
 	free(expand);
+	return (TRUE);
 }
