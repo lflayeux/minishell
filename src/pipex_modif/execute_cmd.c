@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/06/20 18:14:03 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/25 17:59:32 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
 
 char	**find_path_env(t_shell *shell)
 {
@@ -82,8 +81,11 @@ int	exec_cmd(char **cmd, t_shell *shell)
 	i = 0;
 	while (all_paths[i] != NULL)
 	{
-		exec_proc(cmd, all_paths, shell, i);
+		if (exec_proc(cmd, all_paths, shell, i) == FALSE)
+			return (FALSE);
 		i++;
 	}
-	return (exit(1), FALSE);
+	execve(cmd[0], cmd, shell->env);
+	print_error(cmd[0], N_CMD_MESS, shell, 0);
+	return (exit(127), FALSE);
 }

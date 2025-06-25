@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 11:59:10 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/24 17:02:08 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/06/25 17:58:51 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,13 @@
 // A renommer print_error apres changement de l'orioginale
 void	print_error(char *s1, char *s2, t_shell *shell, int type)
 {
-	shell->error = type;
-	if (s1 && s2)
+	if (s1 && s2 && type != 0)
 		printf("minishell: %s: %s: %s\n", s1, s2, strerror(errno));
+	else if (s1 && s2)
+		printf("minishell: %s: %s\n", s1, s2);
 	else if (s1 && !s2)
 		printf("minishell: %s: %s\n", s1, strerror(errno));
+	shell->error = type;
 }
 
 int	parse_error(t_shell *shell)
