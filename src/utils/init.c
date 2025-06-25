@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 22:16:13 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/23 15:13:01 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/25 11:11:37 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,15 @@
 
 void	reset_shell(t_shell *shell)
 {
+	if (shell->signals)
+		reset_signals(shell->signals);
 	if (shell->tok)
 	{
 		ft_lstclear_tok(shell->tok);
 		shell->tok = NULL;
 	}
+	if (shell->input)
+		free(shell->input);
 	if (shell->exec)
 	{
 		ft_lstclear_exec(shell->exec);
@@ -29,10 +33,6 @@ void	reset_shell(t_shell *shell)
 		free(shell->var);
 		shell->var = NULL;
 	}
-	if (shell->input)
-		free(shell->input);
-	if (shell->signals)
-		reset_signals(shell->signals);
 }
 void	exec_init(t_exec *node_exec)
 {
@@ -117,8 +117,10 @@ void	init_pipex(t_shell *shell)
 	if (!pipex)
 		return (print_error("malloc", NULL, shell, GEN_ERROR));
 	PIPEX = pipex;
-	PIPEX->prev_fd = NONE;
+	PIPEX->child_tab = NULL;
 	PIPEX->child_index = 0;
+	PIPEX->prev_fd = NONE;
+	init_fd(shell);
 }
 void	init_shell(t_shell *shell, char **envp)
 {
@@ -126,8 +128,8 @@ void	init_shell(t_shell *shell, char **envp)
 	set_signal(shell->signals);
 	shell->tok = NULL;
 	shell->exec = NULL;
-	shell->input = NULL;
 	init_pipex(shell);
+	shell->input = NULL;
 	get_pid(shell);
 	shell->error = 0;
 	shell->var = NULL;

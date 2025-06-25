@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/06/23 11:28:37 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/25 11:35:27 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	end_or_pipe(t_exec *exec, pid_t child, int *end, t_shell *shell)
 
 	if (exec->pipe_to == NULL)
 	{
+		close(PIPEX->prev_fd);
 		i = 0;
 		while (PIPEX->child_tab[i])
 		{
@@ -67,6 +68,7 @@ int	end_or_pipe(t_exec *exec, pid_t child, int *end, t_shell *shell)
 	else
 	{
 		close(end[1]);
+		close(PIPEX->prev_fd);
 		PIPEX->prev_fd = end[0];
 		PIPEX->child_tab[PIPEX->child_index] = child;
 	}
