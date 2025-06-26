@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/06/25 17:59:32 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/06/26 23:05:57 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ int	exec_cmd(char **cmd, t_shell *shell)
 	char	**all_paths;
 	int		i;
 
+	if(!cmd)
+		return (FALSE);
 	all_paths = find_path_env(shell);
 	i = 0;
 	while (all_paths[i] != NULL)
