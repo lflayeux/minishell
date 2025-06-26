@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:43:33 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/26 17:24:58 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/26 22:52:09 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,10 +122,10 @@ int	main(int argc, char **argv, char **envp)
 			return (free_all(shell), printf("exit"), 0);
 		else
 		{
+			add_history(shell->input);
 			tokenize(shell);
 			// expand(shell);
 			tester(shell);
-			add_history(shell->input);
 		}
 		reset_shell(shell);
 	}

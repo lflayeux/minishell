@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 11:59:10 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/25 17:58:51 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/06/26 22:50:55 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,7 @@ int	parse_error(t_shell *shell)
 
 	init = shell->tok;
 	if (TYPE == PIPE)
-		return (print_error(PARSE_MESS,
-				(char *)get_token_name(shell->tok->type), shell, GEN_ERROR),
-			FALSE, 0);
+		return (print_error(PARSE_MESS, (char *)get_token_name(shell->tok->type), shell, GEN_ERROR), FALSE);
 	while (init)
 	{
 		if (init->type != WORD && !(init->next))
