@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:51:06 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/25 11:14:02 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/26 18:09:39 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,6 @@ typedef struct s_shell
 	int						error;
 	char					*var;
 	char					**env;
+	char					**secret;
 }							t_shell;
 #endif

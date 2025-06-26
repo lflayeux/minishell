@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:41:38 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/25 12:25:58 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/06/26 18:12:41 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # include "expansion.h"
 # include "execution.h"
 # include "pipex.h"
+# include "built_in.h"
 
 // ==============================================
 // ================== PROMPT ====================
@@ -67,6 +68,7 @@ int	expand(t_shell *shell);
 // ==================  UTILS ====================
 // ==============================================
 
+char	**init_env(char **envp);
 void	init_pipex(t_shell *shell);
 void	init_shell(t_shell *shell, char **envp);
 void	reset_shell(t_shell *shell);

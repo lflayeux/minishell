@@ -26,6 +26,9 @@ SRC =	src/main.c \
 		src/pipex_modif/pipex.c \
 		src/pipex_modif/here_doc.c \
 		src/pipex_modif/execute_cmd.c \
+		src/built_in/built_in.c \
+		src/built_in/built_in_env.c \
+		src/built_in/built_in_utils.c \
 
 GREEN = \033[32m
 RED = \033[31m

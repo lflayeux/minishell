@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 20:20:21 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/25 18:54:17 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/26 17:54:21 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char    **unset_env(char *unset_env, char **env)
 }
 
 
-char **put_env(t_shell *shell, int *i, char **env)
+char **put_env(t_shell *shell, int i, char **env)
 {
     int len;
     int j;
@@ -89,7 +89,7 @@ char **put_env(t_shell *shell, int *i, char **env)
         new_env[j] = ft_strdup(env[j]);
         j++;
     }
-    new_env[j] = ft_strdup(shell->exec->cmd[*i + 1]);
+    new_env[j] = ft_strdup(shell->exec->cmd[i + 1]);
     new_env[j + 1] = NULL;
     ft_free_tab((void **)(env));
     return (new_env);
@@ -97,7 +97,7 @@ char **put_env(t_shell *shell, int *i, char **env)
 // ========================
 // ======= RESET ENV ======
 // ========================
-char **set_env(t_shell *shell, int *i, char *split, char **env)
+char **set_env(t_shell *shell, int i, char *split, char **env)
 {
     int j;
     char **new_env;
@@ -111,7 +111,7 @@ char **set_env(t_shell *shell, int *i, char *split, char **env)
         if (ft_strncmp(env[j], split, ft_strlen(split)) == 0)
         {
             free(new_env[j]);
-            new_env[j] = ft_strdup(shell->exec->cmd[*i + 1]);
+            new_env[j] = ft_strdup(shell->exec->cmd[i + 1]);
         }
         else
             new_env[j] = ft_strdup(env[j]);

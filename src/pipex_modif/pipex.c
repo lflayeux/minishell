@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/06/25 14:59:29 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/06/26 18:07:52 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ int	middle_proc(t_exec *exec, t_shell *shell)
 		return (close_fd(shell), FALSE);
 	else if (child == 0)
 	{
+		child_signals(shell->signals);
 		if (PIPEX->prev_fd != NONE && PIPEX->prev_fd != STDIN_FILENO)
 		{
 			if (dup2(PIPEX->prev_fd, STDIN_FILENO) == -1)
@@ -105,7 +106,10 @@ int	middle_proc(t_exec *exec, t_shell *shell)
 		exec_cmd(exec->cmd, shell);
 	}
 	else
+	{
+		parent_signals(shell->signals);
 		end_or_pipe(exec, child, PIPEX->end, shell);
+	}
 	return (TRUE);
 }
 
@@ -173,11 +177,14 @@ int	pipex(t_shell *shell)
 	while (tmp)
 	{
 		// check si commande vide
-		if (ft_strcmp((tmp->cmd)[0], "") == 0)
-			return (print_error(" ", N_CMD_MESS, shell, N_FOUND), TRUE);
-		if (task_init(tmp, shell) == FALSE)
-			return (FALSE);
-		middle_proc(tmp, shell);
+		if (built_in(tmp, shell) == FALSE)
+		{
+			if (ft_strcmp((tmp->cmd)[0], "") == 0)
+				return (print_error(" ", N_CMD_MESS, shell, N_FOUND), TRUE);
+			if (task_init(tmp, shell) == FALSE)
+				return (FALSE);
+			middle_proc(tmp, shell);
+		}
 		tmp = tmp->pipe_to;
 	}
 	return (TRUE);
