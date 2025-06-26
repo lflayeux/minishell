@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:49:02 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/07 18:08:34 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/26 23:09:27 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	child_signals(t_signal *signals)
 {
 	signals->ctrl_dump.sa_handler = SIG_DFL;
 	sigaction(SIGQUIT, &signals->ctrl_dump, NULL);
+	signals->ctrl_c.sa_handler = SIG_DFL;
+	sigaction(SIGINT, &signals->ctrl_c, NULL);
 }
 
 void	reset_signals(t_signal *signals)
