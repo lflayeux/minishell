@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/06/26 23:09:49 by alex             ###   ########.fr       */
+/*   Updated: 2025/06/27 20:13:48 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,11 @@ int	end_or_pipe(t_exec *exec, pid_t child, int *end, t_shell *shell)
 	int	i;
 	int	status;
 
+	// if (exec->cmd[0])
 	if (exec->pipe_to == NULL)
 	{
-		close(PIPEX->prev_fd);
 		i = 0;
+		close(PIPEX->prev_fd);
 		while (PIPEX->child_tab[i])
 		{
 			if (waitpid(PIPEX->child_tab[i++], &status, 0) == -1)
@@ -95,8 +96,8 @@ int	middle_proc(t_exec *exec, t_shell *shell)
 	else if (child == 0)
 	{
 		child_signals(shell->signals);
-		if (task_init(exec, shell) == FALSE)
-			return (FALSE);
+		// if (task_init(exec, shell) == FALSE)
+		// 	return (FALSE);
 		if (PIPEX->prev_fd != NONE && PIPEX->prev_fd != STDIN_FILENO)
 		{
 			if (dup2(PIPEX->prev_fd, STDIN_FILENO) == -1)
@@ -105,6 +106,8 @@ int	middle_proc(t_exec *exec, t_shell *shell)
 			// PIPEX->prev_fd = NONE;
 		}
 		outfile_management(exec, PIPEX->end, shell);
+		if (!exec->cmd && !exec->cmd[0])
+			exit(0);
 		exec_cmd(exec->cmd, shell);
 	}
 	else
@@ -150,8 +153,16 @@ int	task_init(t_exec *exec, t_shell *shell)
 	{
 		if (pipe(PIPEX->end) == -1)
 			return (FALSE);
-		if (loop_here_doc(exec->delimiter, PIPEX->end) == FALSE)
-			return (FALSE);
+		if (exec->cmd[0] && exec->cmd)
+		{
+			if (here_doc_proc(shell, exec, PIPEX->end) == FALSE)
+				return (FALSE);
+		}
+		else
+		{
+			if (here_doc_proc(shell, exec, NULL) == FALSE)
+				return (FALSE);
+		}
 		PIPEX->prev_fd = PIPEX->end[0];
 		close(PIPEX->end[1]);
 		// close_fd(shell);
@@ -181,7 +192,10 @@ int	pipex(t_shell *shell)
 		// check si commande vide
 		if (built_in(tmp, shell) == FALSE)
 		{
-			if (ft_strcmp((tmp->cmd)[0], "") == 0)
+			if (task_init(tmp, shell) == FALSE)
+				return (FALSE);
+			// parent_signals(shell->signals);
+			if (tmp->cmd && tmp->cmd[0] && ft_strcmp((tmp->cmd)[0], "") == 0)
 				return (print_error(" ", N_CMD_MESS, shell, N_FOUND), TRUE);
 			middle_proc(tmp, shell);
 		}

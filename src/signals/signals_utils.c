@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:49:39 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/07 18:09:32 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/27 19:32:02 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,13 @@ void	handle_ctrl_c_action(int signal)
 	if (signal != SIGINT)
 		return ;
 	printf("\n");
+}
+
+void	handle_ctrl_c_quit(int signal)
+{
+	if (signal != SIGINT)
+		return ;
+	exit(130);
 }
 
 void	handle_ctrl_dump(int signal)

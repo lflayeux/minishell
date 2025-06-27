@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/06/25 15:34:17 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/06/27 20:21:12 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,33 @@ int	loop_here_doc(char *delimiter, int *end)
 		}
 	}
 	return (1);
+}
+
+int	here_doc_proc(t_shell *shell, t_exec *exec, int *end)
+{
+	pid_t	child;
+	int		status;
+
+	parent_ignore(shell->signals);
+	child = fork();
+	if (child < 0)
+		return (FALSE);
+	if (child == 0)
+	{
+		child_signals(shell->signals);
+		loop_here_doc(exec->delimiter, end);
+		close_fd(shell);
+		exit(0);
+	}
+	if (child > 0)
+	{
+		if (waitpid(child, &status, 0) == -1)
+			return (FALSE);
+		if (WEXITSTATUS(status) == 130)
+			return (FALSE);
+		parent_signals(shell->signals);
+	}
+	return (TRUE);
 }
 
 void	close_fd(t_shell *shell)
