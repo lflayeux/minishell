@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/06/27 20:21:12 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/06/29 15:48:41 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	loop_here_doc(char *delimiter, int *end)
 
 	line = get_next_line(0);
 	if (!line)
-		return (0);
+		return (FALSE);
 	while (line)
 	{
 		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0
@@ -51,7 +51,7 @@ int	loop_here_doc(char *delimiter, int *end)
 			break ;
 		}
 	}
-	return (1);
+	return (TRUE);
 }
 
 int	here_doc_proc(t_shell *shell, t_exec *exec, int *end)
@@ -67,7 +67,7 @@ int	here_doc_proc(t_shell *shell, t_exec *exec, int *end)
 	{
 		child_signals(shell->signals);
 		loop_here_doc(exec->delimiter, end);
-		close_fd(shell);
+		close_fd(shell, 2, 0);
 		exit(0);
 	}
 	if (child > 0)
@@ -81,12 +81,28 @@ int	here_doc_proc(t_shell *shell, t_exec *exec, int *end)
 	return (TRUE);
 }
 
-void	close_fd(t_shell *shell)
+void	close_fd(t_shell *shell, int fd, int to_close)
 {
-	if (PIPEX->end[0] != NONE && PIPEX->end[0] != -1)
+	if (fd == 0 && PIPEX->end[0] >= 0)
+	{
 		close(PIPEX->end[0]);
-	if (PIPEX->end[1] != NONE && PIPEX->end[1] != -1)
+		PIPEX->end[0] = NONE;
+	}
+	if (fd == 1 && PIPEX->end[1] >= 0)
+	{
 		close(PIPEX->end[1]);
+		PIPEX->end[1] = NONE;
+	}
+	if (fd == 2 && PIPEX->end[0] >= 0 &&  PIPEX->end[1] >= 0)
+	{
+		close(PIPEX->end[1]);
+		close(PIPEX->end[0]);
+		init_fd(shell);
+	}
+	if (fd == 3 && to_close >= 0)
+	{
+		close(to_close);
+	}
 }
 
 void	init_fd(t_shell *shell)

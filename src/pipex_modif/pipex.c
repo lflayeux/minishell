@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/06/27 20:13:48 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/06/29 15:44:09 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ int	outfile_management(t_exec *exec, int *end, t_shell *shell)
 	fd_outfile = TRUE;
 	if (exec->if_outfile == TRUE || exec->if_append == TRUE)
 	{
-		close(end[1]);
-		close(end[0]);
+		close_fd(shell, 2, 0);
 		if (exec->if_outfile == TRUE)
 			fd_outfile = open((exec->outfile), O_WRONLY | O_TRUNC | O_CREAT,
 					0666);
@@ -33,18 +32,17 @@ int	outfile_management(t_exec *exec, int *end, t_shell *shell)
 				FALSE);
 		if (dup2(fd_outfile, STDOUT_FILENO) == ERROR)
 			return (FALSE);
-		close(fd_outfile);
+		close_fd(shell, 3, fd_outfile);
 	}
 	else
 	{
-		close(end[0]);
+		close_fd(shell, 0, 0);
 		if (exec->pipe_to != NULL)
 		{
 			if (dup2(end[1], 1) == ERROR)
 				return (FALSE);
-			close(end[1]);
+			close_fd(shell, 1, 0);
 		}
-		close(end[1]);
 	}
 	return (TRUE);
 }
@@ -59,7 +57,8 @@ int	end_or_pipe(t_exec *exec, pid_t child, int *end, t_shell *shell)
 	if (exec->pipe_to == NULL)
 	{
 		i = 0;
-		close(PIPEX->prev_fd);
+		if (PIPEX->prev_fd != NONE)
+			close(PIPEX->prev_fd);
 		while (PIPEX->child_tab[i])
 		{
 			if (waitpid(PIPEX->child_tab[i++], &status, 0) == -1)
@@ -70,8 +69,9 @@ int	end_or_pipe(t_exec *exec, pid_t child, int *end, t_shell *shell)
 	}
 	else
 	{
-		close(end[1]);
-		close(PIPEX->prev_fd);
+		close_fd(shell, 1, 0);
+		if (PIPEX->prev_fd != NONE)
+			close(PIPEX->prev_fd);
 		PIPEX->prev_fd = end[0];
 		PIPEX->child_tab[PIPEX->child_index] = child;
 	}
@@ -92,7 +92,7 @@ int	middle_proc(t_exec *exec, t_shell *shell)
 	}
 	child = fork();
 	if (child < 0)
-		return (close_fd(shell), FALSE);
+		return (close_fd(shell, 2, 0), FALSE) ;
 	else if (child == 0)
 	{
 		child_signals(shell->signals);
@@ -186,6 +186,7 @@ int	pipex(t_shell *shell)
 	PIPEX->child_tab = ft_calloc(node_number(shell->exec) + 1, sizeof(pid_t));
 	if (!(PIPEX->child_tab))
 		return (print_error("malloc", NULL, shell, GEN_ERROR), FALSE);
+	// PIPEX->child_tab[node_number(shell->exec)] = '\0';
 	tmp = shell->exec;
 	while (tmp)
 	{
