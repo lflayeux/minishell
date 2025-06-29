@@ -25,7 +25,7 @@
 >   - [x] Modifier prepare_exec
 >   - [x] faire une erreur si | ou > ou < ou << ou >>  suivi de rien
 >   - [] Revoir Gestion d'erreur.
->	- [] Refaire exec en biiiiiien
+>	- [x] Refaire exec en biiiiiien
 
 
 >   ## ERROR

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 18:03:42 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/16 18:09:30 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/29 12:31:18 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ void	child_signals(t_signal *signals);
  * @param signals A pointer to the `t_signal` structure already configured.
  */
 void	reset_signals(t_signal *signals);
+void	parent_ignore(t_signal *signals);
+void	handle_ctrl_c_quit(int signal);
 
 
 #endif
