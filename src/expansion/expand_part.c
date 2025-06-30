@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 14:51:37 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/20 16:19:06 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/30 16:47:47 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ void	dollar_expand(t_expand *expand, t_shell *shell)
 
 
 void	quotes_expand(t_expand *expand, char sep, t_shell *shell)
-{	
+{
+	size_t new_len;
 	int		start;
 
 	expand->i++;
@@ -49,12 +50,12 @@ void	quotes_expand(t_expand *expand, char sep, t_shell *shell)
 			break;
 		expand->i++;
 	}
-	expand->new = ft_realloc(expand->new, ft_strlen(expand->new) \
-			+ (expand->i - start) + 1);
+	new_len = ft_strlen(expand->new) + (expand->i - start) + 1;
+	expand->new = ft_realloc(expand->new, new_len);
 	if (expand->new == NULL)
 		print_error("malloc", NULL, shell, GEN_ERROR);
 	ft_memcpy(expand->new + ft_strlen(expand->new), &(expand->word[start]), expand->i - start);
-	expand->new[ft_strlen(expand->new) + (expand->i - start)] = '\0';
+	expand->new[new_len -1] = '\0';
 	if (expand->word[expand->i] == '$' && sep == '"')
 	{
 		dollar_expand(expand, shell);

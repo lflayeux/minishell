@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/06/29 15:25:21 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/06/30 17:13:54 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ int	exec_cmd(char **cmd, t_shell *shell)
 		i++;
 	}
 	print_error(cmd[0], N_CMD_MESS, shell, 0);
+	printf("test");
 	free_all(shell);
 	ft_free_tab((void **)all_paths);
 	return (exit(127), FALSE);

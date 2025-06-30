@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 19:22:45 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/20 16:29:05 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/06/30 16:56:35 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ char	*ft_getenv(char **env, char *word, t_expand *expand, t_shell *shell)
 
 	if (!env || !shell)
 		return (NULL);
+	var = NULL;
 	while (ft_isalnum(word[len]) || word[len] == '_')
 	{
 		len++;
@@ -31,12 +32,13 @@ char	*ft_getenv(char **env, char *word, t_expand *expand, t_shell *shell)
 		if (!ft_strncmp(env[i], word, len) && env[i][len] == '=')
 		{
 			var = ft_strdup(&env[i][len + 1]);
-			if (!var)
-				print_error("malloc", NULL, shell, GEN_ERROR);
+			break;
 		}
 		i++;
 	}
-	return (var);
+	if (var)
+		return (var);
+	return (NULL);
 }
 
 void	pid_expand(t_expand *expand, t_shell *shell)
@@ -77,7 +79,12 @@ void	var_expand(t_expand *expand, t_shell *shell)
 	shell->var = ft_getenv(shell->env, &(expand->word[expand->i]), expand, shell);
 	if (shell->var == NULL)
 	{
-		base_expand(expand, shell);
+		while (expand->word[expand->i] && expand->word[expand->i] != ' ' && expand->word[expand->i] != '_' && ft_isalnum(expand->word[expand->i]))
+			expand->i++;
+		expand->new = ft_realloc(expand->new, strlen(expand->new) + 2);
+		if (!expand->new)
+			print_error("malloc", NULL, shell, GEN_ERROR);
+		expand->new[ft_strlen(expand->new)] = ' ';
 		return ;
 	}
 	expand->new = ft_realloc(expand->new, strlen(expand->new) + strlen(shell->var) + 1);
