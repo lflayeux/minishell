@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 14:33:18 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/01 14:51:48 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/01 16:57:59 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,25 +30,27 @@ void	exec_pwd(void)
 // ======= CD =======
 // ==================
 
-void	exec_cd(char **path, int i)
+void	exec_cd(char **path, int i, t_shell *shell)
 {
-	char	*join;
+	char	*direction;
 
-	if (path[i + 1] == NULL)
+	direction = NULL;
+	if (path[i + 1] && path[i + 2])
 	{
-		join = ft_strdup(getenv("HOME"));
-		printf("%s\n", join);
-		chdir(join);
-		free(join);
+		shell->error = GEN_ERROR;
+		printf("minishell: cd: too many arguments\n");
+		return ;
 	}
-	else if (path[i][0] == '~')
-	{
-		join = ft_strjoin(getenv("HOME"), path[i] + 1);
-		printf("%s\n", join);
-		chdir(join);
-	}
+	else if (path[i + 1] == NULL)
+		direction = ft_strdup(getenv("HOME"));
+	else if (path[i + 1][0] == '~')
+		direction = ft_strjoin(getenv("HOME"), &path[i + 1][1]);
 	else
-		chdir(path[i]);
+		direction = ft_strdup(path[i + 1]);
+	if (chdir(direction) == -1)
+		print_error("cd", path[i + 1], shell, GEN_ERROR);
+	if (direction)
+		free(direction);
 	exec_pwd();
 }
 // ==================
@@ -96,7 +98,7 @@ int	built_in(t_exec *exec, t_shell *shell)
 	if (!(ft_strcmp(exec->cmd[0], "echo")))
 		exec_echo(exec, 0);
 	else if (ft_strcmp(exec->cmd[0], "cd") == 0)
-		exec_cd(exec->cmd, 0);
+		exec_cd(exec->cmd, 0, shell);
 	else if (ft_strcmp(exec->cmd[0], "pwd") == 0)
 		exec_pwd();
 	else if (ft_strcmp(exec->cmd[0], "env") == 0)

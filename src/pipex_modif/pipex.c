@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/01 14:32:18 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/01 20:15:15 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,7 @@ int	task_init(t_exec *exec, t_shell *shell)
 {
 	int	fd_infile;
 
+	// close_fd(shell, 2, 0);
 	init_fd(shell);
 	if (exec->if_here_doc == TRUE)
 	{
@@ -167,15 +168,17 @@ int	task_init(t_exec *exec, t_shell *shell)
 			if (here_doc_proc(shell, exec, NULL) == FALSE)
 				return (FALSE);
 		}
+		if (PIPEX->prev_fd)
+			close(PIPEX->prev_fd);
 		PIPEX->prev_fd = PIPEX->end[0];
-		close(PIPEX->end[1]);
-		// close_fd(shell);
 	}
 	if (exec->if_infile == TRUE)
 	{
 		fd_infile = open((exec->infile), O_RDONLY);
 		if (fd_infile == -1)
 			return (FALSE);
+		if (PIPEX->prev_fd)
+			close(PIPEX->prev_fd);
 		PIPEX->prev_fd = fd_infile;
 	}
 	// if (exec->if_here_doc == FALSE && exec->if_infile == FALSE)
