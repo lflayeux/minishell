@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 22:29:14 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/30 17:15:54 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/01 11:47:01 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	free_all(t_shell *shell)
 	{
 		if (PIPEX->child_tab)
 			free(PIPEX->child_tab);
+		PIPEX->child_tab = NULL;
 		free(PIPEX);
 	}
 	if (shell->var)

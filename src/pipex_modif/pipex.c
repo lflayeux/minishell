@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/06/30 16:28:41 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/01 11:35:10 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,5 +202,8 @@ int	pipex(t_shell *shell)
 		}
 		tmp = tmp->pipe_to;
 	}
+	if (PIPEX->child_tab)
+		free(PIPEX->child_tab);
+	PIPEX->child_tab = NULL;
 	return (TRUE);
 }

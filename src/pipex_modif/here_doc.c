@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/06/29 15:48:41 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/07/01 12:06:20 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,15 @@ int	ft_is_empty(char *str)
 	return (1);
 }
 
-int	loop_here_doc(char *delimiter, int *end)
+void	exit_here_doc(t_shell *shell)
+{
+	close_fd(shell, 2, 0);
+	free_all(shell);
+	signal_global = 0;
+	exit(130);
+}
+
+int	loop_here_doc(char *delimiter, int *end, t_shell * shell)
 {
 	char	*line;
 
@@ -46,10 +54,9 @@ int	loop_here_doc(char *delimiter, int *end)
 		free(line);
 		line = get_next_line(0);
 		if (!line)
-		{
-			ft_printf("EOF before delimiter '%s' is reached\n", delimiter);
-			break ;
-		}
+			return (ft_printf("EOF before delimiter '%s' is reached\n", delimiter), FALSE);
+		if (signal_global == 130)
+			exit_here_doc(shell);
 	}
 	return (TRUE);
 }
@@ -66,8 +73,9 @@ int	here_doc_proc(t_shell *shell, t_exec *exec, int *end)
 	if (child == 0)
 	{
 		child_signals(shell->signals);
-		loop_here_doc(exec->delimiter, end);
+		loop_here_doc(exec->delimiter, end, shell);
 		close_fd(shell, 2, 0);
+		free_all(shell);
 		exit(0);
 	}
 	if (child > 0)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 15:31:21 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/26 22:58:15 by alex             ###   ########.fr       */
+/*   Updated: 2025/07/01 12:03:58 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ t_exec	*ft_lstnew_exec(t_tok *init, t_tok *end, t_shell *shell)
 	return (node_exec);
 }
 
-int	activate_heredoc(t_tok *tok)
+int	activate_heredoc(t_tok *tok, t_shell *shell)
 {
 	t_tok	*tmp;
 
@@ -60,7 +60,7 @@ int	activate_heredoc(t_tok *tok)
 	while (tmp)
 	{
 		if (tmp->next && tmp->type == HERE_DOC && tmp->next->type == WORD)
-			return (loop_here_doc(tmp->next->word, NULL), 0);
+			return (loop_here_doc(tmp->next->word, NULL, shell), 0);
 		tmp = tmp->next;
 	}
 	return (0);
@@ -73,7 +73,7 @@ int	create_lst_exec(t_shell *shell)
 	t_tok	*tmp_tok2;
 
 	if (parse_error(shell) == 0)
-		return (activate_heredoc(shell->tok), 0);
+		return (activate_heredoc(shell->tok, shell), 0);
 	// return (0);
 	tmp_tok1 = shell->tok;
 	tmp_tok2 = shell->tok;
