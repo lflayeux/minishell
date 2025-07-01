@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/01 20:15:15 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/01 20:48:36 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,8 @@ int	task_init(t_exec *exec, t_shell *shell)
 	{
 		if (pipe(PIPEX->end) == -1)
 			return (FALSE);
+		if (PIPEX->prev_fd)
+			close(PIPEX->prev_fd);
 		if (exec->cmd[0] && exec->cmd)
 		{
 			if (here_doc_proc(shell, exec, PIPEX->end) == FALSE)
@@ -168,9 +170,8 @@ int	task_init(t_exec *exec, t_shell *shell)
 			if (here_doc_proc(shell, exec, NULL) == FALSE)
 				return (FALSE);
 		}
-		if (PIPEX->prev_fd)
-			close(PIPEX->prev_fd);
 		PIPEX->prev_fd = PIPEX->end[0];
+		close (PIPEX->end[1]);
 	}
 	if (exec->if_infile == TRUE)
 	{
