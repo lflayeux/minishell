@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/01 12:06:20 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/01 14:29:56 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,13 @@ int	loop_here_doc(char *delimiter, int *end, t_shell * shell)
 			write(end[1], line, ft_strlen(line));
 		free(line);
 		line = get_next_line(0);
-		if (!line)
-			return (ft_printf("EOF before delimiter '%s' is reached\n", delimiter), FALSE);
 		if (signal_global == 130)
 			exit_here_doc(shell);
+		if (!line)
+		{
+			ft_printf("EOF before delimiter '%s' is reached\n", delimiter);
+			break;
+		}
 	}
 	return (TRUE);
 }
@@ -83,7 +86,7 @@ int	here_doc_proc(t_shell *shell, t_exec *exec, int *end)
 		if (waitpid(child, &status, 0) == -1)
 			return (FALSE);
 		if (WEXITSTATUS(status) == 130)
-			return (FALSE);
+			return (close_fd(shell, 2, 0), FALSE);
 		parent_signals(shell->signals);
 	}
 	return (TRUE);

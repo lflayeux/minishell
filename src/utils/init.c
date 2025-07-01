@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 22:16:13 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/30 16:42:24 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/01 14:00:06 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	reset_shell(t_shell *shell)
 		shell->var = NULL;
 	}
 	PIPEX->prev_fd = NONE;
+	signal_global = 0;
 }
 void	exec_init(t_exec *node_exec)
 {

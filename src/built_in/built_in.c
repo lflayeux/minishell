@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 14:33:18 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/27 11:43:10 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/01 14:51:48 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,14 @@ void	exec_cd(char **path, int i)
 {
 	char	*join;
 
-	if (path[i + 1])
-		return ;
-	if (path[i][0] == '~')
+	if (path[i + 1] == NULL)
+	{
+		join = ft_strdup(getenv("HOME"));
+		printf("%s\n", join);
+		chdir(join);
+		free(join);
+	}
+	else if (path[i][0] == '~')
 	{
 		join = ft_strjoin(getenv("HOME"), path[i] + 1);
 		printf("%s\n", join);
@@ -91,7 +96,7 @@ int	built_in(t_exec *exec, t_shell *shell)
 	if (!(ft_strcmp(exec->cmd[0], "echo")))
 		exec_echo(exec, 0);
 	else if (ft_strcmp(exec->cmd[0], "cd") == 0)
-		exec_cd(exec->cmd, 1);
+		exec_cd(exec->cmd, 0);
 	else if (ft_strcmp(exec->cmd[0], "pwd") == 0)
 		exec_pwd();
 	else if (ft_strcmp(exec->cmd[0], "env") == 0)
