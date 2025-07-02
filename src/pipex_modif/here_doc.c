@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/01 19:51:29 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/02 13:01:30 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	exit_here_doc(t_shell *shell)
 	exit(130);
 }
 
-int	loop_here_doc(char *delimiter, int *end, t_shell * shell)
+int	loop_here_doc(char *delimiter, int *end, t_shell *shell)
 {
 	char	*line;
 
@@ -58,7 +58,7 @@ int	loop_here_doc(char *delimiter, int *end, t_shell * shell)
 		if (!line)
 		{
 			ft_printf("EOF before delimiter '%s' is reached\n", delimiter);
-			break;
+			break ;
 		}
 	}
 	return (TRUE);
@@ -94,23 +94,24 @@ int	here_doc_proc(t_shell *shell, t_exec *exec, int *end)
 
 void	close_fd(t_shell *shell, int fd, int to_close)
 {
-	if (fd == 0 && PIPEX->end[0] >= 0)
+	if (fd == 0 && PIPEX->end[0] >= 0 && PIPEX->end[0] != NONE)
 	{
 		close(PIPEX->end[0]);
 		PIPEX->end[0] = NONE;
 	}
-	if (fd == 1 && PIPEX->end[1] >= 0)
+	if (fd == 1 && PIPEX->end[1] >= 0 && PIPEX->end[1] != NONE)
 	{
 		close(PIPEX->end[1]);
 		PIPEX->end[1] = NONE;
 	}
-	if (fd == 2 && PIPEX->end[0] >= 0 &&  PIPEX->end[1] >= 0)
+	if (fd == 2 && PIPEX->end[0] >= 0 && PIPEX->end[1] >= 0
+		&& PIPEX->end[1] != NONE && PIPEX->end[0] != NONE)
 	{
 		close(PIPEX->end[1]);
 		close(PIPEX->end[0]);
 		init_fd(shell);
 	}
-	if (fd == 3 && to_close >= 0)
+	if (fd == 3 && to_close >= 0 && to_close != NONE)
 	{
 		close(to_close);
 	}

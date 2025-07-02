@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 11:59:10 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/01 16:55:14 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/02 13:15:16 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ int	parse_error(t_shell *shell)
 		return (FALSE);
 	init = shell->tok;
 	if (TYPE == PIPE)
-		return (print_error(PARSE_MESS, (char *)get_token_name(shell->tok->type), shell, 0), FALSE);
+		return (print_error(PARSE_MESS,
+				(char *)get_token_name(shell->tok->type), shell, 0), FALSE);
 	while (init)
 	{
 		if (init->type != WORD && !(init->next))
@@ -50,7 +51,8 @@ int	parse_error(t_shell *shell)
 				return (0);
 			}
 		}
-		if (init->type != WORD && (init->next)->type != WORD)
+		if (init->type != WORD && init->type != PIPE
+			&& (init->next)->type != WORD)
 		{
 			ft_printf(" error near unexpected token '%s'\n",
 				get_token_name((init->next)->type));

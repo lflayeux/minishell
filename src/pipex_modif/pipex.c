@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/01 20:48:36 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/02 13:12:01 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	middle_proc(t_exec *exec, t_shell *shell)
 	}
 	child = fork();
 	if (child < 0)
-		return (close_fd(shell, 2, 0), FALSE) ;
+		return (close_fd(shell, 2, 0), FALSE);
 	else if (child == 0)
 	{
 		child_signals(shell->signals);
@@ -158,7 +158,7 @@ int	task_init(t_exec *exec, t_shell *shell)
 	{
 		if (pipe(PIPEX->end) == -1)
 			return (FALSE);
-		if (PIPEX->prev_fd)
+		if (PIPEX->prev_fd != NONE)
 			close(PIPEX->prev_fd);
 		if (exec->cmd[0] && exec->cmd)
 		{
@@ -171,14 +171,14 @@ int	task_init(t_exec *exec, t_shell *shell)
 				return (FALSE);
 		}
 		PIPEX->prev_fd = PIPEX->end[0];
-		close (PIPEX->end[1]);
+		close(PIPEX->end[1]);
 	}
 	if (exec->if_infile == TRUE)
 	{
 		fd_infile = open((exec->infile), O_RDONLY);
 		if (fd_infile == -1)
 			return (FALSE);
-		if (PIPEX->prev_fd)
+		if (PIPEX->prev_fd != NONE)
 			close(PIPEX->prev_fd);
 		PIPEX->prev_fd = fd_infile;
 	}
@@ -202,7 +202,7 @@ int	pipex(t_shell *shell)
 		if (built_in(tmp, shell) == FALSE)
 		{
 			if (task_init(tmp, shell) == FALSE)
-				break;
+				break ;
 			// parent_signals(shell->signals);
 			if (tmp->cmd && tmp->cmd[0] && ft_strcmp((tmp->cmd)[0], "") == 0)
 				return (print_error(" ", N_CMD_MESS, shell, N_FOUND), TRUE);
