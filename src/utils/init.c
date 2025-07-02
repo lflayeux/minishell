@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 22:16:13 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/01 14:00:06 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/02 13:47:29 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	exec_init(t_exec *node_exec)
 	node_exec->cmd = NULL;
 	node_exec->infile = NULL;
 	node_exec->outfile = NULL;
-	node_exec->delimiter = NULL;
+	node_exec->here_doc = NULL;
 	node_exec->if_infile = 0;
 	node_exec->if_outfile = 0;
 	node_exec->if_append = 0;

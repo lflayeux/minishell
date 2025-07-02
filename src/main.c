@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:43:33 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/01 12:06:42 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/02 14:57:16 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int signal_global = 0;
+int			signal_global = 0;
 
 const char	*get_token_name(int type)
 {
@@ -97,6 +97,14 @@ void	tester(t_shell *shell)
 			printf("\tinfile\t\t===> %s\n", tmp_exec->infile);
 		if (tmp_exec->outfile)
 			printf("\toutfile\t\t===> %s\n", tmp_exec->outfile);
+		if (tmp_exec->if_here_doc == 1)
+		{
+			j = 0;
+			printf("\there_doc\t\t===> ");
+			while (tmp_exec->here_doc[j])
+				printf("%s ", tmp_exec->here_doc[j++]);
+			printf("\n");
+		}
 		tmp_exec = tmp_exec->pipe_to;
 	}
 	printf("\n" RED "============================" RST "\n");

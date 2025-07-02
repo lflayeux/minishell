@@ -3,35 +3,47 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_exec_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 15:46:44 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/20 16:11:15 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/02 18:01:40 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int word_number(t_tok *init, t_tok *end)
+int	word_number(t_tok *init, t_tok *end)
 {
-	t_tok *tmp;
-	int count;
+	t_tok	*tmp;
+	int		count;
 
 	tmp = init;
 	count = 0;
-	while(tmp && tmp != end)
+	while (tmp && tmp != end)
 	{
-		if(tmp->type == WORD)
+		if (tmp->type == WORD)
 			count++;
-		if(tmp->next && tmp->next != end && tmp->type != WORD)
+		if (tmp->next && tmp->next != end && tmp->type != WORD)
 			tmp = tmp->next;
 		tmp = tmp->next;
 	}
 	return (count);
 }
-int	if_here_doc(t_exec *node_exec, t_tok **init)
+
+void	exit_here_doc(t_shell *shell)
 {
-	node_exec->delimiter = ((*init)->next)->word;
+	printf("\n");
+	shell->error = 130;
+	signal_global = 0;
+}
+
+int	if_here_doc(t_exec *node_exec, t_tok **init, t_shell *shell)
+{
+	child_signals(shell->signals);
+	node_exec->here_doc = loop_here_doc(((*init)->next)->word);
+	if (!(node_exec->here_doc) && signal_global == 130)
+		return (child_signals(shell->signals), exit_here_doc(shell), FALSE);
+	parent_signals(shell->signals);
 	node_exec->if_here_doc = 1;
 	node_exec->if_infile = 0;
 	(*init) = ((*init)->next);

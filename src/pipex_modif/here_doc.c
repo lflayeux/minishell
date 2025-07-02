@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/02 13:01:30 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/02 18:20:43 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,13 @@ int	ft_is_empty(char *str)
 	return (1);
 }
 
-void	exit_here_doc(t_shell *shell)
-{
-	close_fd(shell, 2, 0);
-	free_all(shell);
-	signal_global = 0;
-	exit(130);
-}
-
-int	loop_here_doc(char *delimiter, int *end, t_shell *shell)
+char	**loop_here_doc(char *delimiter)
 {
 	char	*line;
+	char	*big_line;
+	char	**tab;
 
+	big_line = NULL;
 	line = get_next_line(0);
 	if (!line)
 		return (FALSE);
@@ -49,45 +44,63 @@ int	loop_here_doc(char *delimiter, int *end, t_shell *shell)
 			free(line);
 			break ;
 		}
-		if (end)
-			write(end[1], line, ft_strlen(line));
+		if (big_line != NULL)
+			big_line = ft_strjoin_free(big_line, " ");
+		big_line = ft_strjoin_free(big_line, line);
 		free(line);
 		line = get_next_line(0);
 		if (signal_global == 130)
-			exit_here_doc(shell);
+			return (free(big_line), NULL);
 		if (!line)
 		{
 			ft_printf("EOF before delimiter '%s' is reached\n", delimiter);
 			break ;
 		}
 	}
-	return (TRUE);
+	tab = ft_split(big_line, ' ');
+	free(big_line);
+	return (tab);
 }
 
-int	here_doc_proc(t_shell *shell, t_exec *exec, int *end)
-{
-	pid_t	child;
-	int		status;
+// int	here_doc_proc(t_exec *exec, char *delimiter, t_shell *shell)
+// {
+// 	pid_t	child;
+// 	int		status;
 
-	parent_ignore(shell->signals);
-	child = fork();
-	if (child < 0)
-		return (FALSE);
-	if (child == 0)
+// 	parent_ignore(shell->signals);
+// 	child = fork();
+// 	if (child < 0)
+// 		return (FALSE);
+// 	if (child == 0)
+// 	{
+// 		child_signals(shell->signals);
+// 		exec->here_doc = loop_here_doc(delimiter, shell);
+// 		if (exec->here_doc == NULL && signal_global == 130)
+// 			return (exit_here_doc(shell), FALSE);
+// 		// close_fd(shell, 2, 0);
+// 		free_all(shell);
+// 		exit(0);
+// 	}
+// 	if (child > 0)
+// 	{
+// 		if (waitpid(child, &status, 0) == -1)
+// 			return (FALSE);
+// 		if (WEXITSTATUS(status) == 130)
+// 			return (FALSE);
+// 		parent_signals(shell->signals);
+// 	}
+// 	return (TRUE);
+// }
+
+int	here_doc_pipe(t_exec *exec, t_shell *shell)
+{
+	int	i;
+
+	i = 0;
+	while (exec->here_doc[i])
 	{
-		child_signals(shell->signals);
-		loop_here_doc(exec->delimiter, end, shell);
-		close_fd(shell, 2, 0);
-		free_all(shell);
-		exit(0);
-	}
-	if (child > 0)
-	{
-		if (waitpid(child, &status, 0) == -1)
-			return (FALSE);
-		if (WEXITSTATUS(status) == 130)
-			return (close_fd(shell, 2, 0), FALSE);
-		parent_signals(shell->signals);
+		write(PIPEX->end[1], exec->here_doc[i], ft_strlen(exec->here_doc[i]));
+		i++;
 	}
 	return (TRUE);
 }

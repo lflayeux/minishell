@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:51:06 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/26 18:09:39 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/02 13:40:14 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,9 @@
 # define STRUCT_H
 
 # define _POSIX_C_SOURCE 200809L
-# include <stddef.h>
 # include <signal.h>
 # include <stdbool.h>
-
+# include <stddef.h>
 
 typedef struct s_pipex
 {
@@ -36,7 +35,7 @@ typedef struct s_exec_pipeline
 	char					**cmd;
 	char					*infile;
 	char					*outfile;
-	char					*delimiter;
+	char					**here_doc;
 	bool					if_infile;
 	bool					if_outfile;
 	bool					if_append;
@@ -63,7 +62,7 @@ typedef struct s_tok
 	TOK_TYPE				type;
 	char					*word;
 	struct s_tok			*next;
-}			t_tok;
+}							t_tok;
 
 // ==============================================
 // ================== SIGNALS ===================
@@ -74,7 +73,6 @@ typedef struct s_signal
 	struct sigaction		ctrl_c;
 	struct sigaction		ctrl_dump;
 }							t_signal;
-
 
 // ==============================================
 // ============== GLOBAL STRUCT =================

@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/02 13:12:01 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/02 14:48:45 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,16 +160,17 @@ int	task_init(t_exec *exec, t_shell *shell)
 			return (FALSE);
 		if (PIPEX->prev_fd != NONE)
 			close(PIPEX->prev_fd);
-		if (exec->cmd[0] && exec->cmd)
-		{
-			if (here_doc_proc(shell, exec, PIPEX->end) == FALSE)
-				return (FALSE);
-		}
-		else
-		{
-			if (here_doc_proc(shell, exec, NULL) == FALSE)
-				return (FALSE);
-		}
+		// if (exec->cmd[0] && exec->cmd)
+		// {
+		// 	if (here_doc_proc(shell, exec, PIPEX->end) == FALSE)
+		// 		return (FALSE);
+		// }
+		// else
+		// {
+		here_doc_pipe(exec, shell);
+		// if (here_doc_proc(shell, exec, NULL) == FALSE)
+		// 	return (FALSE);
+		// }
 		PIPEX->prev_fd = PIPEX->end[0];
 		close(PIPEX->end[1]);
 	}

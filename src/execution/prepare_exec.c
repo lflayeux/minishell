@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 15:31:21 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/01 12:03:58 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/02 18:32:05 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	init_exec(t_tok *init, t_exec *node_exec, t_tok *end, t_shell *shell)
+int	init_exec(t_tok *init, t_exec *node_exec, t_tok *end, t_shell *shell)
 {
 	int	i;
 
@@ -33,9 +33,13 @@ void	init_exec(t_tok *init, t_exec *node_exec, t_tok *end, t_shell *shell)
 		if (TYPE == APPEND && N->type == WORD && N)
 			if_append(node_exec, &init);
 		if (TYPE == HERE_DOC && N->type == WORD && N)
-			if_here_doc(node_exec, &init);
+		{
+			if (if_here_doc(node_exec, &init, shell) == FALSE)
+				return (FALSE);
+		}
 		init = N;
 	}
+	return (TRUE);
 }
 t_exec	*ft_lstnew_exec(t_tok *init, t_tok *end, t_shell *shell)
 {
@@ -48,43 +52,55 @@ t_exec	*ft_lstnew_exec(t_tok *init, t_tok *end, t_shell *shell)
 	node_exec->cmd = ft_calloc(word_number(init, end) + 1, sizeof(char *));
 	if (!(node_exec->cmd))
 		print_error("malloc", NULL, shell, GEN_ERROR);
-	init_exec(init, node_exec, end, shell);
+	if (init_exec(init, node_exec, end, shell) == FALSE)
+	{
+		if (node_exec->cmd)
+			ft_free_tab((void **)node_exec->cmd);
+		if (node_exec)
+			free(node_exec);
+		return (NULL);
+	}
 	return (node_exec);
 }
 
-int	activate_heredoc(t_tok *tok, t_shell *shell)
-{
-	t_tok	*tmp;
+// int	activate_heredoc(t_tok *tok, t_shell *shell)
+// {
+// 	t_tok	*tmp;
 
-	tmp = tok;
-	while (tmp)
-	{
-		if (tmp->next && tmp->type == HERE_DOC && tmp->next->type == WORD)
-			return (loop_here_doc(tmp->next->word, NULL, shell), 0);
-		tmp = tmp->next;
-	}
-	return (0);
-}
+// 	tmp = tok;
+// 	while (tmp)
+// 	{
+// 		if (tmp->next && tmp->type == HERE_DOC && tmp->next->type == WORD)
+// 			return (loop_here_doc(tmp->next->word, NULL, shell), 0);
+// 		tmp = tmp->next;
+// 	}
+// 	return (0);
+// }
 
 // CREATE THE LIST OF ALL EXEC TO MAKE
 int	create_lst_exec(t_shell *shell)
 {
 	t_tok	*tmp_tok1;
 	t_tok	*tmp_tok2;
+	t_exec	*new;
 
-	if (parse_error(shell) == 0)
-		return (activate_heredoc(shell->tok, shell), 0);
-	// return (0);
+	// if (parse_error(shell) == 0)
+	// 	return (activate_heredoc(shell->tok, shell), 0);
 	tmp_tok1 = shell->tok;
 	tmp_tok2 = shell->tok;
 	while (tmp_tok1)
 	{
 		while (tmp_tok1 && tmp_tok1->type != PIPE)
 			tmp_tok1 = tmp_tok1->next;
-		ADD_BACK_EXEC(&(shell->exec), NEW_EXEC(tmp_tok2, tmp_tok1, shell));
+		new = NEW_EXEC(tmp_tok2, tmp_tok1, shell);
+		if (!new)
+			return (FALSE);
+		ADD_BACK_EXEC(&(shell->exec), new);
 		if (tmp_tok1 && tmp_tok1->type == PIPE)
 			tmp_tok1 = tmp_tok1->next;
 		tmp_tok2 = tmp_tok1;
 	}
+	if (parse_error(shell) == 0)
+		return (0);
 	return (1);
 }
