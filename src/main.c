@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:43:33 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/02 14:57:16 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/02 19:36:35 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	tester(t_shell *shell)
 		{
 			j = 0;
 			printf("\there_doc\t\t===> ");
-			while (tmp_exec->here_doc[j])
+			while (tmp_exec->here_doc && tmp_exec->here_doc[j])
 				printf("%s ", tmp_exec->here_doc[j++]);
 			printf("\n");
 		}

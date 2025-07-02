@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 18:02:54 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/20 17:09:40 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/02 19:01:42 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,18 @@
 # include <errno.h>
 struct s_shell;
 
-# define SUCCESS		0
-# define GEN_ERROR		1
-# define BUILTIN_ERROR	2
-# define CMD_EXEC		126
-# define N_FOUND		127
-# define EXIT_ARG		128
-# define CTRL_C			130
-# define CTRL_D			137
+# define SUCCESS 0
+# define GEN_ERROR 1
+# define BUILTIN_ERROR 2
+# define CMD_EXEC 126
+# define N_FOUND 127
+# define EXIT_ARG 128
+# define CTRL_C 130
+# define CTRL_D 137
 
-
-# define N_CMD_MESS		"command not found"
-# define FILE_MESS		"No such file or directory"
-# define PARSE_MESS		"syntax error near unexpected token"
+# define N_CMD_MESS "command not found"
+# define FILE_MESS "No such file or directory"
+# define PARSE_MESS "syntax error near unexpected token"
 
 typedef enum e_error_type
 {
@@ -36,9 +35,9 @@ typedef enum e_error_type
 	SYNTAX_PIPE,
 	SYNTAX_END,
 	OPEN,
-}							ERROR_TYPE;
+}		ERROR_TYPE;
 
-void    print_error(char *s1, char *s2, t_shell *shell, int type);
-int     parse_error(t_shell *shell);
+void	print_error(char *s1, char *s2, t_shell *shell, int type);
+t_tok	*parse_error(t_shell *shell);
 
 #endif

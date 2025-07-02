@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 15:31:21 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/02 18:32:05 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/02 19:29:39 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,25 +82,33 @@ int	create_lst_exec(t_shell *shell)
 {
 	t_tok	*tmp_tok1;
 	t_tok	*tmp_tok2;
+	t_tok	*tmp_error;
 	t_exec	*new;
 
-	// if (parse_error(shell) == 0)
-	// 	return (activate_heredoc(shell->tok, shell), 0);
 	tmp_tok1 = shell->tok;
 	tmp_tok2 = shell->tok;
+	tmp_error = parse_error(shell);
+	// fprintf(stderr, "shell->tok = %p, tmp_error = %p\n", (void *)shell->tok,
+	// (void *)tmp_error);
 	while (tmp_tok1)
 	{
 		while (tmp_tok1 && tmp_tok1->type != PIPE)
+		{
+			// fprintf(stderr, "  visiting %p (type=%d)\n", (void *)tmp_tok1,
+			// tmp_tok1->type);
+			if (tmp_error != NULL && tmp_tok1 == tmp_error)
+				break ;
 			tmp_tok1 = tmp_tok1->next;
+		}
 		new = NEW_EXEC(tmp_tok2, tmp_tok1, shell);
 		if (!new)
 			return (FALSE);
 		ADD_BACK_EXEC(&(shell->exec), new);
+		if (tmp_error != NULL && tmp_tok1 == tmp_error)
+			return (FALSE);
 		if (tmp_tok1 && tmp_tok1->type == PIPE)
 			tmp_tok1 = tmp_tok1->next;
 		tmp_tok2 = tmp_tok1;
 	}
-	if (parse_error(shell) == 0)
-		return (0);
-	return (1);
+	return (TRUE);
 }

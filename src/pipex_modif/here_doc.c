@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/02 18:20:43 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/02 19:40:09 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ char	**loop_here_doc(char *delimiter)
 			break ;
 		}
 	}
+	if (!big_line)
+		return (NULL);
 	tab = ft_split(big_line, ' ');
 	free(big_line);
 	return (tab);
@@ -97,7 +99,7 @@ int	here_doc_pipe(t_exec *exec, t_shell *shell)
 	int	i;
 
 	i = 0;
-	while (exec->here_doc[i])
+	while (exec->here_doc && exec->here_doc[i])
 	{
 		write(PIPEX->end[1], exec->here_doc[i], ft_strlen(exec->here_doc[i]));
 		i++;

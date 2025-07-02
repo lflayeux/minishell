@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 11:59:10 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/02 13:15:16 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/02 19:32:05 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,16 @@ void	print_error(char *s1, char *s2, t_shell *shell, int type)
 	shell->error = type;
 }
 
-int	parse_error(t_shell *shell)
+t_tok	*parse_error(t_shell *shell)
 {
 	t_tok	*init;
 
 	if (!shell->tok)
-		return (FALSE);
+		return (NULL);
 	init = shell->tok;
 	if (TYPE == PIPE)
 		return (print_error(PARSE_MESS,
-				(char *)get_token_name(shell->tok->type), shell, 0), FALSE);
+				(char *)get_token_name(shell->tok->type), shell, 0), init);
 	while (init)
 	{
 		if (init->type != WORD && !(init->next))
@@ -42,24 +42,29 @@ int	parse_error(t_shell *shell)
 			{
 				ft_printf("missing command after a pipe\n");
 				// handle_ctrl_c_interactive(SIGINT);
-				return (0);
+				return (init);
 			}
 			else
 			{
-				ft_printf(" error near unexpected token '\\n'\n");
+				ft_printf("error near unexpected token '\\n'\n");
 				// handle_ctrl_c_interactive(SIGINT);
-				return (0);
+				return (init);
 			}
 		}
 		if (init->type != WORD && init->type != PIPE
 			&& (init->next)->type != WORD)
 		{
-			ft_printf(" error near unexpected token '%s'\n",
+			ft_printf("error near unexpected token '%s'\n",
 				get_token_name((init->next)->type));
 			// handle_ctrl_c_interactive(SIGINT);
-			return (0);
+			return (init);
+		}
+		if (init->type == PIPE && (init->next)->type == PIPE)
+		{
+			ft_printf("error near unexpected token '|'\n");
+			return (init);
 		}
 		init = init->next;
 	}
-	return (1);
+	return (NULL);
 }
