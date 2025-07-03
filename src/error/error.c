@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 11:59:10 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/03 20:20:16 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/04 01:28:16 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ void	print_error(char *s1, char *s2, t_shell *shell, int type)
 {
 	(void)shell;
 	if (s1 && s2 && type != 0)
-		printf("minishell: %s: %s: %s\n", s1, s2, strerror(errno));
+		printf("minishell: %s: %s\n", s1, s2);
 	else if (s1 && s2)
 		printf("minishell: %s: %s\n", s1, s2);
 	else if (s1 && !s2)
-		printf("minishell: %s: %s\n", s1, strerror(errno));
+		printf("minishell: %s\n", s1);
 	signal_global = type;
 }
 

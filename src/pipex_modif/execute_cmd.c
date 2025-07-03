@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/03 20:31:45 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/04 01:39:28 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,43 @@ char	**find_path_env(t_shell *shell)
 	return (all_paths);
 }
 
-int	handle_path_cmd(char **cmd_parsed, char *path, t_shell *shell)
+int is_slash(char *str)
 {
-	if (access(path, X_OK) == 0)
+	int i;
+
+	i = 0;
+	while(str[i])
 	{
-		if (execve(path, cmd_parsed, shell->env) == -1)
-			print_error(cmd_parsed[0], NULL, shell, CMD_EXEC);
+		if(str[i] == '/')
+			return (TRUE);
+		i++;
 	}
-	return (TRUE);
+	return (FALSE);
+}
+
+int    handle_path_cmd(char **cmd_parsed, char *path, t_shell *shell)
+{
+	struct stat    st;
+
+	if (stat(path, &st) == 0)
+	{
+		if (S_ISDIR(st.st_mode))
+		{
+			print_error(path, "Is a directory", shell, CMD_EXEC);
+			exit(CMD_EXEC);
+		}
+	}
+	if (access(path, F_OK) == -1 && is_slash(cmd_parsed[0]))
+	{
+		print_error(path, "No such file or directory", shell, N_FOUND);
+		exit(N_FOUND);
+	}
+    if (access(path, X_OK) == 0)
+    {
+        if (execve(path, cmd_parsed, shell->env) == -1)
+            print_error(cmd_parsed[0], NULL, shell, CMD_EXEC);
+    }
+    return (TRUE);
 }
 
 // malloc ok
