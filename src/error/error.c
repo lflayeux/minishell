@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 11:59:10 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/03 16:15:59 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/03 20:20:16 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,14 @@
 // A renommer print_error apres changement de l'orioginale
 void	print_error(char *s1, char *s2, t_shell *shell, int type)
 {
+	(void)shell;
 	if (s1 && s2 && type != 0)
 		printf("minishell: %s: %s: %s\n", s1, s2, strerror(errno));
 	else if (s1 && s2)
 		printf("minishell: %s: %s\n", s1, s2);
 	else if (s1 && !s2)
 		printf("minishell: %s: %s\n", s1, strerror(errno));
-	shell->error = type;
+	signal_global = type;
 }
 
 t_tok	*parse_error(t_shell *shell)

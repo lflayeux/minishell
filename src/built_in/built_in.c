@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 14:33:18 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/03 16:00:33 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/03 20:17:20 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,10 @@ void	exec_cd(char **path, int i, t_shell *shell)
 	direction = NULL;
 	if (path[i + 1] && path[i + 2])
 	{
-		shell->error = GEN_ERROR;
+		signal_global = GEN_ERROR;
 		printf("minishell: cd: too many arguments\n");
-		return ;
+		free_all(shell);
+		exit(1);
 	}
 	else if (path[i + 1] == NULL)
 		direction = ft_strdup(getenv("HOME"));
@@ -108,11 +109,8 @@ int	built_in(t_exec *exec, t_shell *shell)
 	else if (ft_strcmp(exec->cmd[0], "unset") == 0)
 		exec_unset(shell, 0);
 	else
-	{
 		return (FALSE);
-	}
 	free_all(shell);
-	close_fd(shell, 2, 0);
 	exit(0);
 	return (TRUE);
 }

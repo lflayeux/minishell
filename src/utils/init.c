@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 22:16:13 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/03 15:05:14 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/03 20:30:50 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	reset_shell(t_shell *shell)
 		shell->var = NULL;
 	}
 	PIPEX->prev_fd = NONE;
-	signal_global = 0;
+	// signal_global = 0;
 }
 void	exec_init(t_exec *node_exec)
 {
@@ -134,7 +134,7 @@ void	init_shell(t_shell *shell, char **envp)
 	init_pipex(shell);
 	shell->input = NULL;
 	get_pid(shell);
-	shell->error = 0;
+	signal_global = 0;
 	shell->var = NULL;
 	shell->env = init_env(envp);
 	shell->secret = init_env(envp);

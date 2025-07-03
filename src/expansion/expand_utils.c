@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 19:22:45 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/30 16:56:35 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/03 20:17:40 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	error_expand(t_expand *expand, t_shell *shell)
 	char	*error_str;
 
 	expand->i++;
-	error_str = ft_itoa((int)shell->error);
+	error_str = ft_itoa((int)signal_global);
 	if (!error_str)
 		print_error("malloc", NULL, shell, GEN_ERROR);
 	expand->new = ft_realloc(expand->new, strlen(expand->new) + strlen(error_str) + 1);

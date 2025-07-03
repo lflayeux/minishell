@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/03 16:00:07 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/03 20:31:25 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,30 @@ int	outfile_management(t_exec *exec, int *end, t_shell *shell)
 	return (TRUE);
 }
 
+void	check_status(int status)
+{
+	int	sig;
+	
+	if (WIFEXITED(status))
+	{
+		signal_global = WEXITSTATUS(status);
+	}
+	else if (WIFSIGNALED(status))
+	{
+		sig = WTERMSIG(status);
+
+		if (sig == SIGQUIT)
+			write(STDERR_FILENO, "Quit (core dumped)\n", 19);
+		else if (sig == SIGINT)
+			write(STDERR_FILENO, "\n", 1);
+
+		signal_global = 128 + sig;
+	}
+	else
+		signal_global= 0;
+}
+
+
 //  MANAGEMENT IN PARENT PROCESS IF END OF EXEC STRUCT OR NEXT PIPE
 int	end_or_pipe(t_exec *exec, pid_t child, int *end, t_shell *shell)
 {
@@ -62,10 +86,12 @@ int	end_or_pipe(t_exec *exec, pid_t child, int *end, t_shell *shell)
 		while (PIPEX->child_tab[i])
 		{
 			if (waitpid(PIPEX->child_tab[i++], &status, 0) == -1)
-				return (/*exit_status(status, shell),*/ FALSE);
+				return (FALSE);
+			check_status(status);
 		}
 		if (waitpid(child, &status, 0) == -1)
-			return (/*exit_status(status, shell),*/ FALSE);
+			return (FALSE);
+		check_status(status);
 	}
 	else
 	{
