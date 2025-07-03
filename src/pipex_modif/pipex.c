@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/02 14:48:45 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/03 16:00:07 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ int	middle_proc(t_exec *exec, t_shell *shell)
 			free_all(shell);
 			exit(0);
 		}
+		built_in(exec, shell);
 		exec_cmd(exec->cmd, shell);
 	}
 	else
@@ -200,15 +201,12 @@ int	pipex(t_shell *shell)
 	while (tmp)
 	{
 		// check si commande vide
-		if (built_in(tmp, shell) == FALSE)
-		{
-			if (task_init(tmp, shell) == FALSE)
-				break ;
-			// parent_signals(shell->signals);
-			if (tmp->cmd && tmp->cmd[0] && ft_strcmp((tmp->cmd)[0], "") == 0)
-				return (print_error(" ", N_CMD_MESS, shell, N_FOUND), TRUE);
-			middle_proc(tmp, shell);
-		}
+		if (task_init(tmp, shell) == FALSE)
+			break ;
+		// parent_signals(shell->signals);
+		if (tmp->cmd && tmp->cmd[0] && ft_strcmp((tmp->cmd)[0], "") == 0)
+			return (print_error(" ", N_CMD_MESS, shell, N_FOUND), TRUE);
+		middle_proc(tmp, shell);
 		tmp = tmp->pipe_to;
 	}
 	if (PIPEX->child_tab)

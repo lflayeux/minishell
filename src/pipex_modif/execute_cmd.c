@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/01 16:58:29 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/03 18:47:15 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,7 @@ int	exec_proc(char **cmd_parsed, char **all_paths, t_shell *shell, int i)
 	char	*temp;
 	char	*path;
 
-	if (cmd_parsed[0][0] == '/')
-	{
-		handle_path_cmd(cmd_parsed, cmd_parsed[0], shell);
-		return (TRUE);
-	}
+	handle_path_cmd(cmd_parsed, cmd_parsed[0], shell);
 	temp = ft_strjoin("/", cmd_parsed[0]);
 	if (!temp)
 		return (FALSE);

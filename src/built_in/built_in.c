@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 14:33:18 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/01 16:57:59 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/03 16:00:33 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,5 +111,8 @@ int	built_in(t_exec *exec, t_shell *shell)
 	{
 		return (FALSE);
 	}
+	free_all(shell);
+	close_fd(shell, 2, 0);
+	exit(0);
 	return (TRUE);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:07:12 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/30 11:21:13 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/03 15:33:51 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int	expand(t_shell *shell)
 	new_prompt(shell);
 	printf("%s\n", shell->input);
 	if (tokenize(shell) == FALSE)
-		return (FALSE);
+		return (free(expand), FALSE);
 	tmp = shell->tok;
 	while (tmp)
 	{

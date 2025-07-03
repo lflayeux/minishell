@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 22:16:13 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/02 13:47:29 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/03 15:05:14 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ char	**init_env(char **envp)
 		return (NULL);
 	while (envp[i])
 	{
+		// if (ft_strcmp())
 		env[i] = ft_strdup(envp[i]);
 		i++;
 	}
