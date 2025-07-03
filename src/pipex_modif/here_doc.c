@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/02 19:40:09 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/03 12:30:21 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,20 +33,11 @@ char	**loop_here_doc(char *delimiter)
 	char	**tab;
 
 	big_line = NULL;
-	line = get_next_line(0);
+	line = malloc(1);
 	if (!line)
 		return (FALSE);
 	while (line)
 	{
-		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0
-			&& line[ft_strlen(delimiter)] == '\n')
-		{
-			free(line);
-			break ;
-		}
-		if (big_line != NULL)
-			big_line = ft_strjoin_free(big_line, " ");
-		big_line = ft_strjoin_free(big_line, line);
 		free(line);
 		line = get_next_line(0);
 		if (signal_global == 130)
@@ -56,6 +47,15 @@ char	**loop_here_doc(char *delimiter)
 			ft_printf("EOF before delimiter '%s' is reached\n", delimiter);
 			break ;
 		}
+		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0
+			&& line[ft_strlen(delimiter)] == '\n')
+		{
+			free(line);
+			break ;
+		}
+		if (big_line != NULL)
+			big_line = ft_strjoin_free(big_line, " ");
+		big_line = ft_strjoin_free(big_line, line);
 	}
 	if (!big_line)
 		return (NULL);
