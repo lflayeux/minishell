@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/03 20:31:25 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/07 18:50:58 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,6 +223,7 @@ int	pipex(t_shell *shell)
 	if (!(PIPEX->child_tab))
 		return (print_error("malloc", NULL, shell, GEN_ERROR), FALSE);
 	PIPEX->child_tab[node_number(shell->exec)] = '\0';
+	PIPEX->i = 0;
 	tmp = shell->exec;
 	while (tmp)
 	{
@@ -233,6 +234,7 @@ int	pipex(t_shell *shell)
 		if (tmp->cmd && tmp->cmd[0] && ft_strcmp((tmp->cmd)[0], "") == 0)
 			return (print_error(" ", N_CMD_MESS, shell, N_FOUND), TRUE);
 		middle_proc(tmp, shell);
+		PIPEX->i++;
 		tmp = tmp->pipe_to;
 	}
 	if (PIPEX->child_tab)

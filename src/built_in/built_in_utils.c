@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 20:20:21 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/29 13:53:18 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/07/07 19:01:19 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,23 +70,29 @@ char    **unset_env(char *unset_env, char **env)
     return (new_env);
 }
 
-void expand_env(char *to_expand, t_shell *shell)
+void expand_env(char **to_expand, t_shell *shell)
 {
 	t_expand	*expand;
-	
+    int i;
+
+    i = 0;
 	expand = malloc(sizeof(t_expand));
 	expand->new = NULL;
 	expand->quotes = 0;
 	if (!expand)
 		print_error("malloc", NULL, shell, GEN_ERROR);
-	expand->word = to_expand;
-	expanded_one(expand, shell);
-	if (expand->new)
-	{
-		free(expand->word);
-		to_expand = ft_strdup(expand->new);
-		free(expand->new);
-	}
+    while (to_expand[i])
+    {
+	    expand->word = to_expand[i];
+	    expanded_one(expand, shell);
+	    if (expand->new)
+	    {
+	    	free(expand->word);
+	    	to_expand[i] = ft_strdup(expand->new);
+	    	free(expand->new);
+	    }
+        i++;
+    }
 	free(expand);
 }
 char **put_env(t_shell *shell, int i, char **env)
@@ -108,8 +114,8 @@ char **put_env(t_shell *shell, int i, char **env)
         j++;
     }
     new_env[j] = ft_strdup(shell->exec->cmd[i + 1]);
-	expand_env(new_env[j], shell);
     new_env[j + 1] = NULL;
+	expand_env(new_env, shell);
     ft_free_tab((void **)(env));
     return (new_env);
 }
