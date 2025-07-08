@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:07:12 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/03 15:33:51 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/08 20:24:57 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	new_prompt(t_shell *shell)
 	new_prompt = NULL;
 	while (tmp)
 	{
+			
 		if (new_prompt != NULL)
 			new_prompt = ft_strjoin_free(new_prompt, " ");
 		if (tmp->type == WORD)
@@ -97,6 +98,11 @@ int	expand(t_shell *shell)
 		{
 			expand->word = tmp->word;
 			expanded_one(expand, shell);
+			if (ft_strcmp("", expand->new) == 0 && expand->new)
+			{
+				free(expand->new);
+				expand->new = ft_strdup("\" \"");
+			}
 			if (expand->new)
 			{
 				free(expand->word);

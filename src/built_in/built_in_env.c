@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 20:21:47 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/08 18:12:07 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/08 18:55:32 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void    exec_export(t_shell	*shell, int i)
             i++;
         }
     }
- }
+ }						
 
 void    check_env(t_shell *shell, int i)
 {

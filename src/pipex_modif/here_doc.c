@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/03 15:45:05 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/08 20:58:08 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	**loop_here_doc(char *delimiter)
 			break ;
 		}
 		if (big_line != NULL)
-			big_line = ft_strjoin_free(big_line, " \n");
+			big_line = ft_strjoin_free(big_line, " ");
 		big_line = ft_strjoin_free(big_line, line);
 	}
 	if (!big_line)

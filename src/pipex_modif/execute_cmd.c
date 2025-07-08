@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/04 01:39:28 by alex             ###   ########.fr       */
+/*   Updated: 2025/07/08 19:14:06 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,16 +58,10 @@ int    handle_path_cmd(char **cmd_parsed, char *path, t_shell *shell)
 	if (stat(path, &st) == 0)
 	{
 		if (S_ISDIR(st.st_mode))
-		{
-			print_error(path, "Is a directory", shell, CMD_EXEC);
-			exit(CMD_EXEC);
-		}
+			return (print_error(path, "Is a directory", shell, CMD_EXEC), FALSE);
 	}
 	if (access(path, F_OK) == -1 && is_slash(cmd_parsed[0]))
-	{
-		print_error(path, "No such file or directory", shell, N_FOUND);
-		exit(N_FOUND);
-	}
+		return (print_error(path, "No such file or directory", shell, N_FOUND), FALSE);
     if (access(path, X_OK) == 0)
     {
         if (execve(path, cmd_parsed, shell->env) == -1)
@@ -81,18 +75,29 @@ int	exec_proc(char **cmd_parsed, char **all_paths, t_shell *shell, int i)
 {
 	char	*temp;
 	char	*path;
-
-	handle_path_cmd(cmd_parsed, cmd_parsed[0], shell);
+	
+	if (handle_path_cmd(cmd_parsed, cmd_parsed[0], shell) == FALSE)
+	{
+		free_all(shell);
+		ft_free_tab((void **)all_paths);
+		exit(signal_global);
+	}
 	temp = ft_strjoin("/", cmd_parsed[0]);
 	if (!temp)
 		return (FALSE);
 	path = ft_strjoin(all_paths[i], temp);
 	if (!path)
 		return (free(temp), FALSE);
-	handle_path_cmd(cmd_parsed, path, shell);
+	if (handle_path_cmd(cmd_parsed, path, shell) == FALSE)
+	{
+		free_all(shell);
+		free(path);
+		free(temp);
+		ft_free_tab((void **)all_paths);
+		exit(signal_global);
+	}
 	free(path);
-	free(temp);
-	return (TRUE);
+	return (free(temp), TRUE);
 }
 
 // int	exec_cmd(char **envp, char **cmd, int *tab_child)

@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/08 18:08:29 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/08 20:43:27 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ int	middle_proc(t_exec *exec, t_shell *shell)
 			// PIPEX->prev_fd = NONE;
 		}
 		outfile_management(exec, PIPEX->end, shell);
-		if (!exec->cmd || !exec->cmd[0])
+		if (!exec->cmd || !exec->cmd[0] || (ft_strcmp((exec->cmd)[0], " ") == 0))
 		{
 			close_fd(shell, 2, 0);
 			free_all(shell);

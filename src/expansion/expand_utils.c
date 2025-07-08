@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 19:22:45 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/03 20:17:40 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/08 19:54:30 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	var_expand(t_expand *expand, t_shell *shell)
 		expand->new = ft_realloc(expand->new, strlen(expand->new) + 2);
 		if (!expand->new)
 			print_error("malloc", NULL, shell, GEN_ERROR);
-		expand->new[ft_strlen(expand->new)] = ' ';
+		// expand->new[ft_strlen(expand->new)] = ' ';
 		return ;
 	}
 	expand->new = ft_realloc(expand->new, strlen(expand->new) + strlen(shell->var) + 1);
