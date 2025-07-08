@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/07 18:50:58 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/08 18:08:29 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ int	middle_proc(t_exec *exec, t_shell *shell)
 			free_all(shell);
 			exit(0);
 		}
-		built_in(exec, shell);
+		built_in(exec, shell, 0);
 		exec_cmd(exec->cmd, shell);
 	}
 	else
@@ -223,19 +223,20 @@ int	pipex(t_shell *shell)
 	if (!(PIPEX->child_tab))
 		return (print_error("malloc", NULL, shell, GEN_ERROR), FALSE);
 	PIPEX->child_tab[node_number(shell->exec)] = '\0';
-	PIPEX->i = 0;
 	tmp = shell->exec;
-	while (tmp)
+	if (tmp->pipe_to == NULL && built_in(tmp, shell, 1))
+		return (free(PIPEX->child_tab), TRUE);
+	else
 	{
-		// check si commande vide
-		if (task_init(tmp, shell) == FALSE)
-			break ;
-		// parent_signals(shell->signals);
-		if (tmp->cmd && tmp->cmd[0] && ft_strcmp((tmp->cmd)[0], "") == 0)
-			return (print_error(" ", N_CMD_MESS, shell, N_FOUND), TRUE);
-		middle_proc(tmp, shell);
-		PIPEX->i++;
-		tmp = tmp->pipe_to;
+		while (tmp)
+		{
+			if (task_init(tmp, shell) == FALSE)
+				break ;
+			if (tmp->cmd && tmp->cmd[0] && ft_strcmp((tmp->cmd)[0], "") == 0)
+				return (print_error(" ", N_CMD_MESS, shell, N_FOUND), TRUE);
+			middle_proc(tmp, shell);
+			tmp = tmp->pipe_to;
+		}
 	}
 	if (PIPEX->child_tab)
 		free(PIPEX->child_tab);

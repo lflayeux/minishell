@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:51:06 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/07 18:50:31 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/08 12:11:43 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ typedef struct s_pipex
 	int						child_index;
 	int						prev_fd;
 	int						end[2];
-	int						i;
 }							t_pipex;
 
 // ==============================================

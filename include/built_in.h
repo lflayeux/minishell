@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 17:58:35 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/07 19:00:57 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/08 17:15:58 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,6 @@ void    expand_env(char **to_expand, t_shell *shell);
 void    exec_pwd();
 void    exec_cd(char **path, int i, t_shell *shell);
 void    exec_echo(t_exec *exec, int i);
-int     built_in(t_exec *exec, t_shell *shell);
+int     built_in(t_exec *exec, t_shell *shell, int flag);
 
 #endif

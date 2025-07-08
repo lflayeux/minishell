@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 20:20:21 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/07 19:01:19 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/08 16:49:20 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ char **put_env(t_shell *shell, int i, char **env)
         new_env[j] = ft_strdup(env[j]);
         j++;
     }
-    new_env[j] = ft_strdup(shell->exec->cmd[i + 1]);
+    new_env[j] = ft_strdup(shell->exec->cmd[i]);
     new_env[j + 1] = NULL;
 	expand_env(new_env, shell);
     ft_free_tab((void **)(env));
@@ -136,7 +136,7 @@ char **set_env(t_shell *shell, int i, char *split, char **env)
         if (ft_strncmp(env[j], split, ft_strlen(split)) == 0)
         {
             free(new_env[j]);
-            new_env[j] = ft_strdup(shell->exec->cmd[i + 1]);
+            new_env[j] = ft_strdup(shell->exec->cmd[i]);
         }
         else
             new_env[j] = ft_strdup(env[j]);

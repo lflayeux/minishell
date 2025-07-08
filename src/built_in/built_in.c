@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 14:33:18 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/07 18:50:09 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/08 17:16:45 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,25 +92,28 @@ void	exec_echo(t_exec *exec, int i)
 		printf("\n");
 }
 
-int	built_in(t_exec *exec, t_shell *shell)
+int	built_in(t_exec *exec, t_shell *shell, int flag)
 {
 	if (!exec->cmd || exec->cmd[0] == NULL)
 		return (FALSE);
 	if (!(ft_strcmp(exec->cmd[0], "echo")))
-		exec_echo(exec, PIPEX->i);
+		exec_echo(exec, 0);
 	else if (ft_strcmp(exec->cmd[0], "cd") == 0)
-		exec_cd(exec->cmd, PIPEX->i, shell);
+		exec_cd(exec->cmd, 0, shell);
 	else if (ft_strcmp(exec->cmd[0], "pwd") == 0)
 		exec_pwd();
 	else if (ft_strcmp(exec->cmd[0], "env") == 0)
-		exec_env(shell, PIPEX->i);
+		exec_env(shell, 0);
 	else if (ft_strcmp(exec->cmd[0], "export") == 0)
-		exec_export(shell, PIPEX->i);
+		exec_export(shell, 0);
 	else if (ft_strcmp(exec->cmd[0], "unset") == 0)
-		exec_unset(shell, PIPEX->i);
+		exec_unset(shell, 0);
 	else
 		return (FALSE);
-	free_all(shell);
-	exit(0);
+	if (flag == 0)
+	{
+		free_all(shell);
+		exit(0);
+	}
 	return (TRUE);
 }
