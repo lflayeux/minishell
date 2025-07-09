@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 17:58:35 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/08 17:15:58 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/09 23:15:22 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 
 # include "expansion.h"
 
-void    exec_unset(t_shell *shell, int i);
-void    stock_export(t_shell *shell, int i);
-void    exec_export(t_shell	*shell, int i);
-void    check_env(t_shell *shell, int i);
-void    exec_env(t_shell *shell, int i);
+void    exec_unset(t_shell *shell, int i, t_exec *exec);
+void    stock_export(t_shell *shell, int i, char *cmd);
+void    exec_export(t_shell	*shell, int i, t_exec *exec);
+void    check_env(t_shell *shell, int i, char *cmd);
+void    exec_env(t_shell *shell, int i, t_exec *exec);
 int     is_valid_env(char *exec);
 int     ft_get_env(char **env, char *to_check);
 char    **unset_env(char *unset_env, char **env);
-char    **put_env(t_shell *shell, int i, char **env);
+char    **put_env(t_shell *shell, char **env, char *cmd);
 char    **set_env(t_shell *shell, int i, char *split, char **env);
 void    expand_env(char **to_expand, t_shell *shell);
 void    exec_pwd();

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 14:33:18 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/09 18:59:24 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/09 23:27:14 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,11 +110,11 @@ int	built_in(t_exec *exec, t_shell *shell, int flag)
 	else if (ft_strcmp(exec->cmd[0], "pwd") == 0)
 		exec_pwd();
 	else if (ft_strcmp(exec->cmd[0], "env") == 0)
-		exec_env(shell, 0);
+		exec_env(shell, 1, exec);
 	else if (ft_strcmp(exec->cmd[0], "export") == 0)
-		exec_export(shell, 0);
+		exec_export(shell, 0, exec);
 	else if (ft_strcmp(exec->cmd[0], "unset") == 0)
-		exec_unset(shell, 0);
+		exec_unset(shell, 0, exec);
 	else
 		return (FALSE);
 	if (flag == 0)

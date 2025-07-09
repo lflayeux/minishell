@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 20:20:21 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/08 16:49:20 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/09 23:15:17 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void expand_env(char **to_expand, t_shell *shell)
     }
 	free(expand);
 }
-char **put_env(t_shell *shell, int i, char **env)
+char **put_env(t_shell *shell, char **env, char *cmd)
 {
     int len;
     int j;
@@ -113,7 +113,7 @@ char **put_env(t_shell *shell, int i, char **env)
         new_env[j] = ft_strdup(env[j]);
         j++;
     }
-    new_env[j] = ft_strdup(shell->exec->cmd[i]);
+    new_env[j] = ft_strdup(cmd);
     new_env[j + 1] = NULL;
 	expand_env(new_env, shell);
     ft_free_tab((void **)(env));
