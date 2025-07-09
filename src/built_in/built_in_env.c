@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 20:21:47 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/08 18:55:32 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/09 19:53:49 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void    exec_export(t_shell	*shell, int i)
     char **split;
 
     j = 0;
-    if (!shell->exec->cmd[1])
+    if (!shell->exec->cmd[1] || ft_strcmp(shell->exec->cmd[1], " ") == 0)
     {
         while (shell->secret[j])
         {
@@ -85,7 +85,7 @@ void    exec_export(t_shell	*shell, int i)
         while (shell->exec->cmd[i])
         {
             if (!is_valid_env(shell->exec->cmd[i]))
-                printf("INVALID ENV: %s\n",shell->exec->cmd[i]);
+                print_error(shell->exec->cmd[i], "not a valid identifier", shell, GEN_ERROR);
             else
                 stock_export(shell, i);
             i++;

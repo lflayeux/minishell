@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 11:59:10 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/08 20:48:30 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/09 19:44:52 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 void	print_error(char *s1, char *s2, t_shell *shell, int type)
 {
 	(void)shell;
-	dup2(2, 1);
+	// dup2(2, 1);
 	if (s1 && s2 && type != 0)
 		printf("minishell: %s: %s\n", s1, s2);
 	else if (s1 && s2)

@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/08 20:58:08 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/09 16:13:32 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,37 +66,6 @@ char	**loop_here_doc(char *delimiter)
 	free(big_line);
 	return (tab);
 }
-
-// int	here_doc_proc(t_exec *exec, char *delimiter, t_shell *shell)
-// {
-// 	pid_t	child;
-// 	int		status;
-
-// 	parent_ignore(shell->signals);
-// 	child = fork();
-// 	if (child < 0)
-// 		return (FALSE);
-// 	if (child == 0)
-// 	{
-// 		child_signals(shell->signals);
-// 		exec->here_doc = loop_here_doc(delimiter, shell);
-// 		if (exec->here_doc == NULL && signal_global == 130)
-// 			return (exit_here_doc(shell), FALSE);
-// 		// close_fd(shell, 2, 0);
-// 		free_all(shell);
-// 		exit(0);
-// 	}
-// 	if (child > 0)
-// 	{
-// 		if (waitpid(child, &status, 0) == -1)
-// 			return (FALSE);
-// 		if (WEXITSTATUS(status) == 130)
-// 			return (FALSE);
-// 		parent_signals(shell->signals);
-// 	}
-// 	return (TRUE);
-// }
-
 int	here_doc_pipe(t_exec *exec, t_shell *shell)
 {
 	int	i;

@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 14:33:18 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/08 17:16:45 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/09 18:59:24 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,10 @@ void	exec_pwd(void)
 void	exec_cd(char **path, int i, t_shell *shell)
 {
 	char	*direction;
+	struct stat sb;
 
 	direction = NULL;
+	stat(path[i + 1], &sb);
 	if (path[i + 1] && path[i + 2])
 	{
 		signal_global = GEN_ERROR;
@@ -48,8 +50,13 @@ void	exec_cd(char **path, int i, t_shell *shell)
 		direction = ft_strjoin(getenv("HOME"), &path[i + 1][1]);
 	else
 		direction = ft_strdup(path[i + 1]);
-	if (chdir(direction) == -1)
-		print_error("cd", path[i + 1], shell, GEN_ERROR);
+	if (access(direction, F_OK) == -1)
+		print_error(path[i + 1], "No such file or directory", shell, N_FOUND);
+	else if (access(direction, F_OK | X_OK) == -1 && (!S_ISDIR(sb.st_mode)))
+		print_error(path[i + 1], "Not a directory", shell, N_FOUND);
+	else if (access(direction, F_OK | X_OK) == -1)
+		print_error(path[i + 1], "Permission denied", shell, N_FOUND);
+	chdir(direction);
 	if (direction)
 		free(direction);
 	exec_pwd();

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:49:02 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/02 17:44:25 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/09 17:16:54 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,27 +40,6 @@ void	child_signals(t_signal *signals)
 	sigaction(SIGINT, &signals->ctrl_c, NULL);
 }
 
-// void	here_doc_signals(t_signal *signals)
-// {
-// 	signals->ctrl_dump.sa_handler = SIG_DFL;
-// 	sigaction(SIGQUIT, &signals->ctrl_dump, NULL);
-// 	// signals->ctrl_c.sa_handler = SIG_DFL;
-// 	// sigaction(SIGINT, &signals->ctrl_c, NULL);
-// 	signals->ctrl_c.sa_handler = handle_ctrl_c_quit;
-// 	sigaction(SIGINT, &signals->ctrl_c, NULL);
-// }
-
-void	parent_ignore(t_signal *signals)
-{
-	signals->ctrl_c.sa_handler = SIG_IGN;
-	sigaction(SIGINT, &signals->ctrl_c, NULL);
-}
-
-// void	here_doc_signals(t_signal *signals)
-// {
-// 	signals->ctrl_c.sa_handler = handle_ctrl_c_action;
-// 	sigaction(SIGINT, &signals->ctrl_c, NULL);
-// }
 
 void	reset_signals(t_signal *signals)
 {

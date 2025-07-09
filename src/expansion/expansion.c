@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:07:12 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/08 20:24:57 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/09 11:08:11 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ int	expand(t_shell *shell)
 			shell->var = NULL;
 		}
 		tmp = tmp->next;
-	}
+	}			
 	free(expand);
 	return (TRUE);
 }

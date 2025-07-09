@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/08 20:43:27 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/09 17:18:36 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,7 @@ void	check_status(int status)
 	int	sig;
 	
 	if (WIFEXITED(status))
-	{
 		signal_global = WEXITSTATUS(status);
-	}
 	else if (WIFSIGNALED(status))
 	{
 		sig = WTERMSIG(status);
@@ -67,7 +65,7 @@ void	check_status(int status)
 		signal_global = 128 + sig;
 	}
 	else
-		signal_global= 0;
+		signal_global = 0;
 }
 
 
@@ -140,6 +138,7 @@ int	middle_proc(t_exec *exec, t_shell *shell)
 		}
 		built_in(exec, shell, 0);
 		exec_cmd(exec->cmd, shell);
+		exit(130);
 	}
 	else
 	{
@@ -225,7 +224,7 @@ int	pipex(t_shell *shell)
 	PIPEX->child_tab[node_number(shell->exec)] = '\0';
 	tmp = shell->exec;
 	if (tmp->pipe_to == NULL && built_in(tmp, shell, 1))
-		return (free(PIPEX->child_tab), TRUE);
+		return (TRUE);
 	else
 	{
 		while (tmp)
@@ -233,7 +232,11 @@ int	pipex(t_shell *shell)
 			if (task_init(tmp, shell) == FALSE)
 				break ;
 			if (tmp->cmd && tmp->cmd[0] && ft_strcmp((tmp->cmd)[0], "") == 0)
-				return (print_error(" ", N_CMD_MESS, shell, N_FOUND), TRUE);
+			{
+				print_error(" ", N_CMD_MESS, shell, N_FOUND);
+				tmp = tmp->pipe_to;
+				continue ;
+			}
 			middle_proc(tmp, shell);
 			tmp = tmp->pipe_to;
 		}

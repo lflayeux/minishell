@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 22:16:13 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/03 20:30:50 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/09 15:33:35 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@ void	reset_shell(t_shell *shell)
 		ft_lstclear_exec(shell->exec);
 		shell->exec = NULL;
 	}
+	if (PIPEX->child_tab)
+		free(PIPEX->child_tab);
+	PIPEX->child_tab = NULL;
 	if (shell->var)
 	{
 		free(shell->var);

@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 19:22:45 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/08 19:54:30 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/09 12:22:30 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ void	base_expand(t_expand *expand, t_shell *shell)
 
 void	var_expand(t_expand *expand, t_shell *shell)
 {
-
+	if (shell->var)
+		free(shell->var);
 	shell->var = ft_getenv(shell->env, &(expand->word[expand->i]), expand, shell);
 	if (shell->var == NULL)
 	{
