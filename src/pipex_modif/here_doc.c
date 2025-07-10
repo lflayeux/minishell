@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/10 18:42:27 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/11 00:30:57 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,26 +63,6 @@ char	**loop_here_doc(char *delimiter)
 		return (FALSE);
 	if (stock_here_doc(delimiter, &big_line, &line) == FALSE)
 		return (FALSE);
-	// while (line)
-	// {
-	// 	free(line);
-	// 	line = get_next_line(0);
-	// 	if (signal_global == 130)
-	// 		return (free(big_line), NULL);
-	// 	if (!line)
-	// 	{
-	// 		ft_printf("EOF before delimiter '%s' is reached\n", delimiter);
-	// 		break ;
-	// 	}
-	// 	if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
-	// 	{
-	// 		free(line);
-	// 		break ;
-	// 	}
-	// 	if (big_line != NULL)
-	// 		big_line = ft_strjoin_free(big_line, " ");
-	// 	big_line = ft_strjoin_free(big_line, line);
-	// }
 	if (!big_line)
 		return (FALSE);
 	tab = ft_split(big_line, ' ');
@@ -126,10 +106,4 @@ void	close_fd(t_shell *shell, int fd, int to_close)
 	{
 		close(to_close);
 	}
-}
-
-void	init_fd(t_shell *shell)
-{
-	PIPEX->end[0] = NONE;
-	PIPEX->end[1] = NONE;
 }

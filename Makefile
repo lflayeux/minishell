@@ -13,6 +13,7 @@ SRC =	src/main.c \
 		src/signals/signals_utils.c \
 		src/utils/free.c \
 		src/utils/init.c \
+		src/utils/init_2.c \
 		src/error/error.c \
 		src/tokenization/lst_tok.c \
 		src/tokenization/tokenize.c \

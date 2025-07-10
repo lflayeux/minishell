@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:41:38 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/03 20:37:37 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/11 00:40:01 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@
 # include "execution.h"
 # include "pipex.h"
 # include "built_in.h"
+# include "utils.h"
 
 // ==============================================
 // ================== PROMPT ====================
@@ -53,7 +54,9 @@
 # define GRN "\033[32m"
 # define GOLD "\033[38;5;220m"
 
-
+// ==============================================
+// ================== DEFINES ===================
+// ==============================================
 
 # define FALSE 0
 # define TRUE 1
@@ -68,14 +71,9 @@ extern int signal_global;
 int	expand(t_shell *shell);
 
 // ==============================================
-// ==================  UTILS ====================
+// ==================  A SUPPR ==================
 // ==============================================
 
-char	**init_env(char **envp);
-void	init_pipex(t_shell *shell);
-void	init_shell(t_shell *shell, char **envp);
-void	reset_shell(t_shell *shell);
-void	free_all(t_shell *shell);
 const char	*get_token_name(int type);
 
 #endif

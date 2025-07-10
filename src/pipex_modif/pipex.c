@@ -6,7 +6,7 @@
 /*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/10 23:42:21 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/07/11 00:29:51 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,24 +147,6 @@ int	middle_proc(t_exec *exec, t_shell *shell)
 	{
 		if (child_exec(shell, exec) == FALSE)
 			return (FALSE);
-		// child_signals(shell->signals);
-		// if (PIPEX->prev_fd != NONE && PIPEX->prev_fd != STDIN_FILENO)
-		// {
-		// 	if (dup2(PIPEX->prev_fd, STDIN_FILENO) == -1)
-		// 		return (FALSE);
-		// 	close(PIPEX->prev_fd);
-		// }
-		// outfile_management(exec, PIPEX->end, shell);
-		// if (!exec->cmd || !exec->cmd[0] || (ft_strcmp((exec->cmd)[0],
-		// 			" ") == 0))
-		// {
-		// 	close_fd(shell, 2, 0);
-		// 	free_all(shell);
-		// 	exit(0);
-		// }
-		// built_in(exec, shell, 0);
-		// exec_cmd(exec->cmd, shell);
-		// exit(130);
 	}
 	else
 	{

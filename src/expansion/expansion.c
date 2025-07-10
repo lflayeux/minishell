@@ -3,31 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:07:12 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/11 00:03:20 by alex             ###   ########.fr       */
+/*   Updated: 2025/07/11 00:28:56 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-// void	expand_word(t_expand *expand, t_shell *shell)
-// {
-// 	expanded_one(expand, shell);
-// 	if (expand->new)
-// 	{
-// 		free(expand->word);
-// 		expand->word = expand->new;
-// 		expand->new = NULL;
-// 	}
-// 	expanded_two(expand, shell);
-// 	if (expand->new)
-// 	{
-// 		free(expand->word);
-// 		expand->word = expand->new;
-// 	}
-// }
 
 char	*ft_strjoin_free(char const *s1, char const *s2)
 {
@@ -46,17 +29,9 @@ char	*ft_strjoin_free(char const *s1, char const *s2)
 		return (0);
 	while (s1[i])
 		dest[i++] = s1[j++];
-	// {
-		// dest[i] = s1[i];
-		// i++;
-	// }
 	j = 0;
 	while (s2[j])
 		dest[i++] = s2[j++];
-	// {
-	// 	dest[i + j] = s2[j];
-	// 	j++;
-	// }
 	if (s1)
 		free((void *)s1);
 	return (dest);
@@ -145,54 +120,15 @@ int	expand(t_shell *shell)
 	while (tmp)
 	{
 		expand_word(shell, tmp, expand);
-		// if (tmp->type == WORD)
-		// {
-		// 	expand->word = tmp->word;
-		// 	expanded_one(expand, shell);
-		// 	if (ft_strcmp("", expand->new) == 0 && expand->new)
-		// 	{
-		// 		free(expand->new);
-		// 		expand->new = ft_strdup("\" \"");
-		// 	}
-		// 	if (expand->new)
-		// 	{
-		// 		free(expand->word);
-		// 		expand->word = expand->new;
-		// 		expand->new = NULL;
-		// 	}
-		// 	tmp->word = expand->word;
-		// }
-		// if (shell->var)
-		// {
-		// 	free(shell->var);
-		// 	shell->var = NULL;
-		// }
 		tmp = tmp->next;
 	}
 	new_prompt(shell);
-	// printf("%s\n", shell->input);
 	if (tokenize(shell) == FALSE)
 		return (free(expand), FALSE);
 	tmp = shell->tok;
 	while (tmp)
 	{
 		unquotes(shell, tmp, expand);
-		// if (tmp->type == WORD)
-		// {
-		// 	expand->word = tmp->word;
-		// 	expanded_two(expand, shell);
-		// 	if (expand->new)
-		// 	{
-		// 		free(expand->word);
-		// 		expand->word = expand->new;
-		// 	}
-		// 	tmp->word = expand->word;
-		// }
-		// if (shell->var)
-		// {
-		// 	free(shell->var);
-		// 	shell->var = NULL;
-		// }
 		tmp = tmp->next;
 	}			
 	free(expand);
