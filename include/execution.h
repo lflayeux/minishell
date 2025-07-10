@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 15:32:01 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/02 14:22:14 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/10 23:44:50 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "minishell.h"
 
 # define TYPE init->type
-# define N (init->next)
+# define N ((*init)->next)
 # define ADD_BACK_EXEC ft_lstadd_back_exec
 # define NEW_EXEC ft_lstnew_exec
 // ==============================================

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 18:02:54 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/10 17:32:03 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/10 23:56:20 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ struct s_shell;
 # define PARSE_MESS "syntax error near unexpected token"
 # define N_DIR "Not a directory"
 # define PERM	"Permissions denied"
+# define ID "not a valid identifier"
 
 typedef enum e_error_type
 {

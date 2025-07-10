@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 20:20:21 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/10 17:32:03 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/11 00:16:18 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,36 +39,7 @@ int ft_get_env(char **env, char *to_check)
     }
     return (0);
 }
-// ========================
-// ======= UNSET ENV ======
-// ========================
-char    **unset_env(char *unset_env, char **env)
-{
-    char **new_env;
-    char **split;
-    int len;
-    int i;
-    int j;
 
-    i = 0;
-    j = 0;
-    len = 0;
-    while (env[len])
-        len++;
-    new_env = ft_calloc(len, sizeof(char *));
-    if (new_env == NULL)
-        return (NULL);
-    while (env[i])
-    {
-        split = ft_split(env[i], '=');
-        if (ft_strncmp(split[0], unset_env, ft_strlen(split[0])))
-            new_env[j++] = ft_strdup(env[i]);
-        ft_free_tab((void **)split);
-        i++;
-    }
-    ft_free_tab((void **)env);
-    return (new_env);
-}
 
 void expand_env(char **to_expand, t_shell *shell)
 {
@@ -119,9 +90,7 @@ char **put_env(t_shell *shell, char **env, char *cmd)
     ft_free_tab((void **)(env));
     return (new_env);
 }
-// ========================
-// ======= RESET ENV ======
-// ========================
+
 char **set_env(char *split, char **env, char *cmd)
 {
     int j;

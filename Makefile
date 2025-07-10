@@ -31,6 +31,8 @@ SRC =	src/main.c \
 		src/built_in/built_in_cd.c \
 		src/built_in/built_in_echo.c \
 		src/built_in/built_in_env.c \
+		src/built_in/built_in_export.c \
+		src/built_in/built_in_unset.c \
 		src/built_in/built_in_utils.c \
 
 GREEN = \033[32m

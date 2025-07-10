@@ -36,4 +36,5 @@
 > bash: jour: command not found
 > bash: ls: No such file or directory
 > chdir: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
+> ls | env ls: write error: Broken pipe
 
