@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:07:12 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/10 23:42:21 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/07/11 00:03:20 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,23 @@ char	*ft_strjoin_free(char const *s1, char const *s2)
 	if (!dest)
 		return (0);
 	while (s1[i])
-	{
-		dest[i] = s1[i];
-		i++;
-	}
+		dest[i++] = s1[j++];
+	// {
+		// dest[i] = s1[i];
+		// i++;
+	// }
+	j = 0;
 	while (s2[j])
-	{
-		dest[i + j] = s2[j];
-		j++;
-	}
+		dest[i++] = s2[j++];
+	// {
+	// 	dest[i + j] = s2[j];
+	// 	j++;
+	// }
 	if (s1)
 		free((void *)s1);
 	return (dest);
 }
+
 void	new_prompt(t_shell *shell)
 {
 	t_tok	*tmp;
@@ -81,6 +85,52 @@ void	new_prompt(t_shell *shell)
 	shell->input = new_prompt;
 }
 
+void expand_word(t_shell *shell, t_tok *tmp, t_expand *expand)
+{
+	if (tmp->type == WORD)
+	{
+		expand->word = tmp->word;
+		expanded_one(expand, shell);
+		if (ft_strcmp("", expand->new) == 0 && expand->new)
+		{
+			free(expand->new);
+			expand->new = ft_strdup("\" \"");
+		}
+		if (expand->new)
+		{
+			free(expand->word);
+			expand->word = expand->new;
+			expand->new = NULL;
+		}
+		tmp->word = expand->word;
+	}
+	if (shell->var)
+	{
+		free(shell->var);
+		shell->var = NULL;
+	}
+}
+
+void unquotes(t_shell *shell, t_tok *tmp, t_expand *expand)
+{
+	if (tmp->type == WORD)
+	{
+		expand->word = tmp->word;
+		expanded_two(expand, shell);
+		if (expand->new)
+		{
+			free(expand->word);
+			expand->word = expand->new;
+		}
+		tmp->word = expand->word;
+	}
+	if (shell->var)
+	{
+		free(shell->var);
+		shell->var = NULL;
+	}
+}
+
 int	expand(t_shell *shell)
 {
 	t_tok		*tmp;
@@ -94,53 +144,55 @@ int	expand(t_shell *shell)
 		print_error("malloc", NULL, shell, GEN_ERR);
 	while (tmp)
 	{
-		if (tmp->type == WORD)
-		{
-			expand->word = tmp->word;
-			expanded_one(expand, shell);
-			if (ft_strcmp("", expand->new) == 0 && expand->new)
-			{
-				free(expand->new);
-				expand->new = ft_strdup("\" \"");
-			}
-			if (expand->new)
-			{
-				free(expand->word);
-				expand->word = expand->new;
-				expand->new = NULL;
-			}
-			tmp->word = expand->word;
-		}
-		if (shell->var)
-		{
-			free(shell->var);
-			shell->var = NULL;
-		}
+		expand_word(shell, tmp, expand);
+		// if (tmp->type == WORD)
+		// {
+		// 	expand->word = tmp->word;
+		// 	expanded_one(expand, shell);
+		// 	if (ft_strcmp("", expand->new) == 0 && expand->new)
+		// 	{
+		// 		free(expand->new);
+		// 		expand->new = ft_strdup("\" \"");
+		// 	}
+		// 	if (expand->new)
+		// 	{
+		// 		free(expand->word);
+		// 		expand->word = expand->new;
+		// 		expand->new = NULL;
+		// 	}
+		// 	tmp->word = expand->word;
+		// }
+		// if (shell->var)
+		// {
+		// 	free(shell->var);
+		// 	shell->var = NULL;
+		// }
 		tmp = tmp->next;
 	}
 	new_prompt(shell);
-	printf("%s\n", shell->input);
+	// printf("%s\n", shell->input);
 	if (tokenize(shell) == FALSE)
 		return (free(expand), FALSE);
 	tmp = shell->tok;
 	while (tmp)
 	{
-		if (tmp->type == WORD)
-		{
-			expand->word = tmp->word;
-			expanded_two(expand, shell);
-			if (expand->new)
-			{
-				free(expand->word);
-				expand->word = expand->new;
-			}
-			tmp->word = expand->word;
-		}
-		if (shell->var)
-		{
-			free(shell->var);
-			shell->var = NULL;
-		}
+		unquotes(shell, tmp, expand);
+		// if (tmp->type == WORD)
+		// {
+		// 	expand->word = tmp->word;
+		// 	expanded_two(expand, shell);
+		// 	if (expand->new)
+		// 	{
+		// 		free(expand->word);
+		// 		expand->word = expand->new;
+		// 	}
+		// 	tmp->word = expand->word;
+		// }
+		// if (shell->var)
+		// {
+		// 	free(shell->var);
+		// 	shell->var = NULL;
+		// }
 		tmp = tmp->next;
 	}			
 	free(expand);
