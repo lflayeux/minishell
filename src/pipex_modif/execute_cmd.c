@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/08 19:14:06 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/10 18:42:06 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,37 +37,39 @@ char	**find_path_env(t_shell *shell)
 	return (all_paths);
 }
 
-int is_slash(char *str)
+int	is_slash(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(str[i])
+	while (str[i])
 	{
-		if(str[i] == '/')
+		if (str[i] == '/')
 			return (TRUE);
 		i++;
 	}
 	return (FALSE);
 }
 
-int    handle_path_cmd(char **cmd_parsed, char *path, t_shell *shell)
+int	handle_path_cmd(char **cmd_parsed, char *path, t_shell *shell)
 {
-	struct stat    st;
+	struct stat	st;
 
 	if (stat(path, &st) == 0)
 	{
 		if (S_ISDIR(st.st_mode))
-			return (print_error(path, "Is a directory", shell, CMD_EXEC), FALSE);
+			return (print_error(path, "Is a directory", shell, CMD_EXEC),
+				FALSE);
 	}
 	if (access(path, F_OK) == -1 && is_slash(cmd_parsed[0]))
-		return (print_error(path, "No such file or directory", shell, N_FOUND), FALSE);
-    if (access(path, X_OK) == 0)
-    {
-        if (execve(path, cmd_parsed, shell->env) == -1)
-            print_error(cmd_parsed[0], NULL, shell, CMD_EXEC);
-    }
-    return (TRUE);
+		return (print_error(path, "No such file or directory", shell, N_FOUND),
+			FALSE);
+	if (access(path, X_OK) == 0)
+	{
+		if (execve(path, cmd_parsed, shell->env) == -1)
+			print_error(cmd_parsed[0], NULL, shell, CMD_EXEC);
+	}
+	return (TRUE);
 }
 
 // malloc ok
@@ -75,7 +77,7 @@ int	exec_proc(char **cmd_parsed, char **all_paths, t_shell *shell, int i)
 {
 	char	*temp;
 	char	*path;
-	
+
 	if (handle_path_cmd(cmd_parsed, cmd_parsed[0], shell) == FALSE)
 	{
 		free_all(shell);

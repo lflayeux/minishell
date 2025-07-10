@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 15:31:21 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/02 19:29:39 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/10 17:55:53 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	init_exec(t_tok *init, t_exec *node_exec, t_tok *end, t_shell *shell)
 	}
 	return (TRUE);
 }
+
 t_exec	*ft_lstnew_exec(t_tok *init, t_tok *end, t_shell *shell)
 {
 	t_exec	*node_exec;
@@ -88,14 +89,10 @@ int	create_lst_exec(t_shell *shell)
 	tmp_tok1 = shell->tok;
 	tmp_tok2 = shell->tok;
 	tmp_error = parse_error(shell);
-	// fprintf(stderr, "shell->tok = %p, tmp_error = %p\n", (void *)shell->tok,
-	// (void *)tmp_error);
 	while (tmp_tok1)
 	{
 		while (tmp_tok1 && tmp_tok1->type != PIPE)
 		{
-			// fprintf(stderr, "  visiting %p (type=%d)\n", (void *)tmp_tok1,
-			// tmp_tok1->type);
 			if (tmp_error != NULL && tmp_tok1 == tmp_error)
 				break ;
 			tmp_tok1 = tmp_tok1->next;

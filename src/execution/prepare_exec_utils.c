@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_exec_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 15:46:44 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/03 20:21:36 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/10 17:48:17 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	word_number(t_tok *init, t_tok *end)
 	return (count);
 }
 
-void	exit_here_doc()
+void	exit_here_doc(void)
 {
 	printf("\n");
 	signal_global = 0;
@@ -39,6 +39,8 @@ void	exit_here_doc()
 int	if_here_doc(t_exec *node_exec, t_tok **init, t_shell *shell)
 {
 	child_signals(shell->signals);
+	if (node_exec->here_doc)
+		ft_free_tab((void **)node_exec->here_doc);
 	node_exec->here_doc = loop_here_doc(((*init)->next)->word);
 	if (!(node_exec->here_doc) && signal_global == 130)
 		return (parent_signals(shell->signals), exit_here_doc(), FALSE);
