@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 20:20:21 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/09 23:15:17 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/07/10 17:32:03 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void expand_env(char **to_expand, t_shell *shell)
 	expand->new = NULL;
 	expand->quotes = 0;
 	if (!expand)
-		print_error("malloc", NULL, shell, GEN_ERROR);
+		print_error("malloc", NULL, shell, GEN_ERR);
     while (to_expand[i])
     {
 	    expand->word = to_expand[i];
@@ -122,7 +122,7 @@ char **put_env(t_shell *shell, char **env, char *cmd)
 // ========================
 // ======= RESET ENV ======
 // ========================
-char **set_env(t_shell *shell, int i, char *split, char **env)
+char **set_env(char *split, char **env, char *cmd)
 {
     int j;
     char **new_env;
@@ -136,10 +136,13 @@ char **set_env(t_shell *shell, int i, char *split, char **env)
         if (ft_strncmp(env[j], split, ft_strlen(split)) == 0)
         {
             free(new_env[j]);
-            new_env[j] = ft_strdup(shell->exec->cmd[i]);
+            new_env[j] = ft_strdup(cmd);
         }
         else
+        {
+            free(new_env[j]);
             new_env[j] = ft_strdup(env[j]);
+        }
         j++;
     }
     ft_free_tab((void **)(env));

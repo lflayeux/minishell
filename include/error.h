@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 18:02:54 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/02 19:01:42 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/10 17:32:03 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 struct s_shell;
 
 # define SUCCESS 0
-# define GEN_ERROR 1
+# define GEN_ERR 1
 # define BUILTIN_ERROR 2
 # define CMD_EXEC 126
 # define N_FOUND 127
@@ -28,6 +28,8 @@ struct s_shell;
 # define N_CMD_MESS "command not found"
 # define FILE_MESS "No such file or directory"
 # define PARSE_MESS "syntax error near unexpected token"
+# define N_DIR "Not a directory"
+# define PERM	"Permissions denied"
 
 typedef enum e_error_type
 {

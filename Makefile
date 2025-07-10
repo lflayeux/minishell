@@ -27,6 +27,9 @@ SRC =	src/main.c \
 		src/pipex_modif/here_doc.c \
 		src/pipex_modif/execute_cmd.c \
 		src/built_in/built_in.c \
+		src/built_in/built_in_pwd.c \
+		src/built_in/built_in_cd.c \
+		src/built_in/built_in_echo.c \
 		src/built_in/built_in_env.c \
 		src/built_in/built_in_utils.c \
 

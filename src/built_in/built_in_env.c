@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in_env.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 20:21:47 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/09 23:30:24 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/07/10 20:50:49 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void    exec_unset(t_shell *shell, int i, t_exec *exec)
         i++;
     }
 }
-void stock_export(t_shell *shell, int i, char *cmd)
+void stock_export(t_shell *shell, char *cmd)
 {
     char **split;
 
@@ -35,9 +35,9 @@ void stock_export(t_shell *shell, int i, char *cmd)
     {
         split = ft_split(cmd, '=');
         if (ft_get_env(shell->env, split[0]))
-            shell->env = set_env(shell, i, split[0], shell->env);
+            shell->env = set_env(split[0], shell->env, cmd);
         if (ft_get_env(shell->secret, split[0]))
-            shell->secret = set_env(shell, i, split[0], shell->secret);
+            shell->secret = set_env(split[0], shell->secret, cmd);
         if (!ft_get_env(shell->env, split[0]) && ft_get_env(shell->secret, split[0]))
             shell->env = put_env(shell, shell->env, cmd);
         if (!ft_get_env(shell->secret, split[0]) && !ft_get_env(shell->env, split[0]))
@@ -50,7 +50,7 @@ void stock_export(t_shell *shell, int i, char *cmd)
     else
     {
         if (ft_get_env(shell->secret, cmd))
-            shell->secret = set_env(shell, i, cmd, shell->secret);
+            shell->secret = set_env(cmd, shell->secret, cmd);
         else
             shell->secret = put_env(shell, shell->secret, cmd);
     }
@@ -85,15 +85,16 @@ void    exec_export(t_shell	*shell, int i, t_exec *exec)
         while (exec->cmd[i])
         {
             if (!is_valid_env(exec->cmd[i]))
-                print_error(exec->cmd[i], "not a valid identifier", shell, GEN_ERROR);
+                print_error(exec->cmd[i], "not a valid identifier", shell, GEN_ERR);
             else
-                stock_export(shell, i, exec->cmd[i]);
+                stock_export(shell, exec->cmd[i]);
             i++;
         }
     }
  }						
-
-void    check_env(t_shell *shell, int i, char *cmd)
+// ===================== ENV ============================
+// A garder dans ce fichier le reste a tej
+void    check_env(t_shell *shell, char *cmd, char ***tmp)
 {
     char **split;
 
@@ -102,30 +103,35 @@ void    check_env(t_shell *shell, int i, char *cmd)
         return ;
     if (ft_get_env(shell->env, split[0]) == 1)
     {
-        shell->env = set_env(shell, i, split[0], shell->env);
+        *tmp = set_env(split[0], *tmp, cmd);
         ft_free_tab((void **)split);
         return ;
     }
-    shell->env = put_env(shell, shell->env, cmd);
+    else
+        *tmp = put_env(shell, *tmp, cmd);
     ft_free_tab((void **)split);
 }
-void exec_env(t_shell *shell, int i, t_exec *exec)
+int exec_env(t_shell *shell, int i, t_exec *exec)
 {
     int j;
+    char    **tmp;
 
-    while (exec->cmd[i])
+    tmp = init_env(shell->env);
+    while (exec->cmd[i + 1])
     {
-        if (ft_strchr(exec->cmd[i], '='))
-                check_env(shell, i, exec->cmd[i]);
+        if (ft_strchr(exec->cmd[i + 1], '='))
+                check_env(shell, exec->cmd[i + 1], &tmp);
         else
+        {
+            ft_free_tab((void **)tmp);
+            return (print_error(exec->cmd[i + 1], FILE_MESS, shell, 1), 1);
             break;
+        }
         i++;
     }
     j = 0;
-    while (shell->env[j])
-    {
-        printf("%s\n", shell->env[j]);
-        j++;
-    }
-    i++;
+    while (tmp[j])
+        printf("%s\n", tmp[j++]);
+    return (ft_free_tab((void **)tmp), SUCCESS);
 }
+
