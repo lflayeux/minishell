@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 19:22:45 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/09 12:22:30 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/10 23:42:21 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	pid_expand(t_expand *expand, t_shell *shell)
 	expand->i++;
 	expand->new = ft_realloc(expand->new, strlen(expand->new) + strlen(shell->pid) + 1);
 	if (!expand->new)
-		print_error("malloc", NULL, shell, GEN_ERROR);
+		print_error("malloc", NULL, shell, GEN_ERR);
 	ft_strlcat(expand->new, shell->pid, strlen(expand->new) + strlen(shell->pid) + 1);
 }
 
@@ -57,10 +57,10 @@ void	error_expand(t_expand *expand, t_shell *shell)
 	expand->i++;
 	error_str = ft_itoa((int)signal_global);
 	if (!error_str)
-		print_error("malloc", NULL, shell, GEN_ERROR);
+		print_error("malloc", NULL, shell, GEN_ERR);
 	expand->new = ft_realloc(expand->new, strlen(expand->new) + strlen(error_str) + 1);
 	if (!expand->new)
-		print_error("malloc", NULL, shell, GEN_ERROR);
+		print_error("malloc", NULL, shell, GEN_ERR);
 	ft_strlcat(expand->new, error_str, strlen(expand->new) + strlen(error_str) + 1);
 	free(error_str);
 }
@@ -68,7 +68,7 @@ void	base_expand(t_expand *expand, t_shell *shell)
 {
 	expand->new = ft_realloc(expand->new, strlen(expand->new) + 2);
 	if (!expand->new)
-		print_error("malloc", NULL, shell, GEN_ERROR);
+		print_error("malloc", NULL, shell, GEN_ERR);
 	expand->new[ft_strlen(expand->new)] = expand->word[expand->i];
 	expand->i++;
 }
@@ -84,12 +84,12 @@ void	var_expand(t_expand *expand, t_shell *shell)
 			expand->i++;
 		expand->new = ft_realloc(expand->new, strlen(expand->new) + 2);
 		if (!expand->new)
-			print_error("malloc", NULL, shell, GEN_ERROR);
+			print_error("malloc", NULL, shell, GEN_ERR);
 		// expand->new[ft_strlen(expand->new)] = ' ';
 		return ;
 	}
 	expand->new = ft_realloc(expand->new, strlen(expand->new) + strlen(shell->var) + 1);
 	if (!expand->new)
-		print_error("malloc", NULL, shell, GEN_ERROR);
+		print_error("malloc", NULL, shell, GEN_ERR);
 	ft_strlcat(expand->new, shell->var, strlen(expand->new) + strlen(shell->var) + 1);
 }

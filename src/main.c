@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:43:33 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/08 19:52:02 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/10 23:42:21 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	shell = malloc(sizeof(t_shell));
 	if (!shell)
-		return (free_all(shell), print_error("malloc", NULL, shell, GEN_ERROR),
+		return (free_all(shell), print_error("malloc", NULL, shell, GEN_ERR),
 			1);
 	init_shell(shell, envp);
 	while (1)

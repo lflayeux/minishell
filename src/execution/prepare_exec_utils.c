@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_exec_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 15:46:44 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/10 20:44:36 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/10 23:42:21 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	if_outfile(t_exec *node_exec, t_tok **init, t_shell *shell)
 
 	temp_fd = open(((*init)->next)->word, O_WRONLY | O_TRUNC | O_CREAT, 0666);
 	if (temp_fd == -1)
-		print_error(((*init)->next)->word, FILE_MESS, shell, GEN_ERROR);
+		print_error(((*init)->next)->word, FILE_MESS, shell, GEN_ERR);
 	close(temp_fd);
 	node_exec->outfile = ((*init)->next)->word;
 	node_exec->if_outfile = 1;

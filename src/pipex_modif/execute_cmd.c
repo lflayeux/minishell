@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/10 18:42:06 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/10 23:42:21 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ char	**find_path_env(t_shell *shell)
 	len = ft_strlen(shell->env[i]);
 	path_str = ft_substr(shell->env[i], 5, len - 5);
 	if (!path_str)
-		print_error("malloc", NULL, shell, GEN_ERROR);
+		print_error("malloc", NULL, shell, GEN_ERR);
 	all_paths = ft_split(path_str, ':');
 	if (!all_paths)
-		print_error("malloc", NULL, shell, GEN_ERROR);
+		print_error("malloc", NULL, shell, GEN_ERR);
 	free(path_str);
 	return (all_paths);
 }

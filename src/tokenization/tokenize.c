@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 12:19:00 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/09 15:06:15 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/10 23:42:21 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	word_token(char *input, t_shell *shell)
 	len += len_word_tok(input);
 	word = calloc(len + 1, sizeof(char));
 	if (!word)
-		print_error("malloc de merde", NULL, shell, GEN_ERROR);
+		print_error("malloc de merde", NULL, shell, GEN_ERR);
 	add_word_tok(input, shell, word);
 	return (len);
 }

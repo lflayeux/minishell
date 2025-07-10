@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/10 17:58:23 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/10 23:42:21 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,7 +252,7 @@ int	pipex(t_shell *shell)
 {
 	PIPEX->child_tab = ft_calloc(node_number(shell->exec) + 1, sizeof(pid_t));
 	if (!(PIPEX->child_tab))
-		return (print_error("malloc", NULL, shell, GEN_ERROR), FALSE);
+		return (print_error("malloc", NULL, shell, GEN_ERR), FALSE);
 	PIPEX->child_tab[node_number(shell->exec)] = '\0';
 	if (shell->exec->pipe_to == NULL && built_in(shell->exec, shell, 1))
 		return (TRUE);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 15:31:21 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/10 20:57:53 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/10 23:42:21 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	tokken_choice(t_shell *shell, t_tok **init, t_exec *node_exec, int *i)
 	{
 		(node_exec->cmd)[*i] = ft_strdup((*init)->word);
 		if (!((node_exec->cmd)[*i]))
-			print_error("malloc", NULL, shell, GEN_ERROR);
+			print_error("malloc", NULL, shell, GEN_ERR);
 		(*i)++;
 	}
 	if ((*init)->type == INFILE && N->type == WORD && N)
@@ -48,7 +48,7 @@ int	init_exec(t_tok *init, t_exec *node_exec, t_tok *end, t_shell *shell)
 		// {
 		// 	(node_exec->cmd)[i] = ft_strdup(init->word);
 		// 	if (!((node_exec->cmd)[i]))
-		// 		print_error("malloc", NULL, shell, GEN_ERROR);
+		// 		print_error("malloc", NULL, shell, GEN_ERR);
 		// 	i++;
 		// }
 		// if (TYPE == INFILE && N->type == WORD && N)
@@ -73,11 +73,11 @@ t_exec	*ft_lstnew_exec(t_tok *init, t_tok *end, t_shell *shell)
 
 	node_exec = malloc(sizeof(t_exec));
 	if (!node_exec)
-		print_error("malloc", NULL, shell, GEN_ERROR);
+		print_error("malloc", NULL, shell, GEN_ERR);
 	exec_init(node_exec);
 	node_exec->cmd = ft_calloc(word_number(init, end) + 1, sizeof(char *));
 	if (!(node_exec->cmd))
-		print_error("malloc", NULL, shell, GEN_ERROR);
+		print_error("malloc", NULL, shell, GEN_ERR);
 	if (init_exec(init, node_exec, end, shell) == FALSE)
 	{
 		if (node_exec->cmd)
