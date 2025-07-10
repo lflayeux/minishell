@@ -6,11 +6,34 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 15:31:21 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/10 17:55:53 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/10 20:57:53 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+int	tokken_choice(t_shell *shell, t_tok **init, t_exec *node_exec, int *i)
+{
+	if ((*init)->type == WORD)
+	{
+		(node_exec->cmd)[*i] = ft_strdup((*init)->word);
+		if (!((node_exec->cmd)[*i]))
+			print_error("malloc", NULL, shell, GEN_ERROR);
+		(*i)++;
+	}
+	if ((*init)->type == INFILE && N->type == WORD && N)
+		if_infile(node_exec, init);
+	if ((*init)->type == OUTFILE && N->type == WORD && N)
+		if_outfile(node_exec, init, shell);
+	if ((*init)->type == APPEND && N->type == WORD && N)
+		if_append(node_exec, init);
+	if ((*init)->type == HERE_DOC && N->type == WORD && N)
+	{
+		if (if_here_doc(node_exec, init, shell) == FALSE)
+			return (FALSE);
+	}
+	return (TRUE);
+}
 
 int	init_exec(t_tok *init, t_exec *node_exec, t_tok *end, t_shell *shell)
 {
@@ -19,25 +42,27 @@ int	init_exec(t_tok *init, t_exec *node_exec, t_tok *end, t_shell *shell)
 	i = 0;
 	while (init && init != end)
 	{
-		if (TYPE == WORD)
-		{
-			(node_exec->cmd)[i] = ft_strdup(init->word);
-			if (!((node_exec->cmd)[i]))
-				print_error("malloc", NULL, shell, GEN_ERROR);
-			i++;
-		}
-		if (TYPE == INFILE && N->type == WORD && N)
-			if_infile(node_exec, &init);
-		if (TYPE == OUTFILE && N->type == WORD && N)
-			if_outfile(node_exec, &init, shell);
-		if (TYPE == APPEND && N->type == WORD && N)
-			if_append(node_exec, &init);
-		if (TYPE == HERE_DOC && N->type == WORD && N)
-		{
-			if (if_here_doc(node_exec, &init, shell) == FALSE)
-				return (FALSE);
-		}
-		init = N;
+		if (tokken_choice(shell, &init, node_exec, &i) == FALSE)
+			return (FALSE);
+		// if (TYPE == WORD)
+		// {
+		// 	(node_exec->cmd)[i] = ft_strdup(init->word);
+		// 	if (!((node_exec->cmd)[i]))
+		// 		print_error("malloc", NULL, shell, GEN_ERROR);
+		// 	i++;
+		// }
+		// if (TYPE == INFILE && N->type == WORD && N)
+		// 	if_infile(node_exec, &init);
+		// if (TYPE == OUTFILE && N->type == WORD && N)
+		// 	if_outfile(node_exec, &init, shell);
+		// if (TYPE == APPEND && N->type == WORD && N)
+		// 	if_append(node_exec, &init);
+		// if (TYPE == HERE_DOC && N->type == WORD && N)
+		// {
+		// 	if (if_here_doc(node_exec, &init, shell) == FALSE)
+		// 		return (FALSE);
+		// }
+		init = init->next;
 	}
 	return (TRUE);
 }
@@ -78,6 +103,17 @@ t_exec	*ft_lstnew_exec(t_tok *init, t_tok *end, t_shell *shell)
 // 	return (0);
 // }
 
+int	find_target(t_tok **tmp_tok1, t_tok *tmp_error)
+{
+	while ((*tmp_tok1) && (*tmp_tok1)->type != PIPE)
+	{
+		if (tmp_error != NULL && (*tmp_tok1) == tmp_error)
+			return (FALSE);
+		(*tmp_tok1) = (*tmp_tok1)->next;
+	}
+	return (TRUE);
+}
+
 // CREATE THE LIST OF ALL EXEC TO MAKE
 int	create_lst_exec(t_shell *shell)
 {
@@ -91,12 +127,14 @@ int	create_lst_exec(t_shell *shell)
 	tmp_error = parse_error(shell);
 	while (tmp_tok1)
 	{
-		while (tmp_tok1 && tmp_tok1->type != PIPE)
-		{
-			if (tmp_error != NULL && tmp_tok1 == tmp_error)
-				break ;
-			tmp_tok1 = tmp_tok1->next;
-		}
+		if (find_target(&tmp_tok1, tmp_error) == FALSE)
+			break ;
+		// while (tmp_tok1 && tmp_tok1->type != PIPE)
+		// {
+		// 	if (tmp_error != NULL && tmp_tok1 == tmp_error)
+		// 		break ;
+		// 	tmp_tok1 = tmp_tok1->next;
+		// }
 		new = NEW_EXEC(tmp_tok2, tmp_tok1, shell);
 		if (!new)
 			return (FALSE);
