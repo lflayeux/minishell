@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/11 19:01:04 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/11 20:22:59 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,9 @@ int	child_exec(t_shell *shell, t_exec *exec)
 		free_all(shell);
 		exit(0);
 	}
+	signal(SIGPIPE, SIG_IGN);
 	built_in(exec, shell, 0);
+	signal(SIGPIPE, SIG_DFL);
 	exec_cmd(exec->cmd, shell);
 	exit(130);
 	return (TRUE);
@@ -77,6 +79,8 @@ int	middle_proc(t_exec *exec, t_shell *shell)
 		return (close_fd(shell, 2, 0), FALSE);
 	else if (child == 0)
 	{
+		if (task_init(exec, shell) == FALSE)
+			exit(1);
 		if (child_exec(shell, exec) == FALSE)
 			return (FALSE);
 	}
@@ -95,8 +99,11 @@ void	loop_pipex(t_shell *shell)
 	tmp = shell->exec;
 	while (tmp)
 	{
-		if (task_init(tmp, shell) == FALSE)
-			break ;
+		// if (task_init(tmp, shell) == FALSE)
+		// {
+		// 	tmp = tmp->pipe_to;
+		// 	continue ;
+		// }
 		if (tmp->cmd && tmp->cmd[0] && ft_strcmp((tmp->cmd)[0], "") == 0)
 		{
 			print_error(" ", N_CMD_MESS, shell, N_FOUND);

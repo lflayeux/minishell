@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 12:19:00 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/11 11:46:29 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/11 19:19:18 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	word_token(char *input, t_shell *shell)
 	len += len_word_tok(input);
 	word = calloc(len + 1, sizeof(char));
 	if (!word)
-		print_error("malloc de merde", NULL, shell, GEN_ERR);
+		free_error(shell);
 	add_word_tok(input, shell, word);
 	return (len);
 }

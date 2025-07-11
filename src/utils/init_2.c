@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 00:31:53 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/11 11:48:11 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/11 20:31:30 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,12 @@ int	task_init(t_exec *exec, t_shell *shell)
 	{
 		fd_infile = open((exec->infile), O_RDONLY);
 		if (fd_infile == -1)
-			return (FALSE);
+		{
+			if(access(exec->infile, F_OK) == - 1)
+				return (print_error(exec->infile, FILE_MESS, shell, 1), 0);			
+			else
+				return (print_error(exec->infile, PERM, shell, 1), 0);			
+		}
 		if (PIPEX->prev_fd != NONE)
 			close(PIPEX->prev_fd);
 		PIPEX->prev_fd = fd_infile;

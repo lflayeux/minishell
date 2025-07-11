@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 15:46:44 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/11 11:52:06 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/11 21:32:19 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,10 @@ int	if_outfile(t_exec *node_exec, t_tok **init, t_shell *shell)
 {
 	int	temp_fd;
 
+	(void)shell;
 	temp_fd = open(((*init)->next)->word, O_WRONLY | O_TRUNC | O_CREAT, 0666);
-	if (temp_fd == -1)
-		print_error(((*init)->next)->word, FILE_MESS, shell, GEN_ERR);
-	close(temp_fd);
+	if(temp_fd)
+		close(temp_fd);
 	node_exec->outfile = ((*init)->next)->word;
 	node_exec->if_outfile = 1;
 	node_exec->if_append = 0;
