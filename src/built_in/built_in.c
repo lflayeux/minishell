@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 14:33:18 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/11 11:52:06 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/11 15:46:46 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	built_in(t_exec *exec, t_shell *shell, int flag)
 	else if (ft_strcmp(exec->cmd[0], "cd") == 0)
 		g_signal_global = exec_cd(exec->cmd, 0, shell);
 	else if (ft_strcmp(exec->cmd[0], "pwd") == 0)
-		g_signal_global = exec_pwd();
+		g_signal_global = exec_pwd(shell);
 	else if (ft_strcmp(exec->cmd[0], "env") == 0)
 		g_signal_global = exec_env(shell, 0, exec);
 	else if (ft_strcmp(exec->cmd[0], "export") == 0)

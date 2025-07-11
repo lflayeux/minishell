@@ -6,11 +6,36 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 00:05:17 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/11 11:29:11 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/11 15:43:46 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+
+int valid_export(t_shell *shell, char *cmd, char **split)
+{
+	if (GET_ENV(shell->env, split[0]))
+		shell->env = set_env(split[0], shell->env, cmd);
+	if (!shell->env)
+		return (FALSE);
+	if (GET_ENV(shell->secret, split[0]))
+		shell->secret = set_env(split[0], shell->secret, cmd);
+	if (!shell->secret)
+		return (FALSE);
+	if (!GET_ENV(shell->env, split[0]) && GET_ENV(shell->secret, split[0]))
+		shell->env = put_env(shell, shell->env, cmd);
+	if (!shell->env)
+		return (FALSE);
+	if (!GET_ENV(shell->secret, split[0]) && !GET_ENV(shell->env, split[0]))
+	{
+		shell->env = put_env(shell, shell->env, cmd);
+		shell->secret = put_env(shell, shell->secret, cmd);
+		if (!shell->env | !shell->secret)
+			return (FALSE);
+	}
+	return (TRUE);
+}
 
 void	stock_export(t_shell *shell, char *cmd)
 {
@@ -19,16 +44,12 @@ void	stock_export(t_shell *shell, char *cmd)
 	if (ft_strchr(cmd, '='))
 	{
 		split = ft_split(cmd, '=');
-		if (GET_ENV(shell->env, split[0]))
-			shell->env = set_env(split[0], shell->env, cmd);
-		if (GET_ENV(shell->secret, split[0]))
-			shell->secret = set_env(split[0], shell->secret, cmd);
-		if (!GET_ENV(shell->env, split[0]) && GET_ENV(shell->secret, split[0]))
-			shell->env = put_env(shell, shell->env, cmd);
-		if (!GET_ENV(shell->secret, split[0]) && !GET_ENV(shell->env, split[0]))
+		if(!split)
+			free_error(shell);
+		if (valid_export(shell, cmd, split) == FALSE)
 		{
-			shell->env = put_env(shell, shell->env, cmd);
-			shell->secret = put_env(shell, shell->secret, cmd);
+			ft_free_tab((void **)split);
+			free_error(shell);
 		}
 		ft_free_tab((void **)split);
 	}
@@ -38,6 +59,8 @@ void	stock_export(t_shell *shell, char *cmd)
 			shell->secret = set_env(cmd, shell->secret, cmd);
 		else
 			shell->secret = put_env(shell, shell->secret, cmd);
+		if (!shell->secret)
+			free_error(shell);
 	}
 }
 
@@ -50,10 +73,14 @@ void	export_print(t_shell *shell, int i, t_exec *exec)
 	while (shell->secret[j])
 	{
 		split = ft_split(shell->secret[j], '=');
+		if (!split)
+			free_error(shell);
 		if (ft_strchr(shell->secret[j], '=') == 0)
 		{
 			if (!GET_ENV(shell->env, split[0]) && !is_valid_env(split[0]))
 				shell->env = put_env(shell, shell->env, exec->cmd[i + 1]);
+			if (!shell->env)
+				return (ft_free_tab((void **)split), free_error(shell));
 			printf("declare -x %s\n", split[0]);
 		}
 		else

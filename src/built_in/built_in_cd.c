@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 17:14:23 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/11 11:29:01 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/11 19:00:50 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	exec_cd(char **path, int i, t_shell *shell)
 		direction = ft_strjoin(getenv("HOME"), &path[i + 1][1]);
 	else
 		direction = ft_strdup(path[i + 1]);
+	if (direction == NULL)
+		free_error(shell);
 	if (access(direction, F_OK) == -1)
 		return (FREE, print_error(path[i + 1], FILE_MESS, shell, N_FOUND),
 			GEN_ERR);

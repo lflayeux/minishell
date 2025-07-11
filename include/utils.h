@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 00:34:45 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/11 11:13:08 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/11 15:06:39 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int		task_init(t_exec *exec, t_shell *shell);
 // ================== FREE ======================
 // ==============================================
 void	free_all(t_shell *shell);
+void    free_error(t_shell *shell);
 
 
 #endif

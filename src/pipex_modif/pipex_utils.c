@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 11:14:25 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/11 11:52:06 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/11 15:28:13 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,16 @@ int	outfile_management(t_exec *exec, int *end, t_shell *shell)
 	return (TRUE);
 }
 
-void	check_status(int status)
+void check_status(int status, t_shell *shell)
 {
 	int	sig;
 
 	if (WIFEXITED(status))
+	{
 		g_signal_global = WEXITSTATUS(status);
+		if(g_signal_global == 2)
+			free_error(shell);
+	}
 	else if (WIFSIGNALED(status))
 	{
 		sig = WTERMSIG(status);

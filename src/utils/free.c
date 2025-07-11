@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 22:29:14 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/11 11:46:55 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/11 15:04:02 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,10 @@ void	free_all(t_shell *shell)
 	if (shell->secret)
 		ft_free_tab((void **)shell->secret);
 	free_rest(shell);
+}
+
+void free_error(t_shell *shell)
+{
+	free_all(shell);
+	exit(2);
 }
