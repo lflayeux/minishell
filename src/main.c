@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:43:33 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/11 11:52:06 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/11 21:53:03 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,12 +124,12 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	shell = malloc(sizeof(t_shell));
 	if (!shell)
-		return (free_all(shell), print_error("malloc", NULL, shell, GEN_ERR),
-			1);
+		return (exit(2), 2);
 	init_shell(shell, envp);
 	while (1)
 	{
 		shell->input = readline(PROMPT);
+		shell->input = NULL;
 		if (shell->input == NULL || ft_strcmp(shell->input, "exit") == 0)
 			return (free_all(shell), printf("exit"), 0);
 		else

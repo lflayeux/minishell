@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 22:16:13 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/11 11:52:06 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/11 22:11:27 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ char	**init_env(char **envp)
 	while (envp[i])
 	{
 		env[i] = ft_strdup(envp[i]);
+		if(!env[i])
+			return (NULL);
 		i++;
 	}
 	env[i] = NULL;
@@ -74,9 +76,25 @@ int	ft_check_env(char **env, char *to_check)
 	return (0);
 }
 
+void	init_NULL(t_shell *shell)
+{
+	shell->signals = NULL;
+	shell->tok = NULL;
+	shell->exec = NULL;
+	shell->pipex = NULL;
+	shell->input = NULL;
+	shell->pid = NULL;
+	shell->var = NULL;
+	shell->env = NULL;
+	shell->secret = NULL;
+}
+
 void	init_shell(t_shell *shell, char **envp)
 {
+	init_NULL(shell);
 	shell->signals = malloc(sizeof(t_signal));
+	if(!(shell->signals))
+		return (free_all(shell), exit(2));
 	set_signal(shell->signals);
 	shell->tok = NULL;
 	shell->exec = NULL;
@@ -86,5 +104,9 @@ void	init_shell(t_shell *shell, char **envp)
 	g_signal_global = 0;
 	shell->var = NULL;
 	shell->env = init_env(envp);
+	if(!(shell->env))
+		return(free_all(shell), exit(2));
 	shell->secret = init_env(envp);
+	if(!(shell->secret))
+		return(free_all(shell), exit(2));
 }

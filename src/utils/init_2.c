@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 00:31:53 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/11 20:31:30 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/11 22:08:33 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,10 @@ void	get_pid(t_shell *shell)
 		{
 			split = ft_split(line, '\t');
 			if (!split)
-				print_error("malloc", NULL, shell, GEN_ERR);
+				return (free(line), free_all(shell), exit(2));
 			tmp = ft_substr(split[1], 0, ft_strlen(split[1]) - 1);
+			if (!tmp)
+				return (free(line), ft_free_tab((void **)split), free_all(shell), exit(2));
 			shell->pid = tmp;
 			ft_free_tab((void **)split);
 		}
@@ -99,7 +101,7 @@ void	init_pipex(t_shell *shell)
 
 	pipex = malloc(sizeof(t_pipex));
 	if (!pipex)
-		return (print_error("malloc", NULL, shell, GEN_ERR));
+		return (free_all(shell), exit(2));
 	PIPEX = pipex;
 	PIPEX->child_tab = NULL;
 	PIPEX->child_index = 0;
