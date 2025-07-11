@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:07:12 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/11 00:28:56 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/07/11 11:33:18 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void	new_prompt(t_shell *shell)
 	new_prompt = NULL;
 	while (tmp)
 	{
-			
 		if (new_prompt != NULL)
 			new_prompt = ft_strjoin_free(new_prompt, " ");
 		if (tmp->type == WORD)
@@ -60,7 +59,7 @@ void	new_prompt(t_shell *shell)
 	shell->input = new_prompt;
 }
 
-void expand_word(t_shell *shell, t_tok *tmp, t_expand *expand)
+void	expand_word(t_shell *shell, t_tok *tmp, t_expand *expand)
 {
 	if (tmp->type == WORD)
 	{
@@ -86,7 +85,7 @@ void expand_word(t_shell *shell, t_tok *tmp, t_expand *expand)
 	}
 }
 
-void unquotes(t_shell *shell, t_tok *tmp, t_expand *expand)
+void	unquotes(t_shell *shell, t_tok *tmp, t_expand *expand)
 {
 	if (tmp->type == WORD)
 	{
@@ -130,7 +129,7 @@ int	expand(t_shell *shell)
 	{
 		unquotes(shell, tmp, expand);
 		tmp = tmp->next;
-	}			
+	}
 	free(expand);
 	return (TRUE);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/10 23:42:21 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/07/11 11:52:06 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ int	handle_path_cmd(char **cmd_parsed, char *path, t_shell *shell)
 	return (TRUE);
 }
 
-// malloc ok
 int	exec_proc(char **cmd_parsed, char **all_paths, t_shell *shell, int i)
 {
 	char	*temp;
@@ -82,7 +81,7 @@ int	exec_proc(char **cmd_parsed, char **all_paths, t_shell *shell, int i)
 	{
 		free_all(shell);
 		ft_free_tab((void **)all_paths);
-		exit(signal_global);
+		exit(g_signal_global);
 	}
 	temp = ft_strjoin("/", cmd_parsed[0]);
 	if (!temp)
@@ -96,14 +95,12 @@ int	exec_proc(char **cmd_parsed, char **all_paths, t_shell *shell, int i)
 		free(path);
 		free(temp);
 		ft_free_tab((void **)all_paths);
-		exit(signal_global);
+		exit(g_signal_global);
 	}
 	free(path);
 	return (free(temp), TRUE);
 }
 
-// int	exec_cmd(char **envp, char **cmd, int *tab_child)
-// malloc ok
 int	exec_cmd(char **cmd, t_shell *shell)
 {
 	char	**all_paths;

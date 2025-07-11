@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 11:14:25 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/11 11:15:09 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/11 11:52:06 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	check_status(int status)
 	int	sig;
 
 	if (WIFEXITED(status))
-		signal_global = WEXITSTATUS(status);
+		g_signal_global = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
 	{
 		sig = WTERMSIG(status);
@@ -65,10 +65,10 @@ void	check_status(int status)
 			write(STDERR_FILENO, "Quit (core dumped)\n", 19);
 		else if (sig == SIGINT)
 			write(STDERR_FILENO, "\n", 1);
-		signal_global = 128 + sig;
+		g_signal_global = 128 + sig;
 	}
 	else
-		signal_global = 0;
+		g_signal_global = 0;
 }
 
 void	next_pipe(t_shell *shell, pid_t child, int *end)
@@ -80,7 +80,8 @@ void	next_pipe(t_shell *shell, pid_t child, int *end)
 	PIPEX->child_tab[PIPEX->child_index] = child;
 }
 /**
-	CALCUL DU NOMBRE DE NODE DANS LA LISTE CHAINEE POUR AVOIR LE NOMBRE DE PROCESS À WAIT
+	CALCUL DU NOMBRE DE NODE DANS LA LISTE CHAINEE
+	POUR AVOIR LE NOMBRE DE PROCESS À WAIT
 
 	@param lst_exec La liste chaine sur laquelle on compte
 
@@ -89,8 +90,8 @@ void	next_pipe(t_shell *shell, pid_t child, int *end)
 */
 int	node_number(t_exec *lst_exec)
 {
-	t_exec	*tmp;
-	int		len;
+	t_exec *tmp;
+	int len;
 
 	if (!lst_exec)
 		return (0);

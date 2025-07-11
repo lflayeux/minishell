@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_exec_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 15:46:44 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/11 00:26:01 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/07/11 11:52:06 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ int	if_here_doc(t_exec *node_exec, t_tok **init, t_shell *shell)
 	if (node_exec->here_doc)
 		ft_free_tab((void **)node_exec->here_doc);
 	node_exec->here_doc = loop_here_doc(((*init)->next)->word);
-	if (!(node_exec->here_doc) && signal_global == 130)
+	if (!(node_exec->here_doc) && g_signal_global == 130)
 	{
 		printf("\n");
-		signal_global = 0;
+		g_signal_global = 0;
 		return (parent_signals(shell->signals), FALSE);
 	}
 	parent_signals(shell->signals);

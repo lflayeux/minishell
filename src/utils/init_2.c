@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   init_2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 00:31:53 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/11 11:12:33 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/11 11:48:11 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-// INITIALISATION POUR L'EXEC ENTRE L'HERE_DOC (GESTION AVEC PIPE) OU L'INFILE SI IL Y A
+// INITIALISATION POUR L'EXEC ENTRE L'HERE_DOC
+// (GESTION AVEC PIPE) OU L'INFILE SI IL Y A
 int	task_init(t_exec *exec, t_shell *shell)
 {
 	int	fd_infile;
@@ -39,6 +40,7 @@ int	task_init(t_exec *exec, t_shell *shell)
 	}
 	return (TRUE);
 }
+
 void	exec_init(t_exec *node_exec)
 {
 	node_exec->cmd = NULL;
@@ -51,6 +53,7 @@ void	exec_init(t_exec *node_exec)
 	node_exec->if_here_doc = 0;
 	node_exec->pipe_to = NULL;
 }
+
 void	get_pid(t_shell *shell)
 {
 	int		fd;
@@ -78,14 +81,16 @@ void	get_pid(t_shell *shell)
 	}
 	close(fd);
 }
+
 void	init_fd(t_shell *shell)
 {
 	PIPEX->end[0] = NONE;
 	PIPEX->end[1] = NONE;
 }
+
 void	init_pipex(t_shell *shell)
 {
-	t_pipex	*pipex;
+	t_pipex *pipex;
 
 	pipex = malloc(sizeof(t_pipex));
 	if (!pipex)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in_cd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 17:14:23 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/10 17:43:40 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/11 11:29:01 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	exec_cd(char **path, int i, t_shell *shell)
 {
-	char	*direction;
-	struct stat sb;
+	char		*direction;
+	struct stat	sb;
 
 	direction = NULL;
 	stat(path[i + 1], &sb);
@@ -28,12 +28,12 @@ int	exec_cd(char **path, int i, t_shell *shell)
 	else
 		direction = ft_strdup(path[i + 1]);
 	if (access(direction, F_OK) == -1)
-		return (FREE, print_error(path[i + 1], FILE_MESS, shell, N_FOUND),\
-            GEN_ERR);
+		return (FREE, print_error(path[i + 1], FILE_MESS, shell, N_FOUND),
+			GEN_ERR);
 	else if (access(direction, F_OK | X_OK) == -1 && (!S_ISDIR(sb.st_mode)))
 		return (FREE, print_error(path[i + 1], N_DIR, shell, N_FOUND), GEN_ERR);
 	else if (access(direction, F_OK | X_OK) == -1)
-		return (FREE ,print_error(path[i + 1], PERM, shell, N_FOUND), GEN_ERR);
+		return (FREE, print_error(path[i + 1], PERM, shell, N_FOUND), GEN_ERR);
 	chdir(direction);
 	if (direction)
 		free(direction);

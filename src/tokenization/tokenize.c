@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 12:19:00 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/10 23:42:21 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/07/11 11:46:29 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	symbol_token(char *input, t_shell *shell)
 		return (ADD_TOK(&(shell->tok), NEW_TOK(PIPE, NULL, shell)), 1);
 	return (0);
 }
+
 int	word_token(char *input, t_shell *shell)
 {
 	int		len;
@@ -46,14 +47,14 @@ int	word_token(char *input, t_shell *shell)
 
 int	is_close(char *input)
 {
-	int i;
-	int quotes;
+	int	i;
+	int	quotes;
 
 	i = 0;
 	while (input[i])
 	{
 		quotes = '\0';
-		if (input[i] == '\'' || input[i] == '"' )
+		if (input[i] == '\'' || input[i] == '"')
 			quotes = input[i++];
 		if (quotes != '\0')
 		{
@@ -68,7 +69,6 @@ int	is_close(char *input)
 	}
 	return (TRUE);
 }
-
 
 int	tokenize(t_shell *shell)
 {

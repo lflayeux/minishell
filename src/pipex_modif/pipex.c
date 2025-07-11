@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/11 11:15:02 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/11 11:44:18 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-
 
 //  MANAGEMENT IN PARENT PROCESS IF END OF EXEC STRUCT OR NEXT PIPE
 int	end_or_pipe(t_exec *exec, pid_t child, int *end, t_shell *shell)
@@ -90,8 +88,6 @@ int	middle_proc(t_exec *exec, t_shell *shell)
 	return (TRUE);
 }
 
-
-
 void	loop_pipex(t_shell *shell)
 {
 	t_exec	*tmp;
@@ -112,7 +108,8 @@ void	loop_pipex(t_shell *shell)
 	}
 }
 
-// GESTION DE LA BOUCLE DE TOUTES LES EXECS À FAIRE ET INIT TU TABLEAU DE CHILD À WAIT
+// GESTION DE LA BOUCLE DE TOUTES LES EXECS À FAIRE
+// ET INIT TU TABLEAU DE CHILD À WAIT
 int	pipex(t_shell *shell)
 {
 	PIPEX->child_tab = ft_calloc(node_number(shell->exec) + 1, sizeof(pid_t));

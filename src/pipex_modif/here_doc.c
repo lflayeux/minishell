@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/11 00:30:57 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/07/11 11:52:06 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	stock_here_doc(char *delimiter, char **big_line, char **line)
 	{
 		free(*line);
 		*line = get_next_line(0);
-		if (signal_global == 130)
+		if (g_signal_global == 130)
 			return (free(*big_line), FALSE);
 		if (!*line)
 		{

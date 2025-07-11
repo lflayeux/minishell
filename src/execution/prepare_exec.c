@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 15:31:21 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/10 23:42:21 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/07/11 11:32:52 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,24 +44,6 @@ int	init_exec(t_tok *init, t_exec *node_exec, t_tok *end, t_shell *shell)
 	{
 		if (tokken_choice(shell, &init, node_exec, &i) == FALSE)
 			return (FALSE);
-		// if (TYPE == WORD)
-		// {
-		// 	(node_exec->cmd)[i] = ft_strdup(init->word);
-		// 	if (!((node_exec->cmd)[i]))
-		// 		print_error("malloc", NULL, shell, GEN_ERR);
-		// 	i++;
-		// }
-		// if (TYPE == INFILE && N->type == WORD && N)
-		// 	if_infile(node_exec, &init);
-		// if (TYPE == OUTFILE && N->type == WORD && N)
-		// 	if_outfile(node_exec, &init, shell);
-		// if (TYPE == APPEND && N->type == WORD && N)
-		// 	if_append(node_exec, &init);
-		// if (TYPE == HERE_DOC && N->type == WORD && N)
-		// {
-		// 	if (if_here_doc(node_exec, &init, shell) == FALSE)
-		// 		return (FALSE);
-		// }
 		init = init->next;
 	}
 	return (TRUE);
@@ -89,20 +71,6 @@ t_exec	*ft_lstnew_exec(t_tok *init, t_tok *end, t_shell *shell)
 	return (node_exec);
 }
 
-// int	activate_heredoc(t_tok *tok, t_shell *shell)
-// {
-// 	t_tok	*tmp;
-
-// 	tmp = tok;
-// 	while (tmp)
-// 	{
-// 		if (tmp->next && tmp->type == HERE_DOC && tmp->next->type == WORD)
-// 			return (loop_here_doc(tmp->next->word, NULL, shell), 0);
-// 		tmp = tmp->next;
-// 	}
-// 	return (0);
-// }
-
 int	find_target(t_tok **tmp_tok1, t_tok *tmp_error)
 {
 	while ((*tmp_tok1) && (*tmp_tok1)->type != PIPE)
@@ -129,12 +97,6 @@ int	create_lst_exec(t_shell *shell)
 	{
 		if (find_target(&tmp_tok1, tmp_error) == FALSE)
 			break ;
-		// while (tmp_tok1 && tmp_tok1->type != PIPE)
-		// {
-		// 	if (tmp_error != NULL && tmp_tok1 == tmp_error)
-		// 		break ;
-		// 	tmp_tok1 = tmp_tok1->next;
-		// }
 		new = NEW_EXEC(tmp_tok2, tmp_tok1, shell);
 		if (!new)
 			return (FALSE);
