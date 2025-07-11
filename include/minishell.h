@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:41:38 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/11 00:40:01 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/07/11 11:23:12 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 // ================== LIBRARIES =================
 // ==============================================
 
-// ============ LIBRARIES ============
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <fcntl.h>
@@ -26,7 +25,9 @@
 # include <sys/stat.h>
 # include "../libft/libft.h"
 
-// ============ INTERNAL HEADERS ============
+// ==============================================
+// ================== HEADERS ===================
+// ==============================================
 # include "struct.h"
 # include "error.h"
 # include "signals.h"

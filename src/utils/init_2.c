@@ -3,15 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   init_2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 00:31:53 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/11 00:33:30 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/07/11 11:12:33 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+// INITIALISATION POUR L'EXEC ENTRE L'HERE_DOC (GESTION AVEC PIPE) OU L'INFILE SI IL Y A
+int	task_init(t_exec *exec, t_shell *shell)
+{
+	int	fd_infile;
+
+	init_fd(shell);
+	if (exec->if_here_doc == TRUE)
+	{
+		if (pipe(PIPEX->end) == -1)
+			return (FALSE);
+		if (PIPEX->prev_fd != NONE)
+			close(PIPEX->prev_fd);
+		here_doc_pipe(exec, shell);
+		PIPEX->prev_fd = PIPEX->end[0];
+		close(PIPEX->end[1]);
+	}
+	if (exec->if_infile == TRUE)
+	{
+		fd_infile = open((exec->infile), O_RDONLY);
+		if (fd_infile == -1)
+			return (FALSE);
+		if (PIPEX->prev_fd != NONE)
+			close(PIPEX->prev_fd);
+		PIPEX->prev_fd = fd_infile;
+	}
+	return (TRUE);
+}
 void	exec_init(t_exec *node_exec)
 {
 	node_exec->cmd = NULL;
