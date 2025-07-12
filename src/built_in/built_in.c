@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 14:33:18 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/11 15:46:46 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/12 20:51:22 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ int	built_in(t_exec *exec, t_shell *shell, int flag)
 		g_signal_global = 1;
 		return (FALSE);
 	}
-	if (!(ft_strcmp(exec->cmd[0], "echo")))
+	if (!(ft_strcmp(exec->cmd[0], "exit")))
+		g_signal_global = exec_exit(exec, 0, flag, shell);
+	else if (!(ft_strcmp(exec->cmd[0], "echo")))
 		g_signal_global = exec_echo(exec, 0);
 	else if (ft_strcmp(exec->cmd[0], "cd") == 0)
 		g_signal_global = exec_cd(exec->cmd, 0, shell);
@@ -34,9 +36,6 @@ int	built_in(t_exec *exec, t_shell *shell, int flag)
 	else
 		return (FALSE);
 	if (flag == 0)
-	{
-		free_all(shell);
-		exit(g_signal_global);
-	}
+		return (free_all(shell), exit(g_signal_global), TRUE);
 	return (TRUE);
 }
