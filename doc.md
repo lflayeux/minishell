@@ -26,7 +26,7 @@
 >   - [] Signaux here_doc
 >   - [] Bloquer Ctrl \ in here_doc
 >   - [] Bloquer si env -i
->   - [] close < infile
+<!-- >   - [] close < infile -->
 <!-- >   - [] << ENDcat pb -->
 
 

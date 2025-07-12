@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/12 18:35:07 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/12 20:50:37 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	middle_proc(t_exec *exec, t_shell *shell)
 	else if (child == 0)
 	{
 		if(exec->if_infile == TRUE && access(exec->infile, R_OK) == - 1)
-		 	return (free_all(shell),exit(1), FALSE);
+		 	return (close(PIPEX->prev_fd), free_all(shell), exit(1), FALSE);
 		if (child_exec(shell, exec) == FALSE)
 			return (FALSE);
 	}
