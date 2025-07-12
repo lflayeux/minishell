@@ -27,7 +27,7 @@
 >   - [] Bloquer Ctrl \ in here_doc
 >   - [] Bloquer si env -i
 >   - [] close < infile
->   - [] << ENDcat pb
+<!-- >   - [] << ENDcat pb -->
 
 
 

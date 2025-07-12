@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/12 18:06:04 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/12 20:39:42 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	stock_here_doc(char *delimiter, char **big_line, char **line)
 			ft_printf("EOF before delimiter '%s' is reached\n", delimiter);
 			break ;
 		}
-		if (ft_strncmp(*line, delimiter, ft_strlen(*line) - 1) == 0)
+		if (ft_strlen(*line) == ft_strlen(delimiter) + 1 && ft_strncmp(*line, delimiter, ft_strlen(*line) - 1) == 0)
 		{
 			free(*line);
 			break ;
