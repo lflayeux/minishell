@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:43:33 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/12 12:53:24 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/12 21:36:07 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		shell->input = readline(PROMPT);
-		if (shell->input == NULL || ft_strcmp(shell->input, "exit") == 0)
+		if (shell->input == NULL)
 			return (free_all(shell), printf("exit"), 0);
 		else
 		{
