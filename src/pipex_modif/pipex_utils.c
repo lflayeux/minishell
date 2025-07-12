@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 11:14:25 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/12 19:55:44 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/12 21:58:00 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void check_status(int status, t_shell *shell)
 	if (WIFEXITED(status))
 	{
 		g_signal_global = WEXITSTATUS(status);
-		if(g_signal_global == 2)
+		if(g_signal_global == 25)
 			free_error(shell);
 	}
 	else if (WIFSIGNALED(status))

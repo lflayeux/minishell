@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 22:29:14 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/11 22:01:08 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/12 21:57:40 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,5 @@ void	free_all(t_shell *shell)
 void free_error(t_shell *shell)
 {
 	free_all(shell);
-	exit(2);
+	exit(25);
 }

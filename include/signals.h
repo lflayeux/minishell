@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 18:03:42 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/09 16:13:26 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/12 21:34:11 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ void	child_signals(t_signal *signals);
  */
 void	reset_signals(t_signal *signals);
 void	handle_ctrl_c_quit(int signal);
+void    here_doc_signals(t_signal *signals);
+
 
 
 #endif

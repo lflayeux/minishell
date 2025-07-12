@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:49:39 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/11 11:52:06 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/12 22:09:33 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	handle_ctrl_c_interactive(int signal)
 {
 	if (signal != SIGINT)
 		return ;
+	g_signal_global = 130;
 	printf("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
@@ -26,6 +27,7 @@ void	handle_ctrl_c_action(int signal)
 {
 	if (signal != SIGINT)
 		return ;
+	g_signal_global = 130;
 	printf("\n");
 }
 
