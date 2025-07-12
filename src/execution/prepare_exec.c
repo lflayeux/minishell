@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 15:31:21 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/11 11:32:52 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/12 13:53:34 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	find_target(t_tok **tmp_tok1, t_tok *tmp_error)
 	while ((*tmp_tok1) && (*tmp_tok1)->type != PIPE)
 	{
 		if (tmp_error != NULL && (*tmp_tok1) == tmp_error)
-			return (FALSE);
+			return (TRUE);
 		(*tmp_tok1) = (*tmp_tok1)->next;
 	}
 	return (TRUE);
@@ -92,11 +92,16 @@ int	create_lst_exec(t_shell *shell)
 
 	tmp_tok1 = shell->tok;
 	tmp_tok2 = shell->tok;
-	tmp_error = parse_error(shell);
+	tmp_error = NULL;
+	if(parse_error(shell, &tmp_error) == FALSE)
+		return (FALSE);
+	// if(!tmp_error)
+	// 	return (FALSE);
 	while (tmp_tok1)
 	{
 		if (find_target(&tmp_tok1, tmp_error) == FALSE)
-			break ;
+			break;
+			// break;
 		new = NEW_EXEC(tmp_tok2, tmp_tok1, shell);
 		if (!new)
 			return (FALSE);
@@ -105,7 +110,9 @@ int	create_lst_exec(t_shell *shell)
 			return (FALSE);
 		if (tmp_tok1 && tmp_tok1->type == PIPE)
 			tmp_tok1 = tmp_tok1->next;
+		// tmp_tok1 = tmp_tok1->next;
 		tmp_tok2 = tmp_tok1;
+		// tmp_tok2 = tmp_tok1;
 	}
 	return (TRUE);
 }

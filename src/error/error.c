@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 11:59:10 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/11 11:52:06 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/12 13:53:18 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,21 +49,24 @@ int	error_detected(t_tok *init)
 	return (FALSE);
 }
 
-t_tok	*parse_error(t_shell *shell)
+int	parse_error(t_shell *shell, t_tok **error)
 {
 	t_tok	*init;
 
 	if (!shell->tok)
-		return (NULL);
+		return (FALSE);
 	init = shell->tok;
 	if (TYPE == PIPE)
 		return (print_error(PARSE_MESS,
-				(char *)get_token_name(shell->tok->type), shell, 0), init);
+				(char *)get_token_name(shell->tok->type), shell, 0), FALSE);
 	while (init)
 	{
 		if (error_detected(init) == TRUE)
-			return (init);
+		{
+			*error = init;
+			return (TRUE);
+		}
 		init = init->next;
 	}
-	return (NULL);
+	return (TRUE);
 }
