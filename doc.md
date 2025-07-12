@@ -21,16 +21,17 @@
 
 >   ## TODO
 >
->   - [x] ajouter la partie preparation exec
->   - [x] Modifier prepare_exec
->   - [x] faire une erreur si | ou > ou < ou << ou >>  suivi de rien
->   - [] Revoir Gestion d'erreur.
->	- [x] Refaire exec en biiiiiien
+>   - [] exit built_in 
+>   - [] CTRL C error signal code in term and child code 130
+>   - [] Signaux here_doc
+>   - [] Bloquer Ctrl \ in here_doc
+>   - [] Bloquer si env -i
+>   - [] close < infile
+>   - [] << ENDcat pb
 
 
->   ## ERROR
 
-> bash: export: ʻ9HOLA=': not a valid identifier
+export: ʻ9HOLA=': not a valid identifier
 > bash: export: -H: invalid option
 > bash: !LA=bonjour: event not found
 > bash: jour: command not found
