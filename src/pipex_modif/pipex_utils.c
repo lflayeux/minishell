@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 11:14:25 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/11 21:39:29 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/12 19:55:44 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	pipe_outfile(t_shell *shell, t_exec *exec, int *fd_outfile)
 				0666);
 	if (*fd_outfile == ERROR)
 	{
-		return (print_error(exec->outfile, PERM, shell, 1), exit(1), 0);		
+		return (print_error(exec->outfile, PERM, shell, 1), free_all(shell), exit(1), 0);		
 	}
 	if (dup2(*fd_outfile, STDOUT_FILENO) == ERROR)
 		return (FALSE);

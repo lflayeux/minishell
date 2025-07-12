@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 18:02:54 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/10 23:56:20 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/07/12 13:53:25 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,6 @@ typedef enum e_error_type
 }		ERROR_TYPE;
 
 void	print_error(char *s1, char *s2, t_shell *shell, int type);
-t_tok	*parse_error(t_shell *shell);
+int		parse_error(t_shell *shell, t_tok **error);
 
 #endif

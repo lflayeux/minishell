@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/12 12:35:47 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/12 18:35:07 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ int	middle_proc(t_exec *exec, t_shell *shell)
 		return (close_fd(shell, 2, 0), FALSE);
 	else if (child == 0)
 	{
-		if(exec->if_infile == TRUE && access(exec->infile, F_OK) == - 1)
-		 	exit(1);
+		if(exec->if_infile == TRUE && access(exec->infile, R_OK) == - 1)
+		 	return (free_all(shell),exit(1), FALSE);
 		if (child_exec(shell, exec) == FALSE)
 			return (FALSE);
 	}
