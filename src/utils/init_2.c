@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 00:31:53 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/11 22:08:33 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/12 12:37:14 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 // INITIALISATION POUR L'EXEC ENTRE L'HERE_DOC
 // (GESTION AVEC PIPE) OU L'INFILE SI IL Y A
+
 int	task_init(t_exec *exec, t_shell *shell)
 {
 	int	fd_infile;
@@ -34,6 +35,8 @@ int	task_init(t_exec *exec, t_shell *shell)
 		fd_infile = open((exec->infile), O_RDONLY);
 		if (fd_infile == -1)
 		{
+			// PIPEX->prev_fd = PIPEX->end[0];
+			// close(PIPEX->end[1]);
 			if(access(exec->infile, F_OK) == - 1)
 				return (print_error(exec->infile, FILE_MESS, shell, 1), 0);			
 			else

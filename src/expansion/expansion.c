@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:07:12 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/11 11:33:18 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/11 19:27:34 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*ft_strjoin_free(char const *s1, char const *s2)
 	len = ft_strlen(s1) + ft_strlen(s2);
 	dest = ft_calloc(len + 1, sizeof(char));
 	if (!dest)
-		return (0);
+		return (free((void *)s1), NULL);
 	while (s1[i])
 		dest[i++] = s1[j++];
 	j = 0;
@@ -37,7 +37,7 @@ char	*ft_strjoin_free(char const *s1, char const *s2)
 	return (dest);
 }
 
-void	new_prompt(t_shell *shell)
+int	new_prompt(t_shell *shell)
 {
 	t_tok	*tmp;
 	char	*new_prompt;
@@ -47,19 +47,26 @@ void	new_prompt(t_shell *shell)
 	while (tmp)
 	{
 		if (new_prompt != NULL)
+		{
 			new_prompt = ft_strjoin_free(new_prompt, " ");
+			// if (!new_prompt)
+			// 	return (ft_lstclear_tok(shell->tok), FALSE);
+		}
 		if (tmp->type == WORD)
 			new_prompt = ft_strjoin_free(new_prompt, tmp->word);
 		else
 			new_prompt = ft_strjoin_free(new_prompt, get_token_name(tmp->type));
+		// if (!new_prompt)
+		// 	return (ft_lstclear_tok(shell->tok), FALSE);
 		tmp = tmp->next;
 	}
 	ft_lstclear_tok(shell->tok);
 	shell->tok = NULL;
 	shell->input = new_prompt;
+	return (TRUE);
 }
 
-void	expand_word(t_shell *shell, t_tok *tmp, t_expand *expand)
+int	expand_word(t_shell *shell, t_tok *tmp, t_expand *expand)
 {
 	if (tmp->type == WORD)
 	{
@@ -69,6 +76,8 @@ void	expand_word(t_shell *shell, t_tok *tmp, t_expand *expand)
 		{
 			free(expand->new);
 			expand->new = ft_strdup("\" \"");
+			if (!expand->new)
+				return (FALSE);
 		}
 		if (expand->new)
 		{
@@ -83,6 +92,7 @@ void	expand_word(t_shell *shell, t_tok *tmp, t_expand *expand)
 		free(shell->var);
 		shell->var = NULL;
 	}
+	return (TRUE);
 }
 
 void	unquotes(t_shell *shell, t_tok *tmp, t_expand *expand)

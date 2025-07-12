@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/11 20:22:59 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/12 12:35:47 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ int	child_exec(t_shell *shell, t_exec *exec)
 	exit(130);
 	return (TRUE);
 }
-
 // MAIN MANAGEMENT OF THE CHILD EXEC PROCESS (CREATTION OF CHILD, PIPE,
 // PROCESS REDIRECTION)
 int	middle_proc(t_exec *exec, t_shell *shell)
@@ -79,8 +78,8 @@ int	middle_proc(t_exec *exec, t_shell *shell)
 		return (close_fd(shell, 2, 0), FALSE);
 	else if (child == 0)
 	{
-		if (task_init(exec, shell) == FALSE)
-			exit(1);
+		if(exec->if_infile == TRUE && access(exec->infile, F_OK) == - 1)
+		 	exit(1);
 		if (child_exec(shell, exec) == FALSE)
 			return (FALSE);
 	}
@@ -104,6 +103,7 @@ void	loop_pipex(t_shell *shell)
 		// 	tmp = tmp->pipe_to;
 		// 	continue ;
 		// }
+		task_init(tmp, shell);
 		if (tmp->cmd && tmp->cmd[0] && ft_strcmp((tmp->cmd)[0], "") == 0)
 		{
 			print_error(" ", N_CMD_MESS, shell, N_FOUND);
