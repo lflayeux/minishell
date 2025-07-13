@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 00:31:53 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/13 15:12:02 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/13 16:50:08 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,26 @@
 // INITIALISATION POUR L'EXEC ENTRE L'HERE_DOC
 // (GESTION AVEC PIPE) OU L'INFILE SI IL Y A
 
-int	task_init(t_exec *exec, t_shell *shell)
+int	infile_found(t_exec *exec, t_shell *shell)
 {
 	int	fd_infile;
 
+	fd_infile = open((exec->infile), O_RDONLY);
+	if (fd_infile == -1)
+	{
+		if (access(exec->infile, F_OK) == -1)
+			return (print_error(exec->infile, FILE_MESS, shell, 1), 0);
+		else
+			return (print_error(exec->infile, PERM, shell, 1), 0);
+	}
+	if ((shell->pipex)->prev_fd != NONE)
+		close((shell->pipex)->prev_fd);
+	(shell->pipex)->prev_fd = fd_infile;
+	return (TRUE);
+}
+
+int	task_init(t_exec *exec, t_shell *shell)
+{
 	init_fd(shell);
 	if (exec->if_here_doc == TRUE)
 	{
@@ -32,19 +48,8 @@ int	task_init(t_exec *exec, t_shell *shell)
 	}
 	if (exec->if_infile == TRUE)
 	{
-		fd_infile = open((exec->infile), O_RDONLY);
-		if (fd_infile == -1)
-		{
-			// (shell->pipex)->prev_fd = (shell->pipex)->end[0];
-			// close((shell->pipex)->end[1]);
-			if(access(exec->infile, F_OK) == - 1)
-				return (print_error(exec->infile, FILE_MESS, shell, 1), 0);			
-			else
-				return (print_error(exec->infile, PERM, shell, 1), 0);			
-		}
-		if ((shell->pipex)->prev_fd != NONE)
-			close((shell->pipex)->prev_fd);
-		(shell->pipex)->prev_fd = fd_infile;
+		if (infile_found(exec, shell) == FALSE)
+			return (FALSE);
 	}
 	return (TRUE);
 }
@@ -62,36 +67,6 @@ void	exec_init(t_exec *node_exec)
 	node_exec->pipe_to = NULL;
 }
 
-void	get_pid(t_shell *shell)
-{
-	int		fd;
-	char	*line;
-	char	**split;
-	char	*tmp;
-
-	fd = open("/proc/self/status", O_RDONLY);
-	if (fd == -1)
-		return (free_error(shell));
-	line = get_next_line(fd);
-	while (line)
-	{
-		if (ft_strncmp(line, "Pid:", 4) == 0)
-		{
-			split = ft_split(line, '\t');
-			if (!split)
-				return (close(fd), free(line), free_error(shell));
-			tmp = ft_substr(split[1], 0, ft_strlen(split[1]) - 1);
-			if (!tmp)
-				return (free(line), ft_free_tab((void **)split), free_error(shell));
-			shell->pid = tmp;
-			ft_free_tab((void **)split);
-		}
-		free(line);
-		line = get_next_line(fd);
-	}
-	close(fd);
-}
-
 void	init_fd(t_shell *shell)
 {
 	(shell->pipex)->end[0] = NONE;
@@ -100,7 +75,7 @@ void	init_fd(t_shell *shell)
 
 void	init_pipex(t_shell *shell)
 {
-	t_pipex *pipex;
+	t_pipex	*pipex;
 
 	pipex = malloc(sizeof(t_pipex));
 	if (!pipex)

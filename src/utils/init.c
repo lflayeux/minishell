@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 22:16:13 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/13 15:12:02 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/13 16:49:15 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	reset_shell(t_shell *shell)
 	}
 	(shell->pipex)->prev_fd = NONE;
 }
+
 char	**init_env(t_shell *shell, char **envp)
 {
 	int		i;
@@ -54,7 +55,7 @@ char	**init_env(t_shell *shell, char **envp)
 	while (envp[i])
 	{
 		env[i] = ft_strdup(envp[i]);
-		if(!env[i])
+		if (!env[i])
 			return (ft_free_tab((void **)env), free_error(shell), NULL);
 		i++;
 	}
@@ -76,7 +77,7 @@ int	ft_check_env(char **env, char *to_check)
 	return (0);
 }
 
-void	init_NULL(t_shell *shell)
+void	init_null(t_shell *shell)
 {
 	shell->signals = NULL;
 	shell->tok = NULL;
@@ -91,9 +92,9 @@ void	init_NULL(t_shell *shell)
 
 void	init_shell(t_shell *shell, char **envp)
 {
-	init_NULL(shell);
+	init_null(shell);
 	shell->signals = malloc(sizeof(t_signal));
-	if(!(shell->signals))
+	if (!(shell->signals))
 		return (free_error(shell));
 	set_signal(shell->signals);
 	shell->tok = NULL;

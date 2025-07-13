@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 22:29:14 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/13 15:12:02 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/13 16:18:32 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ void	free_rest(t_shell *shell)
 
 void	free_all(t_shell *shell)
 {
-	// (void)shell;
-	if((shell->pipex))
+	if ((shell->pipex))
 		close_fd(shell, 2, 0);
 	if (shell->input)
 		free(shell->input);
@@ -49,7 +48,7 @@ void	free_all(t_shell *shell)
 	free_rest(shell);
 }
 
-void free_error(t_shell *shell)
+void	free_error(t_shell *shell)
 {
 	free_all(shell);
 	exit(25);
