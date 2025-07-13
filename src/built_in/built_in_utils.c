@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 20:20:21 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/11 11:29:21 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/13 11:54:24 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	expand_env(char **to_expand, t_shell *shell)
 	expand->new = NULL;
 	expand->quotes = 0;
 	if (!expand)
-		print_error("malloc", NULL, shell, GEN_ERR);
+		return (free_all(shell), exit(25));
 	while (to_expand[i])
 	{
 		expand->word = to_expand[i];
@@ -60,6 +60,8 @@ void	expand_env(char **to_expand, t_shell *shell)
 		{
 			free(expand->word);
 			to_expand[i] = ft_strdup(expand->new);
+			if(!to_expand[i])
+				return (free_all(shell), exit(25));
 			free(expand->new);
 		}
 		i++;
@@ -78,13 +80,17 @@ char	**put_env(t_shell *shell, char **env, char *cmd)
 		len++;
 	new_env = malloc((len + 2) * sizeof(char *));
 	if (!new_env)
-		return (NULL);
+		return (free_all(shell), exit(25), NULL);
 	while (env[j])
 	{
 		new_env[j] = ft_strdup(env[j]);
+		if (!new_env[j])
+			return (ft_free_tab((void **)new_env), free_all(shell), exit(25), NULL);
 		j++;
 	}
 	new_env[j] = ft_strdup(cmd);
+	if (!new_env[j])
+		return (ft_free_tab((void **)new_env), free_all(shell), exit(25), NULL);
 	new_env[j + 1] = NULL;
 	expand_env(new_env, shell);
 	ft_free_tab((void **)(env));

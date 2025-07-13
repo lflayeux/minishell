@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 00:31:53 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/12 12:37:14 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/13 12:19:20 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	get_pid(t_shell *shell)
 
 	fd = open("/proc/self/status", O_RDONLY);
 	if (fd == -1)
-		print_error("malloc", NULL, shell, GEN_ERR);
+		return (free_error(shell));
 	line = get_next_line(fd);
 	while (line)
 	{
@@ -79,10 +79,10 @@ void	get_pid(t_shell *shell)
 		{
 			split = ft_split(line, '\t');
 			if (!split)
-				return (free(line), free_all(shell), exit(2));
+				return (close(fd), free(line), free_error(shell));
 			tmp = ft_substr(split[1], 0, ft_strlen(split[1]) - 1);
 			if (!tmp)
-				return (free(line), ft_free_tab((void **)split), free_all(shell), exit(2));
+				return (free(line), ft_free_tab((void **)split), free_error(shell));
 			shell->pid = tmp;
 			ft_free_tab((void **)split);
 		}
@@ -104,7 +104,7 @@ void	init_pipex(t_shell *shell)
 
 	pipex = malloc(sizeof(t_pipex));
 	if (!pipex)
-		return (free_all(shell), exit(2));
+		return (free_error(shell));
 	PIPEX = pipex;
 	PIPEX->child_tab = NULL;
 	PIPEX->child_index = 0;

@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/11 11:52:06 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/13 12:05:47 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ char	**find_path_env(t_shell *shell)
 	len = ft_strlen(shell->env[i]);
 	path_str = ft_substr(shell->env[i], 5, len - 5);
 	if (!path_str)
-		print_error("malloc", NULL, shell, GEN_ERR);
+		return (free_all(shell), exit(25), NULL);
 	all_paths = ft_split(path_str, ':');
-	if (!all_paths)
-		print_error("malloc", NULL, shell, GEN_ERR);
 	free(path_str);
+	if (!all_paths)
+		return (free_all(shell), exit(25), NULL);
 	return (all_paths);
 }
 

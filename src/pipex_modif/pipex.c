@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/12 20:50:37 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/13 12:13:45 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int	pipex(t_shell *shell)
 {
 	PIPEX->child_tab = ft_calloc(node_number(shell->exec) + 1, sizeof(pid_t));
 	if (!(PIPEX->child_tab))
-		return (print_error("malloc", NULL, shell, GEN_ERR), FALSE);
+		return (free_all(shell), exit(25), FALSE);
 	PIPEX->child_tab[node_number(shell->exec)] = '\0';
 	if (shell->exec->pipe_to == NULL && built_in(shell->exec, shell, 1))
 		return (TRUE);

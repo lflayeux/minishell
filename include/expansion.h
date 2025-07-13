@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 22:13:21 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/02 14:53:13 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/13 11:34:47 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,6 @@ void		pid_expand(t_expand *expand, t_shell *shell);
 void		error_expand(t_expand *expand, t_shell *shell);
 void		base_expand(t_expand *expand, t_shell *shell);
 void		var_expand(t_expand *expand, t_shell *shell);
-char		*ft_strjoin_free(char const *s1, char const *s2);
+char		*ft_strjoin_free(char const *s1, char const *s2, t_shell *shell);
 
 #endif

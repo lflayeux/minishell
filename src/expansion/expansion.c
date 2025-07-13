@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:07:12 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/11 19:27:34 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/13 12:04:13 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-char	*ft_strjoin_free(char const *s1, char const *s2)
+char	*ft_strjoin_free(char const *s1, char const *s2, t_shell *shell)
 {
 	char	*dest;
 	size_t	i;
@@ -26,7 +26,7 @@ char	*ft_strjoin_free(char const *s1, char const *s2)
 	len = ft_strlen(s1) + ft_strlen(s2);
 	dest = ft_calloc(len + 1, sizeof(char));
 	if (!dest)
-		return (free((void *)s1), NULL);
+		return (free((void *)s1), free_all(shell), exit(25), NULL);
 	while (s1[i])
 		dest[i++] = s1[j++];
 	j = 0;
@@ -48,14 +48,14 @@ int	new_prompt(t_shell *shell)
 	{
 		if (new_prompt != NULL)
 		{
-			new_prompt = ft_strjoin_free(new_prompt, " ");
+			new_prompt = ft_strjoin_free(new_prompt, " ", shell);
 			// if (!new_prompt)
 			// 	return (ft_lstclear_tok(shell->tok), FALSE);
 		}
 		if (tmp->type == WORD)
-			new_prompt = ft_strjoin_free(new_prompt, tmp->word);
+			new_prompt = ft_strjoin_free(new_prompt, tmp->word, shell);
 		else
-			new_prompt = ft_strjoin_free(new_prompt, get_token_name(tmp->type));
+			new_prompt = ft_strjoin_free(new_prompt, get_token_name(tmp->type), shell);
 		// if (!new_prompt)
 		// 	return (ft_lstclear_tok(shell->tok), FALSE);
 		tmp = tmp->next;
@@ -125,7 +125,7 @@ int	expand(t_shell *shell)
 	expand->new = NULL;
 	expand->quotes = 0;
 	if (!expand)
-		print_error("malloc", NULL, shell, GEN_ERR);
+		return (free_all(shell), exit(25), FALSE);
 	while (tmp)
 	{
 		expand_word(shell, tmp, expand);

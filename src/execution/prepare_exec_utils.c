@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 15:46:44 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/12 22:09:47 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/13 11:39:45 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	if_here_doc(t_exec *node_exec, t_tok **init, t_shell *shell)
 	here_doc_signals(shell->signals);
 	if (node_exec->here_doc)
 		ft_free_tab((void **)node_exec->here_doc);
-	node_exec->here_doc = loop_here_doc(((*init)->next)->word);
+	node_exec->here_doc = loop_here_doc(((*init)->next)->word, shell);
 	if (!(node_exec->here_doc) && g_signal_global == 130)
 		return (parent_signals(shell->signals), FALSE);
 	parent_signals(shell->signals);

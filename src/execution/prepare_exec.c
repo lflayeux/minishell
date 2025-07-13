@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 15:31:21 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/12 13:53:34 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/13 11:59:43 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	tokken_choice(t_shell *shell, t_tok **init, t_exec *node_exec, int *i)
 	{
 		(node_exec->cmd)[*i] = ft_strdup((*init)->word);
 		if (!((node_exec->cmd)[*i]))
-			print_error("malloc", NULL, shell, GEN_ERR);
+			return (free_all(shell), exit(25), FALSE);
 		(*i)++;
 	}
 	if ((*init)->type == INFILE && N->type == WORD && N)
@@ -55,11 +55,11 @@ t_exec	*ft_lstnew_exec(t_tok *init, t_tok *end, t_shell *shell)
 
 	node_exec = malloc(sizeof(t_exec));
 	if (!node_exec)
-		print_error("malloc", NULL, shell, GEN_ERR);
+		return (free_all(shell), exit(25), NULL);
 	exec_init(node_exec);
 	node_exec->cmd = ft_calloc(word_number(init, end) + 1, sizeof(char *));
 	if (!(node_exec->cmd))
-		print_error("malloc", NULL, shell, GEN_ERR);
+		return (free(node_exec), free_all(shell), exit(25), NULL);
 	if (init_exec(init, node_exec, end, shell) == FALSE)
 	{
 		if (node_exec->cmd)

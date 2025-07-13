@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 22:16:13 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/11 22:11:27 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/13 12:34:01 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,12 @@ char	**init_env(char **envp)
 		len++;
 	env = malloc((len + 1) * sizeof(char *));
 	if (env == NULL)
-		return (NULL);
+		return (free_error(shell));
 	while (envp[i])
 	{
 		env[i] = ft_strdup(envp[i]);
 		if(!env[i])
-			return (NULL);
+			return (ft_free_tab((void **)env), free_error(shell));
 		i++;
 	}
 	env[i] = NULL;
@@ -94,7 +94,7 @@ void	init_shell(t_shell *shell, char **envp)
 	init_NULL(shell);
 	shell->signals = malloc(sizeof(t_signal));
 	if(!(shell->signals))
-		return (free_all(shell), exit(2));
+		return (free_error(shell));
 	set_signal(shell->signals);
 	shell->tok = NULL;
 	shell->exec = NULL;
@@ -104,9 +104,5 @@ void	init_shell(t_shell *shell, char **envp)
 	g_signal_global = 0;
 	shell->var = NULL;
 	shell->env = init_env(envp);
-	if(!(shell->env))
-		return(free_all(shell), exit(2));
 	shell->secret = init_env(envp);
-	if(!(shell->secret))
-		return(free_all(shell), exit(2));
 }

@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/12 20:39:42 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/13 12:06:12 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_is_empty(char *str)
 	return (1);
 }
 
-int	stock_here_doc(char *delimiter, char **big_line, char **line)
+int	stock_here_doc(char *delimiter, char **big_line, char **line, t_shell *shell)
 {
 	while (*line)
 	{
@@ -45,13 +45,13 @@ int	stock_here_doc(char *delimiter, char **big_line, char **line)
 			break ;
 		}
 		if (*big_line != NULL)
-			*big_line = ft_strjoin_free(*big_line, " ");
-		*big_line = ft_strjoin_free(*big_line, *line);
+			*big_line = ft_strjoin_free(*big_line, " ", shell);
+		*big_line = ft_strjoin_free(*big_line, *line, shell);
 	}
 	return (TRUE);
 }
 
-char	**loop_here_doc(char *delimiter)
+char	**loop_here_doc(char *delimiter, t_shell *shell)
 {
 	char	*line;
 	char	*big_line;
@@ -60,8 +60,8 @@ char	**loop_here_doc(char *delimiter)
 	big_line = NULL;
 	line = malloc(1);
 	if (!line)
-		return (FALSE);
-	if (stock_here_doc(delimiter, &big_line, &line) == FALSE)
+		return (free_all(shell), exit(25), NULL);
+	if (stock_here_doc(delimiter, &big_line, &line, shell) == FALSE)
 		return (FALSE);
 	if (!big_line)
 		return (FALSE);
