@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:51:06 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/13 18:01:07 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/13 18:07:27 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ typedef enum e_tok_type
 
 typedef struct s_tok
 {
-	TOK_TYPE				type;
+	t_TOK_TYPE				type;
 	char					*word;
 	struct s_tok			*next;
 }							t_tok;
