@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 16:33:04 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/11 11:46:12 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/13 17:04:56 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	is_symbol(char c)
 		return (1);
 	return (0);
 }
+
 int	is_space(char c)
 {
 	if (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f'
@@ -25,6 +26,7 @@ int	is_space(char c)
 		return (1);
 	return (0);
 }
+
 void	add_word_tok(char *input, t_shell *shell, char *word)
 {
 	int	i;
@@ -50,6 +52,7 @@ void	add_word_tok(char *input, t_shell *shell, char *word)
 	}
 	ADD_TOK(&(shell->tok), NEW_TOK(WORD, word, shell));
 }
+
 int	len_word_tok(char *input)
 {
 	int	i;
