@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 11:59:10 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/12 13:53:18 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/13 17:37:09 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	error_detected(t_tok *init)
 {
 	if (init->type != WORD && !(init->next))
 	{
-		if (TYPE == PIPE)
+		if (init->type == PIPE)
 			ft_printf("missing command after a pipe\n");
 		else
 			ft_printf("error near unexpected token '\\n'\n");
@@ -56,7 +56,7 @@ int	parse_error(t_shell *shell, t_tok **error)
 	if (!shell->tok)
 		return (FALSE);
 	init = shell->tok;
-	if (TYPE == PIPE)
+	if (init->type == PIPE)
 		return (print_error(PARSE_MESS,
 				(char *)get_token_name(shell->tok->type), shell, 0), FALSE);
 	while (init)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 15:31:21 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/13 13:32:46 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/13 17:45:27 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,15 @@ int	tokken_choice(t_shell *shell, t_tok **init, t_exec *node_exec, int *i)
 			return (free_error(shell), FALSE);
 		(*i)++;
 	}
-	if ((*init)->type == INFILE && N->type == WORD && N)
+	if ((*init)->type == INFILE && (*init)->next->type == WORD && (*init)->next)
 		if_infile(node_exec, init);
-	if ((*init)->type == OUTFILE && N->type == WORD && N)
+	if ((*init)->type == OUTFILE && (*init)->next->type == WORD
+		&& (*init)->next)
 		if_outfile(node_exec, init, shell);
-	if ((*init)->type == APPEND && N->type == WORD && N)
+	if ((*init)->type == APPEND && (*init)->next->type == WORD && (*init)->next)
 		if_append(node_exec, init);
-	if ((*init)->type == HERE_DOC && N->type == WORD && N)
+	if ((*init)->type == HERE_DOC && (*init)->next->type == WORD
+		&& (*init)->next)
 	{
 		if (if_here_doc(node_exec, init, shell) == FALSE)
 			return (FALSE);
@@ -93,26 +95,21 @@ int	create_lst_exec(t_shell *shell)
 	tmp_tok1 = shell->tok;
 	tmp_tok2 = shell->tok;
 	tmp_error = NULL;
-	if(parse_error(shell, &tmp_error) == FALSE)
+	if (parse_error(shell, &tmp_error) == FALSE)
 		return (FALSE);
-	// if(!tmp_error)
-	// 	return (FALSE);
 	while (tmp_tok1)
 	{
 		if (find_target(&tmp_tok1, tmp_error) == FALSE)
-			break;
-			// break;
-		new = NEW_EXEC(tmp_tok2, tmp_tok1, shell);
+			break ;
+		new = ft_lstnew_exec(tmp_tok2, tmp_tok1, shell);
 		if (!new)
 			return (FALSE);
-		ADD_BACK_EXEC(&(shell->exec), new);
+		ft_lstadd_back_exec(&(shell->exec), new);
 		if (tmp_error != NULL && tmp_tok1 == tmp_error)
 			return (FALSE);
 		if (tmp_tok1 && tmp_tok1->type == PIPE)
 			tmp_tok1 = tmp_tok1->next;
-		// tmp_tok1 = tmp_tok1->next;
 		tmp_tok2 = tmp_tok1;
-		// tmp_tok2 = tmp_tok1;
 	}
 	return (TRUE);
 }

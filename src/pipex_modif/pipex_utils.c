@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 11:14:25 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/13 17:18:39 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/13 17:31:17 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,15 +95,6 @@ void	next_pipe(t_shell *shell, pid_t child, int *end)
 	(shell->pipex)->child_tab[(shell->pipex)->child_index] = child;
 }
 
-/**
-	CALCUL DU NOMBRE DE NODE DANS LA LISTE CHAINEE
-	POUR AVOIR LE NOMBRE DE PROCESS À WAIT
-
-	@param lst_exec La liste chaine sur laquelle on compte
-
-	@return			Le nombre de node dans la liste chainee. 0 si pas de liste chainee
-
-*/
 int	node_number(t_exec *lst_exec)
 {
 	t_exec	*tmp;

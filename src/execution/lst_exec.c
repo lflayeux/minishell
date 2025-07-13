@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 18:52:48 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/11 11:32:12 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/13 17:36:13 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ void	del_node_exec(void *exec_node)
 
 void	ft_lstclear_exec(t_exec *lst)
 {
-	t_exec *current;
-	t_exec *tmp;
+	t_exec	*current;
+	t_exec	*tmp;
 
 	current = lst;
 	while (current)
