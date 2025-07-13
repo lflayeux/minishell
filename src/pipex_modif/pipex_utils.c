@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 11:14:25 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/12 21:58:00 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/13 15:12:02 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,10 @@ void check_status(int status, t_shell *shell)
 void	next_pipe(t_shell *shell, pid_t child, int *end)
 {
 	close_fd(shell, 1, 0);
-	if (PIPEX->prev_fd != NONE)
-		close(PIPEX->prev_fd);
-	PIPEX->prev_fd = end[0];
-	PIPEX->child_tab[PIPEX->child_index] = child;
+	if ((shell->pipex)->prev_fd != NONE)
+		close((shell->pipex)->prev_fd);
+	(shell->pipex)->prev_fd = end[0];
+	(shell->pipex)->child_tab[(shell->pipex)->child_index] = child;
 }
 /**
 	CALCUL DU NOMBRE DE NODE DANS LA LISTE CHAINEE

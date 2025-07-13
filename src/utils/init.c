@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 22:16:13 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/13 13:00:13 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/13 15:12:02 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,15 @@ void	reset_shell(t_shell *shell)
 		ft_lstclear_exec(shell->exec);
 		shell->exec = NULL;
 	}
-	if (PIPEX->child_tab)
-		free(PIPEX->child_tab);
-	PIPEX->child_tab = NULL;
+	if ((shell->pipex)->child_tab)
+		free((shell->pipex)->child_tab);
+	(shell->pipex)->child_tab = NULL;
 	if (shell->var)
 	{
 		free(shell->var);
 		shell->var = NULL;
 	}
-	PIPEX->prev_fd = NONE;
+	(shell->pipex)->prev_fd = NONE;
 }
 char	**init_env(t_shell *shell, char **envp)
 {

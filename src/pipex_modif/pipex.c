@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/13 13:12:25 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/13 15:12:02 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ int	end_or_pipe(t_exec *exec, pid_t child, int *end, t_shell *shell)
 	if (exec->pipe_to == NULL)
 	{
 		i = 0;
-		if (PIPEX->prev_fd != NONE)
-			close(PIPEX->prev_fd);
-		while (PIPEX->child_tab[i])
+		if ((shell->pipex)->prev_fd != NONE)
+			close((shell->pipex)->prev_fd);
+		while ((shell->pipex)->child_tab[i])
 		{
-			if (waitpid(PIPEX->child_tab[i++], &status, 0) == -1)
+			if (waitpid((shell->pipex)->child_tab[i++], &status, 0) == -1)
 				return (FALSE);
 			check_status(status, shell);
 		}
@@ -41,13 +41,13 @@ int	end_or_pipe(t_exec *exec, pid_t child, int *end, t_shell *shell)
 int	child_exec(t_shell *shell, t_exec *exec)
 {
 	child_signals(shell->signals);
-	if (PIPEX->prev_fd != NONE && PIPEX->prev_fd != STDIN_FILENO)
+	if ((shell->pipex)->prev_fd != NONE && (shell->pipex)->prev_fd != STDIN_FILENO)
 	{
-		if (dup2(PIPEX->prev_fd, STDIN_FILENO) == -1)
+		if (dup2((shell->pipex)->prev_fd, STDIN_FILENO) == -1)
 			return (FALSE);
-		close(PIPEX->prev_fd);
+		close((shell->pipex)->prev_fd);
 	}
-	outfile_management(exec, PIPEX->end, shell);
+	outfile_management(exec, (shell->pipex)->end, shell);
 	if (!exec->cmd || !exec->cmd[0] || (ft_strcmp((exec->cmd)[0], " ") == 0))
 	{
 		close_fd(shell, 2, 0);
@@ -70,7 +70,7 @@ int	middle_proc(t_exec *exec, t_shell *shell)
 	init_fd(shell);
 	if (exec->pipe_to)
 	{
-		if (pipe(PIPEX->end) == -1)
+		if (pipe((shell->pipex)->end) == -1)
 			return (FALSE);
 	}
 	child = fork();
@@ -79,14 +79,14 @@ int	middle_proc(t_exec *exec, t_shell *shell)
 	else if (child == 0)
 	{
 		if(exec->if_infile == TRUE && access(exec->infile, R_OK) == - 1)
-		 	return (close(PIPEX->prev_fd), free_all(shell), exit(1), FALSE);
+		 	return (close((shell->pipex)->prev_fd), free_all(shell), exit(1), FALSE);
 		if (child_exec(shell, exec) == FALSE)
 			return (FALSE);
 	}
 	else
 	{
 		parent_signals(shell->signals);
-		end_or_pipe(exec, child, PIPEX->end, shell);
+		end_or_pipe(exec, child, (shell->pipex)->end, shell);
 	}
 	return (TRUE);
 }
@@ -119,16 +119,16 @@ void	loop_pipex(t_shell *shell)
 // ET INIT TU TABLEAU DE CHILD À WAIT
 int	pipex(t_shell *shell)
 {
-	PIPEX->child_tab = ft_calloc(node_number(shell->exec) + 1, sizeof(pid_t));
-	if (!(PIPEX->child_tab))
+	(shell->pipex)->child_tab = ft_calloc(node_number(shell->exec) + 1, sizeof(pid_t));
+	if (!((shell->pipex)->child_tab))
 		return (free_error(shell), FALSE);
-	PIPEX->child_tab[node_number(shell->exec)] = '\0';
+	(shell->pipex)->child_tab[node_number(shell->exec)] = '\0';
 	if (shell->exec->pipe_to == NULL && built_in(shell->exec, shell, 1))
 		return (TRUE);
 	else
 		loop_pipex(shell);
-	if (PIPEX->child_tab)
-		free(PIPEX->child_tab);
-	PIPEX->child_tab = NULL;
+	if ((shell->pipex)->child_tab)
+		free((shell->pipex)->child_tab);
+	(shell->pipex)->child_tab = NULL;
 	return (TRUE);
 }

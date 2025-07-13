@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 00:31:53 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/13 12:19:20 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/13 15:12:02 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,29 +22,29 @@ int	task_init(t_exec *exec, t_shell *shell)
 	init_fd(shell);
 	if (exec->if_here_doc == TRUE)
 	{
-		if (pipe(PIPEX->end) == -1)
+		if (pipe((shell->pipex)->end) == -1)
 			return (FALSE);
-		if (PIPEX->prev_fd != NONE)
-			close(PIPEX->prev_fd);
+		if ((shell->pipex)->prev_fd != NONE)
+			close((shell->pipex)->prev_fd);
 		here_doc_pipe(exec, shell);
-		PIPEX->prev_fd = PIPEX->end[0];
-		close(PIPEX->end[1]);
+		(shell->pipex)->prev_fd = (shell->pipex)->end[0];
+		close((shell->pipex)->end[1]);
 	}
 	if (exec->if_infile == TRUE)
 	{
 		fd_infile = open((exec->infile), O_RDONLY);
 		if (fd_infile == -1)
 		{
-			// PIPEX->prev_fd = PIPEX->end[0];
-			// close(PIPEX->end[1]);
+			// (shell->pipex)->prev_fd = (shell->pipex)->end[0];
+			// close((shell->pipex)->end[1]);
 			if(access(exec->infile, F_OK) == - 1)
 				return (print_error(exec->infile, FILE_MESS, shell, 1), 0);			
 			else
 				return (print_error(exec->infile, PERM, shell, 1), 0);			
 		}
-		if (PIPEX->prev_fd != NONE)
-			close(PIPEX->prev_fd);
-		PIPEX->prev_fd = fd_infile;
+		if ((shell->pipex)->prev_fd != NONE)
+			close((shell->pipex)->prev_fd);
+		(shell->pipex)->prev_fd = fd_infile;
 	}
 	return (TRUE);
 }
@@ -94,8 +94,8 @@ void	get_pid(t_shell *shell)
 
 void	init_fd(t_shell *shell)
 {
-	PIPEX->end[0] = NONE;
-	PIPEX->end[1] = NONE;
+	(shell->pipex)->end[0] = NONE;
+	(shell->pipex)->end[1] = NONE;
 }
 
 void	init_pipex(t_shell *shell)
@@ -105,9 +105,9 @@ void	init_pipex(t_shell *shell)
 	pipex = malloc(sizeof(t_pipex));
 	if (!pipex)
 		return (free_error(shell));
-	PIPEX = pipex;
-	PIPEX->child_tab = NULL;
-	PIPEX->child_index = 0;
-	PIPEX->prev_fd = NONE;
+	(shell->pipex) = pipex;
+	(shell->pipex)->child_tab = NULL;
+	(shell->pipex)->child_index = 0;
+	(shell->pipex)->prev_fd = NONE;
 	init_fd(shell);
 }

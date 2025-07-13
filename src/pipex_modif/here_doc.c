@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/13 13:36:54 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/13 15:12:02 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	here_doc_pipe(t_exec *exec, t_shell *shell)
 	i = 0;
 	while (exec->here_doc && exec->here_doc[i])
 	{
-		write(PIPEX->end[1], exec->here_doc[i], ft_strlen(exec->here_doc[i]));
+		write((shell->pipex)->end[1], exec->here_doc[i], ft_strlen(exec->here_doc[i]));
 		i++;
 	}
 	return (TRUE);
@@ -87,21 +87,21 @@ int	here_doc_pipe(t_exec *exec, t_shell *shell)
 
 void	close_fd(t_shell *shell, int fd, int to_close)
 {
-	if (fd == 0 && PIPEX->end[0] >= 0 && PIPEX->end[0] != NONE)
+	if (fd == 0 && (shell->pipex)->end[0] >= 0 && (shell->pipex)->end[0] != NONE)
 	{
-		close(PIPEX->end[0]);
-		PIPEX->end[0] = NONE;
+		close((shell->pipex)->end[0]);
+		(shell->pipex)->end[0] = NONE;
 	}
-	if (fd == 1 && PIPEX->end[1] >= 0 && PIPEX->end[1] != NONE)
+	if (fd == 1 && (shell->pipex)->end[1] >= 0 && (shell->pipex)->end[1] != NONE)
 	{
-		close(PIPEX->end[1]);
-		PIPEX->end[1] = NONE;
+		close((shell->pipex)->end[1]);
+		(shell->pipex)->end[1] = NONE;
 	}
-	if (fd == 2 && PIPEX->end[0] >= 0 && PIPEX->end[1] >= 0
-		&& PIPEX->end[1] != NONE && PIPEX->end[0] != NONE)
+	if (fd == 2 && (shell->pipex)->end[0] >= 0 && (shell->pipex)->end[1] >= 0
+		&& (shell->pipex)->end[1] != NONE && (shell->pipex)->end[0] != NONE)
 	{
-		close(PIPEX->end[1]);
-		close(PIPEX->end[0]);
+		close((shell->pipex)->end[1]);
+		close((shell->pipex)->end[0]);
 		init_fd(shell);
 	}
 	if (fd == 3 && to_close >= 0 && to_close != NONE)
