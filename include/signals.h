@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 18:03:42 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/12 21:34:11 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/13 17:56:30 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@
 /**
  * @brief Handle SIGINT (Ctrl-C) in interactive mode.
  *
- * This function is called when the user presses Ctrl-C while the shell is waiting
+ * This function is called when the user presses 
+ * Ctrl-C while the shell is waiting
  * for input. It clears the current line and redisplays the prompt.
  *
  * @param signal The signal number received (should be SIGINT).
@@ -84,8 +85,6 @@ void	child_signals(t_signal *signals);
  */
 void	reset_signals(t_signal *signals);
 void	handle_ctrl_c_quit(int signal);
-void    here_doc_signals(t_signal *signals);
-
-
+void	here_doc_signals(t_signal *signals);
 
 #endif
