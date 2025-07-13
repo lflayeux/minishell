@@ -14,7 +14,15 @@
 		"signals.h": "c",
 		"wait.h": "c",
 		"fcntl.h": "c",
-		"execution.h": "c"
+		"execution.h": "c",
+		"array": "c",
+		"deque": "c",
+		"string": "c",
+		"unordered_map": "c",
+		"vector": "c",
+		"string_view": "c",
+		"ranges": "c",
+		"span": "c"
 	},
 	"C_Cpp.errorSquiggles": "disabled"
 }

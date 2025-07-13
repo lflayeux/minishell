@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 20:20:21 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/13 13:31:25 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/13 16:22:12 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	is_valid_env(char *exec)
 	}
 	return (1);
 }
+
 int	ft_get_env(char **env, char *to_check)
 {
 	int	i;
@@ -60,7 +61,7 @@ void	expand_env(char **to_expand, t_shell *shell)
 		{
 			free(expand->word);
 			to_expand[i] = ft_strdup(expand->new);
-			if(!to_expand[i])
+			if (!to_expand[i])
 				return (free_error(shell));
 			free(expand->new);
 		}
@@ -68,6 +69,7 @@ void	expand_env(char **to_expand, t_shell *shell)
 	}
 	free(expand);
 }
+
 char	**put_env(t_shell *shell, char **env, char *cmd)
 {
 	int		len;
@@ -99,8 +101,8 @@ char	**put_env(t_shell *shell, char **env, char *cmd)
 
 char	**set_env(t_shell *shell, char *split, char **env, char *cmd)
 {
-	int j;
-	char **new_env;
+	int		j;
+	char	**new_env;
 
 	j = 0;
 	new_env = init_env(shell, env);
@@ -118,7 +120,7 @@ char	**set_env(t_shell *shell, char *split, char **env, char *cmd)
 			free(new_env[j]);
 			new_env[j] = ft_strdup(env[j]);
 		}
-		if(!new_env[j])
+		if (!new_env[j])
 			free_error(shell);
 		j++;
 	}

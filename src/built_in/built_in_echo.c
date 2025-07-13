@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in_echo.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 17:16:05 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/11 11:30:27 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/13 16:19:02 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	echo_option(t_exec *exec, int *i, int *newline)
 
 int	exec_echo(t_exec *exec, int i)
 {
-	int newline;
+	int	newline;
 
 	i++;
 	newline = 1;

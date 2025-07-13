@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in_env.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 20:21:47 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/13 13:04:39 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/13 16:27:24 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	check_env(t_shell *shell, char *cmd, char ***tmp)
 	split = ft_split(cmd, '=');
 	if (!split)
 		free_error(shell);
-	if (GET_ENV(shell->env, split[0]) == 1)
+	if (ft_get_env(shell->env, split[0]) == 1)
 	{
 		*tmp = set_env(shell, split[0], *tmp, cmd);
 		if (*tmp == NULL)
@@ -35,6 +35,7 @@ void	check_env(t_shell *shell, char *cmd, char ***tmp)
 	}
 	ft_free_tab((void **)split);
 }
+
 int	exec_env(t_shell *shell, int i, t_exec *exec)
 {
 	int		j;
