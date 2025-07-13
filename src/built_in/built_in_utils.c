@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 20:20:21 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/13 11:54:24 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/13 13:02:14 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,25 +85,25 @@ char	**put_env(t_shell *shell, char **env, char *cmd)
 	{
 		new_env[j] = ft_strdup(env[j]);
 		if (!new_env[j])
-			return (ft_free_tab((void **)new_env), free_all(shell), exit(25), NULL);
+			return (ft_free_tab((void **)new_env), free_error(shell), NULL);
 		j++;
 	}
 	new_env[j] = ft_strdup(cmd);
 	if (!new_env[j])
-		return (ft_free_tab((void **)new_env), free_all(shell), exit(25), NULL);
+		return (ft_free_tab((void **)new_env), free_error(shell), NULL);
 	new_env[j + 1] = NULL;
 	expand_env(new_env, shell);
 	ft_free_tab((void **)(env));
 	return (new_env);
 }
 
-char	**set_env(char *split, char **env, char *cmd)
+char	**set_env(t_shell *shell, char *split, char **env, char *cmd)
 {
 	int j;
 	char **new_env;
 
 	j = 0;
-	new_env = init_env(env);
+	new_env = init_env(shell, env);
 	if (!split[0] || !new_env)
 		return (NULL);
 	while (env[j])

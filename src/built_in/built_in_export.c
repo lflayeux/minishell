@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 00:05:17 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/11 15:43:46 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/13 13:05:30 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 int valid_export(t_shell *shell, char *cmd, char **split)
 {
 	if (GET_ENV(shell->env, split[0]))
-		shell->env = set_env(split[0], shell->env, cmd);
+		shell->env = set_env(shell, split[0], shell->env, cmd);
 	if (!shell->env)
 		return (FALSE);
 	if (GET_ENV(shell->secret, split[0]))
-		shell->secret = set_env(split[0], shell->secret, cmd);
+		shell->secret = set_env(shell, split[0], shell->secret, cmd);
 	if (!shell->secret)
 		return (FALSE);
 	if (!GET_ENV(shell->env, split[0]) && GET_ENV(shell->secret, split[0]))
@@ -56,7 +56,7 @@ void	stock_export(t_shell *shell, char *cmd)
 	else
 	{
 		if (GET_ENV(shell->secret, cmd))
-			shell->secret = set_env(cmd, shell->secret, cmd);
+			shell->secret = set_env(shell, cmd, shell->secret, cmd);
 		else
 			shell->secret = put_env(shell, shell->secret, cmd);
 		if (!shell->secret)

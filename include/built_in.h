@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 17:58:35 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/12 21:36:16 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/13 13:03:37 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 int     is_valid_env(char *exec);
 int     ft_get_env(char **env, char *to_check);
 char    **put_env(t_shell *shell, char **env, char *cmd);
-char    **set_env(char *split, char **env, char *cmd);
+char	**set_env(t_shell *shell, char *split, char **env, char *cmd);
 void	expand_env(char **to_expand, t_shell *shell);
 
 

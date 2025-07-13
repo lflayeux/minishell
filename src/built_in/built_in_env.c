@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 20:21:47 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/11 15:17:52 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/13 13:04:39 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	check_env(t_shell *shell, char *cmd, char ***tmp)
 		free_error(shell);
 	if (GET_ENV(shell->env, split[0]) == 1)
 	{
-		*tmp = set_env(split[0], *tmp, cmd);
+		*tmp = set_env(shell, split[0], *tmp, cmd);
 		if (*tmp == NULL)
 			return (free_error(shell), ft_free_tab((void **)split));
 		ft_free_tab((void **)split);
@@ -40,7 +40,7 @@ int	exec_env(t_shell *shell, int i, t_exec *exec)
 	int		j;
 	char	**tmp;
 
-	tmp = init_env(shell->env);
+	tmp = init_env(shell, shell->env);
 	if (!tmp)
 		free_error(shell);
 	while (exec->cmd[i + 1])

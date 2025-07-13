@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 22:16:13 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/13 12:34:01 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/13 13:00:13 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	reset_shell(t_shell *shell)
 	}
 	PIPEX->prev_fd = NONE;
 }
-char	**init_env(char **envp)
+char	**init_env(t_shell *shell, char **envp)
 {
 	int		i;
 	int		len;
@@ -50,12 +50,12 @@ char	**init_env(char **envp)
 		len++;
 	env = malloc((len + 1) * sizeof(char *));
 	if (env == NULL)
-		return (free_error(shell));
+		return (free_error(shell), NULL);
 	while (envp[i])
 	{
 		env[i] = ft_strdup(envp[i]);
 		if(!env[i])
-			return (ft_free_tab((void **)env), free_error(shell));
+			return (ft_free_tab((void **)env), free_error(shell), NULL);
 		i++;
 	}
 	env[i] = NULL;
@@ -103,6 +103,6 @@ void	init_shell(t_shell *shell, char **envp)
 	get_pid(shell);
 	g_signal_global = 0;
 	shell->var = NULL;
-	shell->env = init_env(envp);
-	shell->secret = init_env(envp);
+	shell->env = init_env(shell, envp);
+	shell->secret = init_env(shell, envp);
 }
