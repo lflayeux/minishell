@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 11:14:25 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/13 15:12:02 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/13 17:10:50 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 int	pipe_outfile(t_shell *shell, t_exec *exec, int *fd_outfile)
 {
 	struct stat	st;
-	
+
 	if (stat((exec->outfile), &st) == 0)
 	{
 		if (S_ISDIR(st.st_mode))
-			return (print_error((exec->outfile), "Is a directory", shell, CMD_EXEC), exit (1),
-				FALSE);
+			return (print_error((exec->outfile), "Is a directory", shell,
+					CMD_EXEC), exit(1), FALSE);
 	}
 	if (exec->if_outfile == TRUE)
 		*fd_outfile = open((exec->outfile), O_WRONLY | O_TRUNC | O_CREAT, 0666);
@@ -29,7 +29,8 @@ int	pipe_outfile(t_shell *shell, t_exec *exec, int *fd_outfile)
 				0666);
 	if (*fd_outfile == ERROR)
 	{
-		return (print_error(exec->outfile, PERM, shell, 1), free_all(shell), exit(1), 0);		
+		return (print_error(exec->outfile, PERM, shell, 1), free_all(shell),
+			exit(1), 0);
 	}
 	if (dup2(*fd_outfile, STDOUT_FILENO) == ERROR)
 		return (FALSE);
@@ -62,14 +63,14 @@ int	outfile_management(t_exec *exec, int *end, t_shell *shell)
 	return (TRUE);
 }
 
-void check_status(int status, t_shell *shell)
+void	check_status(int status, t_shell *shell)
 {
 	int	sig;
 
 	if (WIFEXITED(status))
 	{
 		g_signal_global = WEXITSTATUS(status);
-		if(g_signal_global == 25)
+		if (g_signal_global == 25)
 			free_error(shell);
 	}
 	else if (WIFSIGNALED(status))
@@ -93,6 +94,7 @@ void	next_pipe(t_shell *shell, pid_t child, int *end)
 	(shell->pipex)->prev_fd = end[0];
 	(shell->pipex)->child_tab[(shell->pipex)->child_index] = child;
 }
+
 /**
 	CALCUL DU NOMBRE DE NODE DANS LA LISTE CHAINEE
 	POUR AVOIR LE NOMBRE DE PROCESS À WAIT
@@ -104,8 +106,8 @@ void	next_pipe(t_shell *shell, pid_t child, int *end)
 */
 int	node_number(t_exec *lst_exec)
 {
-	t_exec *tmp;
-	int len;
+	t_exec	*tmp;
+	int		len;
 
 	if (!lst_exec)
 		return (0);
