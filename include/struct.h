@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:51:06 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/08 12:11:43 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/13 18:01:07 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ typedef enum e_tok_type
 	HERE_DOC,
 	APPEND,
 	WORD,
-}							TOK_TYPE;
+}							t_TOK_TYPE;
 
 typedef struct s_tok
 {
