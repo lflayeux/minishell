@@ -6,41 +6,11 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 19:22:45 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/13 13:33:21 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/13 17:29:10 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-char	*ft_getenv(char **env, char *word, t_expand *expand, t_shell *shell)
-{
-	int		i;
-	int		len;
-	char	*var;
-
-	i = -1;
-	len = 0;
-	if (!env || !shell)
-		return (NULL);
-	var = NULL;
-	while (ft_isalnum(word[len]) || word[len] == '_')
-	{
-		len++;
-		if (expand)
-			expand->i++;
-	}
-	while (env[++i])
-	{
-		if (!ft_strncmp(env[i], word, len) && env[i][len] == '=')
-		{
-			var = ft_strdup(&env[i][len + 1]);
-			if(!var)
-				free_error(shell);
-			return (var);
-		}
-	}
-	return (NULL);
-}
 
 void	pid_expand(t_expand *expand, t_shell *shell)
 {
@@ -69,6 +39,7 @@ void	error_expand(t_expand *expand, t_shell *shell)
 		+ 1);
 	free(error_str);
 }
+
 void	base_expand(t_expand *expand, t_shell *shell)
 {
 	expand->new = ft_realloc(expand->new, strlen(expand->new) + 2);
@@ -76,29 +47,4 @@ void	base_expand(t_expand *expand, t_shell *shell)
 		return (free_error(shell));
 	expand->new[ft_strlen(expand->new)] = expand->word[expand->i];
 	expand->i++;
-}
-
-void	var_expand(t_expand *expand, t_shell *shell)
-{
-	if (shell->var)
-		free(shell->var);
-	shell->var = ft_getenv(shell->env, &(expand->word[expand->i]), expand,
-			shell);
-	if (shell->var == NULL)
-	{
-		while (expand->word[expand->i] && expand->word[expand->i] != ' '
-			&& expand->word[expand->i] != '_'
-			&& ft_isalnum(expand->word[expand->i]))
-			expand->i++;
-		expand->new = ft_realloc(expand->new, strlen(expand->new) + 2);
-		if (!expand->new)
-			return (free_error(shell));
-		return ;
-	}
-	expand->new = ft_realloc(expand->new, strlen(expand->new)
-			+ strlen(shell->var) + 1);
-	if (!expand->new)
-		return (free_error(shell));
-	ft_strlcat(expand->new, shell->var, strlen(expand->new) + strlen(shell->var)
-		+ 1);
 }

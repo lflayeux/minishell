@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 14:51:37 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/13 13:11:44 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/13 17:12:56 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void	expanded_one(t_expand *expand, t_shell *shell)
 			base_expand(expand, shell);
 	}
 }
+
 void	expanded_two(t_expand *expand, t_shell *shell)
 {
 	expand->i = 0;

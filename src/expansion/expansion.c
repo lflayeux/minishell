@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:07:12 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/13 13:43:39 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/13 17:35:45 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,17 @@ char	*ft_strjoin_free(char const *s1, char const *s2, t_shell *shell)
 	char	*dest;
 	size_t	i;
 	size_t	j;
-	size_t	len;
 
 	if (!s1)
 	{
 		dest = ft_strdup(s2);
-		if(!dest)
+		if (!dest)
 			free_error(shell);
 		return (dest);
 	}
 	i = 0;
 	j = 0;
-	len = ft_strlen(s1) + ft_strlen(s2);
-	dest = ft_calloc(len + 1, sizeof(char));
+	dest = ft_calloc((ft_strlen(s1) + ft_strlen(s2)) + 1, sizeof(char));
 	if (!dest)
 		return (free((void *)s1), free_error(shell), NULL);
 	while (s1[i])
@@ -52,17 +50,12 @@ int	new_prompt(t_shell *shell)
 	while (tmp)
 	{
 		if (new_prompt != NULL)
-		{
 			new_prompt = ft_strjoin_free(new_prompt, " ", shell);
-			// if (!new_prompt)
-			// 	return (ft_lstclear_tok(shell->tok), FALSE);
-		}
 		if (tmp->type == WORD)
 			new_prompt = ft_strjoin_free(new_prompt, tmp->word, shell);
 		else
-			new_prompt = ft_strjoin_free(new_prompt, get_token_name(tmp->type), shell);
-		// if (!new_prompt)
-		// 	return (ft_lstclear_tok(shell->tok), FALSE);
+			new_prompt = ft_strjoin_free(new_prompt, get_token_name(tmp->type),
+					shell);
 		tmp = tmp->next;
 	}
 	ft_lstclear_tok(shell->tok);

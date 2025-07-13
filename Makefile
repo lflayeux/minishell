@@ -21,6 +21,7 @@ SRC =	src/main.c \
 		src/tokenization/tokenize_utils.c \
 		src/expansion/expansion.c \
 		src/expansion/expand_utils.c \
+		src/expansion/expand_var.c \
 		src/expansion/expand_part.c \
 		src/execution/prepare_exec.c \
 		src/execution/prepare_exec_utils.c \
