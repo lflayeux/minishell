@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 16:33:04 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/13 17:04:56 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/13 17:55:15 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	add_word_tok(char *input, t_shell *shell, char *word)
 			quotes = 2;
 		word[j++] = input[i++];
 	}
-	ADD_TOK(&(shell->tok), NEW_TOK(WORD, word, shell));
+	ft_lstadd_back_tok(&(shell->tok), ft_lstnew_tok(WORD, word, shell));
 }
 
 int	len_word_tok(char *input)

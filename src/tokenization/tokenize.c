@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 12:19:00 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/11 19:19:18 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/13 17:58:00 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,22 @@ int	symbol_token(char *input, t_shell *shell)
 	if (input[0] == '<')
 	{
 		if (input[1] && input[1] == '<')
-			return (ADD_TOK(&(shell->tok), NEW_TOK(HERE_DOC, NULL, shell)), 2);
-		return (ADD_TOK(&(shell->tok), NEW_TOK(INFILE, NULL, shell)), 1);
+			return (ft_lstadd_back_tok(&(shell->tok),
+					ft_lstnew_tok(HERE_DOC, NULL, shell)), 2);
+		return (ft_lstadd_back_tok(&(shell->tok),
+				ft_lstnew_tok(INFILE, NULL, shell)), 1);
 	}
 	else if (input[0] == '>')
 	{
 		if (input[1] && input[1] == '>')
-			return (ADD_TOK(&(shell->tok), NEW_TOK(APPEND, NULL, shell)), 2);
-		return (ADD_TOK(&(shell->tok), NEW_TOK(OUTFILE, NULL, shell)), 1);
+			return (ft_lstadd_back_tok(&(shell->tok),
+					ft_lstnew_tok(APPEND, NULL, shell)), 2);
+		return (ft_lstadd_back_tok(&(shell->tok),
+				ft_lstnew_tok(OUTFILE, NULL, shell)), 1);
 	}
 	else if (input[0] == '|')
-		return (ADD_TOK(&(shell->tok), NEW_TOK(PIPE, NULL, shell)), 1);
+		return (ft_lstadd_back_tok(&(shell->tok),
+				ft_lstnew_tok(PIPE, NULL, shell)), 1);
 	return (0);
 }
 
