@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 18:10:25 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/13 17:56:21 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/13 18:01:29 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 // =================== TOKENS ===================
 // ==============================================
 
-t_tok	*ft_lstnew_tok(TOK_TYPE type, char *word, t_shell *shell);
+t_tok	*ft_lstnew_tok(t_TOK_TYPE type, char *word, t_shell *shell);
 t_tok	*ft_lstlast_tok(t_tok *lst);
 void	ft_lstadd_back_tok(t_tok **token, t_tok *new);
 void	ft_lstclear_tok(t_tok *lst);

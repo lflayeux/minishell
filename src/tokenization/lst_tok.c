@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   lst_tok.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 23:30:08 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/13 17:04:39 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/13 18:01:38 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-t_tok	*ft_lstnew_tok(TOK_TYPE type, char *word, t_shell *shell)
+t_tok	*ft_lstnew_tok(t_TOK_TYPE type, char *word, t_shell *shell)
 {
 	t_tok	*new;
 
