@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/13 12:06:12 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/13 13:08:16 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,42 +26,40 @@ int	ft_is_empty(char *str)
 	return (1);
 }
 
-int	stock_here_doc(char *delimiter, char **big_line, char **line, t_shell *shell)
+int	stock_here_doc(char *delimiter, char **big_line, t_shell *shell)
 {
-	while (*line)
+	char	*line;
+	char	*del_join;
+
+	del_join = ft_strjoin(delimiter, "\n");
+	while (1)
 	{
-		free(*line);
-		*line = get_next_line(0);
+		line = get_next_line(0);
 		if (g_signal_global == 130)
-			return (free(*big_line), FALSE);
-		if (!*line)
+			return (free(*big_line), free(del_join), FALSE);
+		if (!line)
 		{
 			ft_printf("EOF before delimiter '%s' is reached\n", delimiter);
-			break ;
+			return (free(line), free(del_join),TRUE);
 		}
-		if (ft_strlen(*line) == ft_strlen(delimiter) + 1 && ft_strncmp(*line, delimiter, ft_strlen(*line) - 1) == 0)
-		{
-			free(*line);
-			break ;
-		}
+		if (ft_strcmp(line, del_join) == 0)
+			return (free(line), free(del_join), TRUE);
 		if (*big_line != NULL)
 			*big_line = ft_strjoin_free(*big_line, " ", shell);
-		*big_line = ft_strjoin_free(*big_line, *line, shell);
+		*big_line = ft_strjoin_free(*big_line, line, shell);
+		free(line);
 	}
+	free(del_join);
 	return (TRUE);
 }
 
 char	**loop_here_doc(char *delimiter, t_shell *shell)
 {
-	char	*line;
 	char	*big_line;
 	char	**tab;
 
 	big_line = NULL;
-	line = malloc(1);
-	if (!line)
-		return (free_all(shell), exit(25), NULL);
-	if (stock_here_doc(delimiter, &big_line, &line, shell) == FALSE)
+	if (stock_here_doc(delimiter, &big_line, shell) == FALSE)
 		return (FALSE);
 	if (!big_line)
 		return (FALSE);
