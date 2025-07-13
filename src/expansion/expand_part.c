@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 14:51:37 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/13 12:01:19 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/13 13:11:44 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	quotes_expand(t_expand *expand, char sep, t_shell *shell)
 	new_len = ft_strlen(expand->new) + (expand->i - start) + 1;
 	expand->new = ft_realloc(expand->new, new_len);
 	if (expand->new == NULL)
-		return (free_all(shell), exit(25));
+		return (free_error(shell));
 	ft_memcpy(expand->new + ft_strlen(expand->new), &(expand->word[start]),
 		expand->i - start);
 	expand->new[new_len - 1] = '\0';
@@ -71,7 +71,7 @@ void	expanded_one(t_expand *expand, t_shell *shell)
 	expand->i = 0;
 	expand->new = ft_calloc(1, 1);
 	if (expand->new == NULL)
-		return (free_all(shell), exit(25));
+		return (free_error(shell));
 	while (expand->word[expand->i])
 	{
 		if (expand->word[expand->i] == '\'' && expand->quotes == 0)
@@ -94,7 +94,7 @@ void	expanded_two(t_expand *expand, t_shell *shell)
 	expand->quotes = 0;
 	expand->new = ft_calloc(1, 1);
 	if (expand->new == NULL)
-		return (free_all(shell), exit(25));
+		return (free_error(shell));
 	while (expand->word[expand->i])
 	{
 		if (expand->word[expand->i] == '\'' && expand->quotes == 0)

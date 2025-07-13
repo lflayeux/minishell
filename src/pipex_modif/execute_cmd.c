@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/13 12:05:47 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/13 13:37:23 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ char	**find_path_env(t_shell *shell)
 	len = ft_strlen(shell->env[i]);
 	path_str = ft_substr(shell->env[i], 5, len - 5);
 	if (!path_str)
-		return (free_all(shell), exit(25), NULL);
+		return (free_error(shell), NULL);
 	all_paths = ft_split(path_str, ':');
 	free(path_str);
 	if (!all_paths)
-		return (free_all(shell), exit(25), NULL);
+		return (free_error(shell), NULL);
 	return (all_paths);
 }
 
@@ -85,10 +85,10 @@ int	exec_proc(char **cmd_parsed, char **all_paths, t_shell *shell, int i)
 	}
 	temp = ft_strjoin("/", cmd_parsed[0]);
 	if (!temp)
-		return (FALSE);
+		return (free_error(shell), FALSE);
 	path = ft_strjoin(all_paths[i], temp);
 	if (!path)
-		return (free(temp), FALSE);
+		return (free(temp), free_error(shell), FALSE);
 	if (handle_path_cmd(cmd_parsed, path, shell) == FALSE)
 	{
 		free_all(shell);

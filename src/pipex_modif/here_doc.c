@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/13 13:08:16 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/13 13:36:54 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ int	stock_here_doc(char *delimiter, char **big_line, t_shell *shell)
 	char	*del_join;
 
 	del_join = ft_strjoin(delimiter, "\n");
+	if(!del_join)
+		free_error(shell);
 	while (1)
 	{
 		line = get_next_line(0);
@@ -65,6 +67,8 @@ char	**loop_here_doc(char *delimiter, t_shell *shell)
 		return (FALSE);
 	tab = ft_split(big_line, ' ');
 	free(big_line);
+	if(!tab)
+		free_error(shell);
 	return (tab);
 }
 

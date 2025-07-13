@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 00:08:07 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/13 12:57:27 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/13 13:26:09 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,10 @@ char	**unset_env(t_shell *shell, char *unset_env, char **env, int j)
             return (ft_free_tab((void **)new_env), free_error(shell), NULL);
 		if (ft_strncmp(split[0], unset_env, ft_strlen(split[0])))
 		{
-			new_env[j++] = ft_strdup(env[i]);
-						
+			new_env[j] = ft_strdup(env[i]);
+			if(!new_env[j])	
+				return (ft_free_tab((void **)new_env), ft_free_tab((void **)split), free_error(shell), NULL);
+			j++;
 		}
 		ft_free_tab((void **)split);
 		i++;

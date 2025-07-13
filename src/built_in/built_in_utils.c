@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 20:20:21 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/13 13:02:14 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/13 13:31:25 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	expand_env(char **to_expand, t_shell *shell)
 	expand->new = NULL;
 	expand->quotes = 0;
 	if (!expand)
-		return (free_all(shell), exit(25));
+		return (free_error(shell));
 	while (to_expand[i])
 	{
 		expand->word = to_expand[i];
@@ -61,7 +61,7 @@ void	expand_env(char **to_expand, t_shell *shell)
 			free(expand->word);
 			to_expand[i] = ft_strdup(expand->new);
 			if(!to_expand[i])
-				return (free_all(shell), exit(25));
+				return (free_error(shell));
 			free(expand->new);
 		}
 		i++;
@@ -118,6 +118,8 @@ char	**set_env(t_shell *shell, char *split, char **env, char *cmd)
 			free(new_env[j]);
 			new_env[j] = ft_strdup(env[j]);
 		}
+		if(!new_env[j])
+			free_error(shell);
 		j++;
 	}
 	ft_free_tab((void **)(env));
