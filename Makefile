@@ -39,6 +39,7 @@ SRC =	src/main.c \
 		src/built_in/built_in_export.c \
 		src/built_in/built_in_unset.c \
 		src/built_in/built_in_utils.c \
+		src/built_in/built_in_utils_2.c \
 
 GREEN = \033[32m
 RED = \033[31m

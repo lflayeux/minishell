@@ -6,37 +6,24 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 20:20:21 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/13 16:22:12 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/13 21:14:14 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	is_valid_env(char *exec)
-{
-	int	i;
-
-	i = 0;
-	if (!exec || (!ft_isalpha(exec[0]) && exec[0] != '_'))
-		return (0);
-	while (exec[i] && exec[i] != '=')
-	{
-		if (!ft_isalnum(exec[i]) && exec[i] != '_')
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
 int	ft_get_env(char **env, char *to_check)
 {
-	int	i;
+	int		i;
+	char	**split;
 
 	i = 0;
 	while (env[i])
 	{
-		if (ft_strncmp(env[i], to_check, ft_strlen(to_check)) == 0)
-			return (1);
+		split = ft_split(env[i], '=');
+		if (ft_strcmp(split[0], to_check) == 0)
+			return (ft_free_tab((void **)split), 1);
+		ft_free_tab((void **)split);
 		i++;
 	}
 	return (0);
@@ -99,6 +86,29 @@ char	**put_env(t_shell *shell, char **env, char *cmd)
 	return (new_env);
 }
 
+int	manage_env(char *split, char *env, char *cmd, char **new_env)
+{
+	char	**split_2;
+
+	split_2 = ft_split(env, '=');
+	if (!split_2)
+		return (FALSE);
+	if (ft_strcmp(split_2[0], split) == 0)
+	{
+		free((*new_env));
+		(*new_env) = ft_strdup(cmd);
+	}
+	else
+	{
+		free((*new_env));
+		(*new_env) = ft_strdup(env);
+	}
+	ft_free_tab((void **)split_2);
+	if (!(*new_env))
+		return (FALSE);
+	return (TRUE);
+}
+
 char	**set_env(t_shell *shell, char *split, char **env, char *cmd)
 {
 	int		j;
@@ -110,17 +120,7 @@ char	**set_env(t_shell *shell, char *split, char **env, char *cmd)
 		return (NULL);
 	while (env[j])
 	{
-		if (ft_strncmp(env[j], split, ft_strlen(split)) == 0)
-		{
-			free(new_env[j]);
-			new_env[j] = ft_strdup(cmd);
-		}
-		else
-		{
-			free(new_env[j]);
-			new_env[j] = ft_strdup(env[j]);
-		}
-		if (!new_env[j])
+		if (manage_env(split, env[j], cmd, &(new_env[j])) == FALSE)
 			free_error(shell);
 		j++;
 	}

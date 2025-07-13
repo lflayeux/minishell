@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 00:08:07 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/13 17:14:59 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/13 21:19:20 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	check_unset(char *unset_env, char **env, char ***new_env)
 		split = ft_split(env[i], '=');
 		if (!split)
 			return (FALSE);
-		if (ft_strncmp(split[0], unset_env, ft_strlen(split[0])))
+		if (ft_strcmp(split[0], unset_env))
 		{
 			(*new_env)[j] = ft_strdup(env[i]);
 			if (!(*new_env)[j])
