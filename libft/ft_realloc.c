@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_realloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 22:45:22 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/14 10:58:39 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/07/13 18:02:49 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdio.h>
 
-char *ft_realloc(char *ptr, size_t size)
+char	*ft_realloc(char *ptr, size_t size)
 {
 	void	*new;
 	size_t	len;

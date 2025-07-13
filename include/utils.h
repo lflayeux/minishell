@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 00:34:45 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/13 16:08:27 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/13 17:58:51 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,10 @@ int		ft_check_env(char **env, char *to_check);
 void	init_shell(t_shell *shell, char **envp);
 int		task_init(t_exec *exec, t_shell *shell);
 
-
 // ==============================================
 // ================== free(direction) ======================
 // ==============================================
 void	free_all(t_shell *shell);
-void    free_error(t_shell *shell);
-
+void	free_error(t_shell *shell);
 
 #endif

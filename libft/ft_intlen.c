@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_intlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 00:10:02 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/06/07 00:57:53 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/07/13 18:02:33 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_intlen(int nb)
 {
-	int len;
+	int	len;
 
 	if (nb == 0)
 		return (1);

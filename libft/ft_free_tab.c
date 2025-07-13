@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free_tab.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 14:37:38 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/04/07 14:38:54 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/13 18:02:01 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_free_tab(void **tab)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (tab[i])
