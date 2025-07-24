@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:43:33 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/12 21:36:07 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/24 12:37:27 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,14 @@ void	exec_all(t_shell *shell)
 // pipex(shell);
 // printf("\n\n");
 // }
+
+void filter_history(char *input)
+{
+	if(strcmp(input, "\0") == 0)
+		return ;
+	add_history(input);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
@@ -133,7 +141,7 @@ int	main(int argc, char **argv, char **envp)
 			return (free_all(shell), printf("exit"), 0);
 		else
 		{
-			add_history(shell->input);
+			filter_history(shell->input);
 			tokenize(shell);
 			exec_all(shell);
 		}
