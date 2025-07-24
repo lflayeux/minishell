@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/13 17:18:30 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/24 19:34:34 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,18 @@ int	stock_here_doc(char *delimiter, char **big_line, t_shell *shell)
 		free_error(shell);
 	while (1)
 	{
-		line = get_next_line(0);
+		// line = get_next_line(0);
+		// dup2(end[1], 0);
+		line = readline(">");
 		if (g_signal_global == 130)
-			return (free(*big_line), free(del_join), FALSE);
+			return (free(*big_line), free(del_join), free_all(shell), exit(130), FALSE);
+		// free(line);
 		if (!line)
 		{
-			ft_printf("EOF before delimiter '%s' is reached\n", delimiter);
+			write(1, "EOF before delimiter '%s' is reached\n", 37);
 			return (free(line), free(del_join), TRUE);
 		}
+		line = ft_strjoin_free(line, "\n", shell);
 		if (ft_strcmp(line, del_join) == 0)
 			return (free(line), free(del_join), TRUE);
 		if (*big_line != NULL)
@@ -55,12 +59,15 @@ int	stock_here_doc(char *delimiter, char **big_line, t_shell *shell)
 	return (TRUE);
 }
 
-char	**loop_here_doc(char *delimiter, t_shell *shell)
+int	here_doc_pipe(char *delimiter, t_exec *exec, t_shell *shell)
 {
+	int	i;
 	char	*big_line;
 	char	**tab;
 
+	i = 0;
 	big_line = NULL;
+	// dup2(exec->end[1], 0);
 	if (stock_here_doc(delimiter, &big_line, shell) == FALSE)
 		return (FALSE);
 	if (!big_line)
@@ -69,19 +76,52 @@ char	**loop_here_doc(char *delimiter, t_shell *shell)
 	free(big_line);
 	if (!tab)
 		free_error(shell);
-	return (tab);
+	while (tab && tab[i])
+	{
+		write(exec->end[1], tab[i], ft_strlen(tab[i]));
+		i++;
+	}
+	return (TRUE);
 }
 
-int	here_doc_pipe(t_exec *exec, t_shell *shell)
+int loop_here_doc(t_exec *node_exec, char *delimiter, t_shell *shell)
 {
-	int	i;
+	// char	*big_line;
+	// char	**tab;
+	pid_t child;
+	int status;
 
-	i = 0;
-	while (exec->here_doc && exec->here_doc[i])
+	child = fork();
+	status = 0;
+	if(child < 0)
+		free_error(shell);
+	else if(child == 0)
 	{
-		write((shell->pipex)->end[1], exec->here_doc[i],
-			ft_strlen(exec->here_doc[i]));
-		i++;
+		here_doc_signals(shell->signals);
+		here_doc_pipe(delimiter, node_exec, shell);
+		if (g_signal_global == 130)
+			exit(130);
+		// else
+		exit(0);
+		// big_line = NULL;
+		// if (stock_here_doc(delimiter, &big_line, shell) == FALSE)
+		// 	return (FALSE);
+		// if (!big_line)
+		// 	return (FALSE);
+		// tab = ft_split(big_line, ' ');
+		// free(big_line);
+		// if (!tab)
+		// 	free_error(shell);
+	}
+	else
+	{
+		waitpid(child, &status, 0);
+		if (WIFEXITED(status))
+		{
+			g_signal_global = WEXITSTATUS(status);
+			if (g_signal_global == 130)
+				return (FALSE);
+		}
 	}
 	return (TRUE);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:51:06 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/13 18:07:27 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/24 15:24:02 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef struct s_exec_pipeline
 	char					**cmd;
 	char					*infile;
 	char					*outfile;
-	char					**here_doc;
+	int						end[2];
 	bool					if_infile;
 	bool					if_outfile;
 	bool					if_append;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 00:31:53 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/13 17:18:55 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/24 16:21:34 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	task_init(t_exec *exec, t_shell *shell)
 			return (FALSE);
 		if ((shell->pipex)->prev_fd != NONE)
 			close((shell->pipex)->prev_fd);
-		here_doc_pipe(exec, shell);
+		// here_doc_pipe(exec, shell);
 		(shell->pipex)->prev_fd = (shell->pipex)->end[0];
 		close((shell->pipex)->end[1]);
 	}
@@ -59,7 +59,6 @@ void	exec_init(t_exec *node_exec)
 	node_exec->cmd = NULL;
 	node_exec->infile = NULL;
 	node_exec->outfile = NULL;
-	node_exec->here_doc = NULL;
 	node_exec->if_infile = 0;
 	node_exec->if_outfile = 0;
 	node_exec->if_append = 0;

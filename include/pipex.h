@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 21:46:44 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/13 17:32:24 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/24 17:23:42 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ char	**find_path_env(t_shell *shell);
 // ==============================================
 // ================ HERE_DOC ====================
 // ==============================================
-char	**loop_here_doc(char *delimiter, t_shell *shell);
-int		here_doc_pipe(t_exec *exec, t_shell *shell);
+int	loop_here_doc(t_exec *node_exec, char *delimiter, t_shell *shell);
+int		here_doc_pipe(char *delimiter, t_exec *exec, t_shell *shell);
 int		ft_is_empty(char *str);
 void	close_fd(t_shell *shell, int fd, int to_close);
 

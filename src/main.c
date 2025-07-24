@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:43:33 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/24 12:37:27 by alex             ###   ########.fr       */
+/*   Updated: 2025/07/24 18:45:00 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void	exec_all(t_shell *shell)
 
 void filter_history(char *input)
 {
-	if(strcmp(input, "\0") == 0)
+	if(ft_strcmp(input, "\0") == 0)
 		return ;
 	add_history(input);
 }

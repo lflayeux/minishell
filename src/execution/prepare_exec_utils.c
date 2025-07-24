@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_exec_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 15:46:44 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/13 17:35:55 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/24 19:35:38 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,17 @@ int	word_number(t_tok *init, t_tok *end)
 
 int	if_here_doc(t_exec *node_exec, t_tok **init, t_shell *shell)
 {
-	here_doc_signals(shell->signals);
-	if (node_exec->here_doc)
-		ft_free_tab((void **)node_exec->here_doc);
-	node_exec->here_doc = loop_here_doc(((*init)->next)->word, shell);
-	if (!(node_exec->here_doc) && g_signal_global == 130)
+	// int end[2];
+	
+	if (pipe(node_exec->end) == -1)
+		return (FALSE);
+	// if (node_exec->here_doc)
+	// 	ft_free_tab((void **)node_exec->here_doc);
+	ignore_signals(shell->signals);
+	if (loop_here_doc(node_exec, ((*init)->next)->word, shell) == FALSE)
 		return (parent_signals(shell->signals), FALSE);
+	// if (g_signal_global == 130)
+	// 	return (parent_signals(shell->signals), FALSE);
 	parent_signals(shell->signals);
 	node_exec->if_here_doc = 1;
 	node_exec->if_infile = 0;

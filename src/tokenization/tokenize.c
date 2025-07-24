@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 12:19:00 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/13 17:58:00 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/24 18:43:24 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	word_token(char *input, t_shell *shell)
 
 	len = 0;
 	len += len_word_tok(input);
-	word = calloc(len + 1, sizeof(char));
+	word = ft_calloc(len + 1, sizeof(char));
 	if (!word)
 		free_error(shell);
 	add_word_tok(input, shell, word);

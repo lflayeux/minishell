@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:49:02 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/13 17:06:51 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/24 19:34:47 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,22 @@ void	here_doc_signals(t_signal *signals)
 {
 	signals->ctrl_dump.sa_handler = SIG_IGN;
 	sigaction(SIGQUIT, &signals->ctrl_dump, NULL);
-	signals->ctrl_c.sa_handler = handle_ctrl_c_action;
+	// signals->ctrl_c.sa_handler = handle_ctrl_c_quit;
+	signals->ctrl_c.sa_handler = SIG_DFL;
 	sigaction(SIGINT, &signals->ctrl_c, NULL);
 }
 
 void	reset_signals(t_signal *signals)
 {
 	signals->ctrl_c.sa_handler = handle_ctrl_c_interactive;
+	sigaction(SIGINT, &signals->ctrl_c, NULL);
+	signals->ctrl_dump.sa_handler = SIG_IGN;
+	sigaction(SIGQUIT, &signals->ctrl_dump, NULL);
+}
+
+void	ignore_signals(t_signal *signals)
+{
+	signals->ctrl_c.sa_handler = SIG_IGN;
 	sigaction(SIGINT, &signals->ctrl_c, NULL);
 	signals->ctrl_dump.sa_handler = SIG_IGN;
 	sigaction(SIGQUIT, &signals->ctrl_dump, NULL);
