@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 00:31:53 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/24 16:21:34 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/26 10:23:25 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,13 @@ int	task_init(t_exec *exec, t_shell *shell)
 	init_fd(shell);
 	if (exec->if_here_doc == TRUE)
 	{
-		if (pipe((shell->pipex)->end) == -1)
-			return (FALSE);
+		// if (pipe((shell->pipex)->end) == -1)
+		// 	return (FALSE);
 		if ((shell->pipex)->prev_fd != NONE)
 			close((shell->pipex)->prev_fd);
 		// here_doc_pipe(exec, shell);
-		(shell->pipex)->prev_fd = (shell->pipex)->end[0];
-		close((shell->pipex)->end[1]);
+		(shell->pipex)->prev_fd = exec->end[0];
+		close(exec->end[1]);
 	}
 	if (exec->if_infile == TRUE)
 	{
@@ -59,6 +59,8 @@ void	exec_init(t_exec *node_exec)
 	node_exec->cmd = NULL;
 	node_exec->infile = NULL;
 	node_exec->outfile = NULL;
+	node_exec->end[0] =  NONE;
+	node_exec->end[1] =  NONE;
 	node_exec->if_infile = 0;
 	node_exec->if_outfile = 0;
 	node_exec->if_append = 0;

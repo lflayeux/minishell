@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:49:02 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/24 19:34:47 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/26 14:02:14 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	here_doc_signals(t_signal *signals)
 	signals->ctrl_dump.sa_handler = SIG_IGN;
 	sigaction(SIGQUIT, &signals->ctrl_dump, NULL);
 	// signals->ctrl_c.sa_handler = handle_ctrl_c_quit;
-	signals->ctrl_c.sa_handler = SIG_DFL;
+	signals->ctrl_c.sa_handler = handle_ctrl_c_here_doc;
 	sigaction(SIGINT, &signals->ctrl_c, NULL);
 }
 

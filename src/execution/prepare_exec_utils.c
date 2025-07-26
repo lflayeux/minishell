@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 15:46:44 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/24 19:35:38 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/26 10:38:30 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,11 @@ int	if_here_doc(t_exec *node_exec, t_tok **init, t_shell *shell)
 {
 	// int end[2];
 	
+	if(node_exec->end[0] != NONE && node_exec->end[1] != NONE)
+	{
+		close(node_exec->end[1]);
+		close(node_exec->end[0]);
+	}
 	if (pipe(node_exec->end) == -1)
 		return (FALSE);
 	// if (node_exec->here_doc)

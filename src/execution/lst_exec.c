@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 18:52:48 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/24 16:09:54 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/26 15:53:34 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,11 @@ void	del_node_exec(void *exec_node)
 	exec = (t_exec *)exec_node;
 	if (exec->cmd)
 		ft_free_tab((void **)(exec->cmd));
-	// if (exec->here_doc)
-	// 	ft_free_tab((void **)(exec->here_doc));
+	if(exec->end[1] != NONE && exec->end[0] != NONE)
+	{
+		close(exec->end[0]);		
+		close(exec->end[1]);
+	}
 }
 
 void	ft_lstclear_exec(t_exec *lst)

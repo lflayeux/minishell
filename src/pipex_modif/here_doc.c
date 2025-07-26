@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/24 19:34:34 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/26 14:43:07 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,19 @@ int	stock_here_doc(char *delimiter, char **big_line, t_shell *shell)
 	del_join = ft_strjoin(delimiter, "\n");
 	if (!del_join)
 		free_error(shell);
+	// free_all(shell);
 	while (1)
 	{
 		// line = get_next_line(0);
 		// dup2(end[1], 0);
-		line = readline(">");
-		if (g_signal_global == 130)
-			return (free(*big_line), free(del_join), free_all(shell), exit(130), FALSE);
+		line = readline("> ");
+		// if (g_signal_global == 130)
+		// 	return (free(*big_line), free(del_join), free_all(shell), exit(130), FALSE);
 		// free(line);
 		if (!line)
 		{
-			write(1, "EOF before delimiter '%s' is reached\n", 37);
+			// write(1, "EOF before delimiter '%s' is reached\n", 37);
+			printf("EOF before delimiter '%s' is reached\n", delimiter);
 			return (free(line), free(del_join), TRUE);
 		}
 		line = ft_strjoin_free(line, "\n", shell);
@@ -97,10 +99,11 @@ int loop_here_doc(t_exec *node_exec, char *delimiter, t_shell *shell)
 		free_error(shell);
 	else if(child == 0)
 	{
+		close(node_exec->end[0]);
 		here_doc_signals(shell->signals);
 		here_doc_pipe(delimiter, node_exec, shell);
-		if (g_signal_global == 130)
-			exit(130);
+		// if (g_signal_global == 130)
+		// 	exit(130);
 		// else
 		exit(0);
 		// big_line = NULL;

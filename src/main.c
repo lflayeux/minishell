@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:43:33 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/24 18:45:00 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/26 14:12:06 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ int	main(int argc, char **argv, char **envp)
 			return (free_all(shell), printf("exit"), 0);
 		else
 		{
+			g_signal_global = 0;
 			filter_history(shell->input);
 			tokenize(shell);
 			exec_all(shell);
