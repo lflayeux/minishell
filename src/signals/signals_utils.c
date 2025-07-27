@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:49:39 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/26 15:52:22 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/27 19:59:35 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ void	handle_ctrl_c_action(int signal)
 	printf("\n");
 }
 
-void handle_ctrl_c_here_doc(int signal) 
+void	handle_ctrl_c_here_doc(int signal)
 {
 	if (signal != SIGINT)
 		return ;
-    write(STDOUT_FILENO, "\n", 1); // Print newline manually (non-reentrant safe)
-	exit(130);	
+	write(STDOUT_FILENO, "\n", 1);
+	exit(130);
 }
 
 void	handle_ctrl_c_quit(int signal)

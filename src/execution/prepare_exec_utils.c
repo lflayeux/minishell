@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 15:46:44 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/26 10:38:30 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/27 19:59:06 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,22 +32,16 @@ int	word_number(t_tok *init, t_tok *end)
 
 int	if_here_doc(t_exec *node_exec, t_tok **init, t_shell *shell)
 {
-	// int end[2];
-	
-	if(node_exec->end[0] != NONE && node_exec->end[1] != NONE)
+	if (node_exec->end[0] != NONE && node_exec->end[1] != NONE)
 	{
 		close(node_exec->end[1]);
 		close(node_exec->end[0]);
 	}
 	if (pipe(node_exec->end) == -1)
 		return (FALSE);
-	// if (node_exec->here_doc)
-	// 	ft_free_tab((void **)node_exec->here_doc);
 	ignore_signals(shell->signals);
 	if (loop_here_doc(node_exec, ((*init)->next)->word, shell) == FALSE)
 		return (parent_signals(shell->signals), FALSE);
-	// if (g_signal_global == 130)
-	// 	return (parent_signals(shell->signals), FALSE);
 	parent_signals(shell->signals);
 	node_exec->if_here_doc = 1;
 	node_exec->if_infile = 0;

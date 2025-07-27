@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:43:33 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/27 19:12:37 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/27 19:52:06 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,9 +118,9 @@ void	exec_all(t_shell *shell)
 // printf("\n\n");
 // }
 
-void filter_history(char *input)
+void	filter_history(char *input)
 {
-	if(ft_strcmp(input, "\0") == 0)
+	if (ft_strcmp(input, "\0") == 0)
 		return ;
 	add_history(input);
 }

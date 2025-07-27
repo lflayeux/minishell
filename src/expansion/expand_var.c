@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 17:25:39 by aherlaud          #+#    #+#             */
-/*   Updated: 2025/07/24 18:44:28 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/27 19:55:14 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,6 @@ void	var_expand(t_expand *expand, t_shell *shell)
 			+ ft_strlen(shell->var) + 1);
 	if (!expand->new)
 		return (free_error(shell));
-	ft_strlcat(expand->new, shell->var, ft_strlen(expand->new) + ft_strlen(shell->var)
-		+ 1);
+	ft_strlcat(expand->new, shell->var, ft_strlen(expand->new)
+		+ ft_strlen(shell->var) + 1);
 }

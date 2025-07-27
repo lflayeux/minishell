@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/27 19:06:24 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/27 19:56:32 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,11 @@ int	stock_here_doc(char *delimiter, char **big_line, t_shell *shell)
 	del_join = ft_strjoin(delimiter, "\n");
 	if (!del_join)
 		free_error(shell);
-	// free_all(shell);
 	while (1)
 	{
-		// line = get_next_line(0);
-		// dup2(end[1], 0);
 		line = readline("> ");
-		// if (g_signal_global == 130)
-		// 	return (free(*big_line), free(del_join), free_all(shell), exit(130), FALSE);
-		// free(line);
 		if (!line)
 		{
-			// write(1, "EOF before delimiter '%s' is reached\n", 37);
 			printf("EOF before delimiter '%s' is reached\n", delimiter);
 			return (free(line), free(del_join), TRUE);
 		}
@@ -63,13 +56,12 @@ int	stock_here_doc(char *delimiter, char **big_line, t_shell *shell)
 
 int	here_doc_pipe(char *delimiter, t_exec *exec, t_shell *shell)
 {
-	int	i;
+	int		i;
 	char	*big_line;
 	char	**tab;
 
 	i = 0;
 	big_line = NULL;
-	// dup2(exec->end[1], 0);
 	if (stock_here_doc(delimiter, &big_line, shell) == FALSE)
 		return (FALSE);
 	if (!big_line)
@@ -87,36 +79,22 @@ int	here_doc_pipe(char *delimiter, t_exec *exec, t_shell *shell)
 	return (TRUE);
 }
 
-int loop_here_doc(t_exec *node_exec, char *delimiter, t_shell *shell)
+int	loop_here_doc(t_exec *node_exec, char *delimiter, t_shell *shell)
 {
-	// char	*big_line;
-	// char	**tab;
-	pid_t child;
-	int status;
+	pid_t	child;
+	int		status;
 
 	child = fork();
 	status = 0;
-	if(child < 0)
+	if (child < 0)
 		free_error(shell);
-	else if(child == 0)
+	else if (child == 0)
 	{
 		close(node_exec->end[0]);
 		here_doc_signals(shell->signals);
 		here_doc_pipe(delimiter, node_exec, shell);
-		// if (g_signal_global == 130)
-		// 	exit(130);
-		// else
 		free_all(shell);
 		exit(0);
-		// big_line = NULL;
-		// if (stock_here_doc(delimiter, &big_line, shell) == FALSE)
-		// 	return (FALSE);
-		// if (!big_line)
-		// 	return (FALSE);
-		// tab = ft_split(big_line, ' ');
-		// free(big_line);
-		// if (!tab)
-		// 	free_error(shell);
 	}
 	else
 	{
@@ -125,7 +103,8 @@ int loop_here_doc(t_exec *node_exec, char *delimiter, t_shell *shell)
 		{
 			g_signal_global = WEXITSTATUS(status);
 			if (g_signal_global == 130)
-				return (close(node_exec->end[0]), close(node_exec->end[1]), FALSE);
+				return (close(node_exec->end[0]), close(node_exec->end[1]),
+					FALSE);
 		}
 	}
 	return (TRUE);

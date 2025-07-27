@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 18:03:42 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/26 10:54:19 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/27 19:48:59 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,6 @@ void	reset_signals(t_signal *signals);
 void	handle_ctrl_c_quit(int signal);
 void	here_doc_signals(t_signal *signals);
 void	ignore_signals(t_signal *signals);
-void    handle_ctrl_c_here_doc(int signal);
+void	handle_ctrl_c_here_doc(int signal);
 
 #endif

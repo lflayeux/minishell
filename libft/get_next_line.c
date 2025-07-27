@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 15:05:49 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/27 19:16:40 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/27 19:51:09 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,14 @@ char	*ft_read(char *full_buf, int fd)
 	if (full_buf == NULL)
 		full_buf = ft_calloc_gnl(1, sizeof(char));
 	buf = ft_calloc_gnl(BUFFER_SIZE + 1, sizeof(char));
-	if(!full_buf || !buf)
+	if (!full_buf || !buf)
 		return (NULL);
 	byte_read = 1;
 	while (byte_read > 0)
 	{
 		byte_read = read(fd, buf, BUFFER_SIZE);
 		if (byte_read < 0 || buf == NULL)
-		{
-			free(full_buf);
-			free(buf);
-			return (NULL);
-		}
+			return (free(full_buf), free(buf), NULL);
 		buf[byte_read] = '\0';
 		full_buf = ft_realloc_gnl(full_buf, buf);
 		if (full_buf == NULL)

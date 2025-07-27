@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 21:46:44 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/24 17:23:42 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/27 19:49:44 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	**find_path_env(t_shell *shell);
 // ==============================================
 // ================ HERE_DOC ====================
 // ==============================================
-int	loop_here_doc(t_exec *node_exec, char *delimiter, t_shell *shell);
+int		loop_here_doc(t_exec *node_exec, char *delimiter, t_shell *shell);
 int		here_doc_pipe(char *delimiter, t_exec *exec, t_shell *shell);
 int		ft_is_empty(char *str);
 void	close_fd(t_shell *shell, int fd, int to_close);
