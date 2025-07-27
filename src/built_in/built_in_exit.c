@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in_exit.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 20:22:33 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/13 16:19:54 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/07/27 19:09:05 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ int	exec_exit(t_exec *exec, int i, int flag, t_shell *shell)
 {
 	int	error;
 
-	printf("exit\n");
+	if(flag == 1)
+		printf("exit\n");
 	if (exec->cmd[i + 1] && exec->cmd[i + 2])
 		return (printf("minishell: exit: too many arguments\n"), GEN_ERR);
 	else if (exec->cmd[i + 1])

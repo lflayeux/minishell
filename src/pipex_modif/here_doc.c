@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/26 14:43:07 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/27 19:06:24 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int	here_doc_pipe(char *delimiter, t_exec *exec, t_shell *shell)
 		write(exec->end[1], tab[i], ft_strlen(tab[i]));
 		i++;
 	}
+	close(exec->end[1]);
 	return (TRUE);
 }
 
@@ -105,6 +106,7 @@ int loop_here_doc(t_exec *node_exec, char *delimiter, t_shell *shell)
 		// if (g_signal_global == 130)
 		// 	exit(130);
 		// else
+		free_all(shell);
 		exit(0);
 		// big_line = NULL;
 		// if (stock_here_doc(delimiter, &big_line, shell) == FALSE)
@@ -123,7 +125,7 @@ int loop_here_doc(t_exec *node_exec, char *delimiter, t_shell *shell)
 		{
 			g_signal_global = WEXITSTATUS(status);
 			if (g_signal_global == 130)
-				return (FALSE);
+				return (close(node_exec->end[0]), close(node_exec->end[1]), FALSE);
 		}
 	}
 	return (TRUE);

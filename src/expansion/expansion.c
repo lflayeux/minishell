@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:07:12 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/13 17:35:45 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/27 15:42:08 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,10 +120,10 @@ int	expand(t_shell *shell)
 
 	tmp = shell->tok;
 	expand = malloc(sizeof(t_expand));
-	expand->new = NULL;
-	expand->quotes = 0;
 	if (!expand)
 		return (free_all(shell), exit(25), FALSE);
+	expand->new = NULL;
+	expand->quotes = 0;
 	while (tmp)
 	{
 		expand_word(shell, tmp, expand);

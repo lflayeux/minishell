@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:43:33 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/26 14:12:06 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/27 19:12:37 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	exec_all(t_shell *shell)
 		return ;
 	if (create_lst_exec(shell) == 0)
 		return ;
+	g_signal_global = 0;
 	pipex(shell);
 }
 
@@ -136,12 +137,11 @@ int	main(int argc, char **argv, char **envp)
 	init_shell(shell, envp);
 	while (1)
 	{
-		shell->input = readline(PROMPT);
+		shell->input = readline("miniboss > ");
 		if (shell->input == NULL)
-			return (free_all(shell), printf("exit"), 0);
+			return (free_all(shell), printf("exit\n"), 0);
 		else
 		{
-			g_signal_global = 0;
 			filter_history(shell->input);
 			tokenize(shell);
 			exec_all(shell);

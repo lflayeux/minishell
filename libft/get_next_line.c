@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 15:05:49 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/06/14 00:42:25 by pandemonium      ###   ########.fr       */
+/*   Updated: 2025/07/27 19:16:40 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ char	*ft_read(char *full_buf, int fd)
 	if (full_buf == NULL)
 		full_buf = ft_calloc_gnl(1, sizeof(char));
 	buf = ft_calloc_gnl(BUFFER_SIZE + 1, sizeof(char));
+	if(!full_buf || !buf)
+		return (NULL);
 	byte_read = 1;
 	while (byte_read > 0)
 	{
