@@ -10,6 +10,7 @@ NAME = minishell
 
 SRC =	src/main.c \
 		src/signals/signals.c \
+		src/signals/signals2.c \
 		src/signals/signals_utils.c \
 		src/utils/free.c \
 		src/utils/init.c \

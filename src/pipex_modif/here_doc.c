@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/27 19:56:32 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/07/28 16:40:50 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ int	stock_here_doc(char *delimiter, char **big_line, t_shell *shell)
 	while (1)
 	{
 		line = readline("> ");
+		if (g_signal_global == 130)
+			return (free(line), free(del_join), free_all(shell), FALSE);
 		if (!line)
-		{
-			printf("EOF before delimiter '%s' is reached\n", delimiter);
-			return (free(line), free(del_join), TRUE);
-		}
+			return (printf("EOF before delimiter '%s' is reached\n", delimiter),
+				free(line), free(del_join), TRUE);
 		line = ft_strjoin_free(line, "\n", shell);
 		if (ft_strcmp(line, del_join) == 0)
 			return (free(line), free(del_join), TRUE);
@@ -63,7 +63,11 @@ int	here_doc_pipe(char *delimiter, t_exec *exec, t_shell *shell)
 	i = 0;
 	big_line = NULL;
 	if (stock_here_doc(delimiter, &big_line, shell) == FALSE)
-		return (FALSE);
+	{
+		if (big_line)
+			free(big_line);
+		return (exit(130), FALSE);
+	}
 	if (!big_line)
 		return (FALSE);
 	tab = ft_split(big_line, ' ');
@@ -76,7 +80,7 @@ int	here_doc_pipe(char *delimiter, t_exec *exec, t_shell *shell)
 		i++;
 	}
 	close(exec->end[1]);
-	return (TRUE);
+	return (ft_free_tab((void *)tab), TRUE);
 }
 
 int	loop_here_doc(t_exec *node_exec, char *delimiter, t_shell *shell)
@@ -84,28 +88,26 @@ int	loop_here_doc(t_exec *node_exec, char *delimiter, t_shell *shell)
 	pid_t	child;
 	int		status;
 
-	child = fork();
 	status = 0;
+	child = fork();
 	if (child < 0)
 		free_error(shell);
 	else if (child == 0)
 	{
+		g_signal_global = 0;
 		close(node_exec->end[0]);
 		here_doc_signals(shell->signals);
+		ft_lstadd_back_exec(&(shell->exec), node_exec);
 		here_doc_pipe(delimiter, node_exec, shell);
 		free_all(shell);
 		exit(0);
 	}
-	else
+	waitpid(child, &status, 0);
+	if (WIFEXITED(status))
 	{
-		waitpid(child, &status, 0);
-		if (WIFEXITED(status))
-		{
-			g_signal_global = WEXITSTATUS(status);
-			if (g_signal_global == 130)
-				return (close(node_exec->end[0]), close(node_exec->end[1]),
-					FALSE);
-		}
+		g_signal_global = WEXITSTATUS(status);
+		if (g_signal_global == 130)
+			return (close(node_exec->end[0]), close(node_exec->end[1]), FALSE);
 	}
 	return (TRUE);
 }
