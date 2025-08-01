@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in_exit.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 16:23:26 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/08/01 17:14:32 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/08/01 19:11:53 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	is_num(char *str)
 
 int	ft_atol(const char *str, long long *out, unsigned long long res, int sign)
 {
-	int					i;
+	int	i;
 
 	i = 0;
 	while ((str[i] >= 9 && str[i] <= 13) || str[i] == ' ')
@@ -55,8 +55,8 @@ int	ft_atol(const char *str, long long *out, unsigned long long res, int sign)
 	}
 	if (str[i] != '\0')
 		return (0);
-	if ((sign == 1 && res > (unsigned long long)LONG_MAX)
-		|| (sign == -1 && res > (unsigned long long)LONG_MAX + 1))
+	if ((sign == 1 && res > (unsigned long long)LONG_MAX) || (sign == -1
+			&& res > (unsigned long long)LONG_MAX + 1))
 		return (0);
 	*out = (long long)res * sign;
 	return (1);

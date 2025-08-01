@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 15:46:44 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/08/01 15:26:31 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/08/01 19:59:26 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,13 @@ int	if_append(t_exec *node_exec, t_tok **init, t_shell *shell)
 				(*init) = ((*init)->next), TRUE);
 	}
 	temp_fd = open(((*init)->next)->word, O_WRONLY | O_APPEND | O_CREAT, 0666);
-	if (temp_fd)
-		close(temp_fd);
-	else
+	if (temp_fd == -1)
 	{
 		print_error(((*init)->next)->word, PERM, shell, 1);
 		(*init) = ((*init)->next);
 		return (node_exec->if_quit = 1, TRUE);
 	}
+	close(temp_fd);
 	node_exec->outfile = ((*init)->next)->word;
 	node_exec->if_append = 1;
 	node_exec->if_outfile = 0;
@@ -90,14 +89,13 @@ int	if_outfile(t_exec *node_exec, t_tok **init, t_shell *shell)
 				(*init) = ((*init)->next), TRUE);
 	}
 	temp_fd = open(((*init)->next)->word, O_WRONLY | O_TRUNC | O_CREAT, 0666);
-	if (temp_fd)
-		close(temp_fd);
-	else
+	if (temp_fd == -1)
 	{
 		print_error(((*init)->next)->word, PERM, shell, 1);
 		(*init) = ((*init)->next);
 		return (node_exec->if_quit = 1, TRUE);
 	}
+	close(temp_fd);
 	node_exec->outfile = ((*init)->next)->word;
 	node_exec->if_outfile = 1;
 	node_exec->if_append = 0;

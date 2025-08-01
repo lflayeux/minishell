@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:43:33 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/08/01 18:43:46 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/08/01 19:44:08 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	exec_all(t_shell *shell)
 {
 	if (expand(shell) == FALSE)
 		return ;
+	g_signal_global = 0;
 	if (create_lst_exec(shell) == 0)
 		return ;
 	pipex(shell);
