@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 22:16:13 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/13 17:19:10 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/08/01 16:15:58 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,4 +106,5 @@ void	init_shell(t_shell *shell, char **envp)
 	shell->var = NULL;
 	shell->env = init_env(shell, envp);
 	shell->secret = init_env(shell, envp);
+	shell->error = 0;
 }

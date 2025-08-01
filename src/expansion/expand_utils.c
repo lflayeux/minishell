@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 19:22:45 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/27 19:54:35 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/08/01 17:30:13 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,13 @@ void	error_expand(t_expand *expand, t_shell *shell)
 	char	*error_str;
 
 	expand->i++;
-	error_str = ft_itoa((int)g_signal_global);
+	if (g_signal_global == 130)
+		shell->error = 130;
+	g_signal_global = 0;
+	error_str = ft_itoa(shell->error);
 	if (!error_str)
 		return (free_all(shell), exit(25));
+	shell->error = 0;
 	expand->new = ft_realloc(expand->new, ft_strlen(expand->new)
 			+ ft_strlen(error_str) + 1);
 	if (!expand->new)

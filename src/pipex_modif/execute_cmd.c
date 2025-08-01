@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/07/13 19:26:18 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/08/01 17:42:51 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,14 @@ int	exec_proc(char **cmd_parsed, char **all_paths, t_shell *shell, int i)
 {
 	char	*temp;
 	char	*path;
+	int		error_temp;
 
 	if (handle_path_cmd(cmd_parsed, cmd_parsed[0], shell) == FALSE)
 	{
+		error_temp = shell->error;
 		free_all(shell);
 		ft_free_tab((void **)all_paths);
-		exit(g_signal_global);
+		exit(error_temp);
 	}
 	temp = ft_strjoin("/", cmd_parsed[0]);
 	if (!temp)
@@ -120,4 +122,4 @@ int	exec_cmd(char **cmd, t_shell *shell)
 	free_all(shell);
 	ft_free_tab((void **)all_paths);
 	return (exit(127), FALSE);
-}				
+}

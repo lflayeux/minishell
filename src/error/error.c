@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 11:59:10 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/13 19:27:22 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/08/01 17:59:42 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,28 +23,28 @@ void	print_error(char *s1, char *s2, t_shell *shell, int type)
 		printf("minishell: %s: %s\n", s1, s2);
 	else if (s1 && !s2)
 		printf("minishell: %s\n", s1);
-	g_signal_global = type;
+	shell->error = type;
 }
 
-int	error_detected(t_tok *init)
+int	error_detected(t_tok *init, t_shell *shell)
 {
 	if (init->type != WORD && !(init->next))
 	{
 		if (init->type == PIPE)
-			ft_printf("missing command after a pipe\n");
+			print_error("missing command after a pipe", NULL, shell, 1);
 		else
-			ft_printf("error near unexpected token '\\n'\n");
+			print_error("error near unexpected token '\\n'", NULL, shell, 1);
 		return (TRUE);
 	}
 	if (init->type != WORD && init->type != PIPE && (init->next)->type != WORD)
 	{
-		ft_printf("error near unexpected token '%s'\n",
-			get_token_name((init->next)->type));
+		print_error("error near unexpected token",
+			(char *)get_token_name((init->next)->type), shell, 1);
 		return (TRUE);
 	}
 	if (init->type == PIPE && (init->next)->type == PIPE)
 	{
-		ft_printf("error near unexpected token '|'\n");
+		print_error("error near unexpected token '|'", NULL, shell, 1);
 		return (TRUE);
 	}
 	return (FALSE);
@@ -59,10 +59,10 @@ int	parse_error(t_shell *shell, t_tok **error)
 	init = shell->tok;
 	if (init->type == PIPE)
 		return (print_error(PARSE_MESS,
-				(char *)get_token_name(shell->tok->type), shell, 0), FALSE);
+				(char *)get_token_name(shell->tok->type), shell, 1), FALSE);
 	while (init)
 	{
-		if (error_detected(init) == TRUE)
+		if (error_detected(init, shell) == TRUE)
 		{
 			*error = init;
 			return (TRUE);

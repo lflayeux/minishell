@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 11:14:25 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/08/01 14:46:26 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/08/01 17:35:28 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ void	check_status(int status, t_shell *shell)
 
 	if (WIFEXITED(status))
 	{
-		g_signal_global = WEXITSTATUS(status);
-		if (g_signal_global == 25)
+		shell->error = WEXITSTATUS(status);
+		if (shell->error == 25)
 			free_error(shell);
 	}
 	else if (WIFSIGNALED(status))
@@ -79,10 +79,13 @@ void	check_status(int status, t_shell *shell)
 			write(STDERR_FILENO, "Quit (core dumped)\n", 19);
 		else if (sig == SIGINT)
 			write(STDERR_FILENO, "\n", 1);
-		g_signal_global = 128 + sig;
+		shell->error = 128 + sig;
 	}
 	else
-		g_signal_global = 0;
+	{
+		if (shell->error == 0)
+			shell->error = 0;
+	}
 }
 
 void	next_pipe(t_shell *shell, pid_t child, int *end)

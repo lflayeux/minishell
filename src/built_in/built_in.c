@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 14:33:18 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/08/01 14:41:15 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/08/01 17:17:50 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,26 @@ int	built_in(t_exec *exec, t_shell *shell, int flag)
 {
 	if (!exec->cmd || exec->cmd[0] == NULL)
 	{
-		g_signal_global = 1;
+		shell->error = 1;
 		return (FALSE);
 	}
 	if (!(ft_strcmp(exec->cmd[0], "exit")))
-		g_signal_global = exec_exit(exec, 0, flag, shell);
+		shell->error = exec_exit(exec, 0, flag, shell);
 	else if (!(ft_strcmp(exec->cmd[0], "echo")))
-		g_signal_global = exec_echo(exec, 0);
+		shell->error = exec_echo(exec, 0);
 	else if (ft_strcmp(exec->cmd[0], "cd") == 0)
-		g_signal_global = exec_cd(exec->cmd, 0, shell);
+		shell->error = exec_cd(exec->cmd, 0, shell);
 	else if (ft_strcmp(exec->cmd[0], "pwd") == 0)
-		g_signal_global = exec_pwd(shell);
+		shell->error = exec_pwd(shell);
 	else if (ft_strcmp(exec->cmd[0], "env") == 0)
-		g_signal_global = exec_env(shell, 0, exec);
+		shell->error = exec_env(shell, 0, exec);
 	else if (ft_strcmp(exec->cmd[0], "export") == 0)
-		g_signal_global = exec_export(shell, 0, exec);
+		shell->error = exec_export(shell, 0, exec);
 	else if (ft_strcmp(exec->cmd[0], "unset") == 0)
-		g_signal_global = exec_unset(shell, 0, exec);
+		shell->error = exec_unset(shell, 0, exec);
 	else
 		return (FALSE);
 	if (flag == 0)
-		return (free_all(shell), exit(g_signal_global), TRUE);
+		return (free_all(shell), exit(shell->error), TRUE);
 	return (TRUE);
 }

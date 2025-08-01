@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:51:06 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/08/01 14:27:53 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/08/01 16:15:24 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,5 +90,6 @@ typedef struct s_shell
 	char					*var;
 	char					**env;
 	char					**secret;
+	int						error;
 }							t_shell;
 #endif

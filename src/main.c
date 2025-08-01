@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:43:33 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/27 19:52:06 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/08/01 17:26:25 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	exec_all(t_shell *shell)
 		return ;
 	if (create_lst_exec(shell) == 0)
 		return ;
-	g_signal_global = 0;
+	// g_signal_global = 0;
 	pipex(shell);
 }
 
@@ -145,6 +145,8 @@ int	main(int argc, char **argv, char **envp)
 			filter_history(shell->input);
 			tokenize(shell);
 			exec_all(shell);
+			if (g_signal_global == 130 || g_signal_global == 131)
+				shell->error = 130;
 		}
 		reset_shell(shell);
 	}
