@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 11:14:25 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/08/01 17:35:28 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/08/01 18:44:17 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,6 @@
 
 int	pipe_outfile(t_shell *shell, t_exec *exec, int *fd_outfile)
 {
-	// struct stat	st;
-	// if (stat((exec->outfile), &st) == 0)
-	// {
-	// 	if (S_ISDIR(st.st_mode))
-	// 		return (print_error((exec->outfile), "Is a directory", shell,
-	// 				CMD_EXEC), exit(1), FALSE);
-	// }
 	if (exec->if_outfile == TRUE)
 		*fd_outfile = open((exec->outfile), O_WRONLY | O_TRUNC | O_CREAT, 0666);
 	else

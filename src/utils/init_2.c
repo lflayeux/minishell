@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 00:31:53 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/08/01 14:40:29 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/08/01 18:47:45 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,7 @@ int	infile_found(t_exec *exec, t_shell *shell)
 
 	fd_infile = open((exec->infile), O_RDONLY);
 	if (fd_infile == -1)
-	{
-		// if (access(exec->infile, F_OK) == -1)
-		// 	return (print_error(exec->infile, FILE_MESS, shell, 1), 0);
-		// else
-		// 	return (print_error(exec->infile, PERM, shell, 1), 0);
 		return (FALSE);
-	}
 	if ((shell->pipex)->prev_fd != NONE)
 		close((shell->pipex)->prev_fd);
 	(shell->pipex)->prev_fd = fd_infile;
