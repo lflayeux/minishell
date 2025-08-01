@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 16:23:26 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/08/01 17:11:03 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/08/01 17:14:32 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,6 @@ int	is_num(char *str)
 	}
 	return (TRUE);
 }
-
-#include <limits.h>
-
-#include <limits.h>
 
 int	ft_atol(const char *str, long long *out, unsigned long long res, int sign)
 {
@@ -66,8 +62,6 @@ int	ft_atol(const char *str, long long *out, unsigned long long res, int sign)
 	return (1);
 }
 
-
-
 int	exec_exit(t_exec *exec, int i, int flag, t_shell *shell)
 {
 	long long	err;
@@ -80,7 +74,7 @@ int	exec_exit(t_exec *exec, int i, int flag, t_shell *shell)
 		{
 			printf("minishell: exit: %s: %s\n", exec->cmd[i + 1], NUM_ARG);
 			if (flag == 1)
-				free_all(shell), exit(2);
+				return (free_all(shell), exit(2), GEN_ERR);
 			return (GEN_ERR);
 		}
 		if (exec->cmd[i + 2])
