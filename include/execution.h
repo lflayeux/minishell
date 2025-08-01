@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 00:21:09 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/13 17:44:30 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/08/01 15:06:59 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ t_exec	*ft_lstlast_exec(t_exec *lst);
 // ==============================================
 int		word_number(t_tok *init, t_tok *end);
 int		if_here_doc(t_exec *node_exec, t_tok **init, t_shell *shell);
-int		if_append(t_exec *node_exec, t_tok **init);
+int		if_append(t_exec *node_exec, t_tok **init, t_shell *shell);
 int		if_outfile(t_exec *node_exec, t_tok **init, t_shell *shell);
-int		if_infile(t_exec *node_exec, t_tok **init);
+int		if_infile(t_exec *node_exec, t_tok **init, t_shell *shell);
 
 void	exec_init(t_exec *node_exec);
 

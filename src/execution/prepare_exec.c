@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 15:31:21 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/13 17:45:27 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/08/01 15:07:15 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	tokken_choice(t_shell *shell, t_tok **init, t_exec *node_exec, int *i)
 {
+	if (node_exec->if_quit == 1)
+		return (TRUE);
 	if ((*init)->type == WORD)
 	{
 		(node_exec->cmd)[*i] = ft_strdup((*init)->word);
@@ -22,12 +24,12 @@ int	tokken_choice(t_shell *shell, t_tok **init, t_exec *node_exec, int *i)
 		(*i)++;
 	}
 	if ((*init)->type == INFILE && (*init)->next->type == WORD && (*init)->next)
-		if_infile(node_exec, init);
+		if_infile(node_exec, init, shell);
 	if ((*init)->type == OUTFILE && (*init)->next->type == WORD
 		&& (*init)->next)
 		if_outfile(node_exec, init, shell);
 	if ((*init)->type == APPEND && (*init)->next->type == WORD && (*init)->next)
-		if_append(node_exec, init);
+		if_append(node_exec, init, shell);
 	if ((*init)->type == HERE_DOC && (*init)->next->type == WORD
 		&& (*init)->next)
 	{

@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:51:06 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/24 15:24:02 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/08/01 14:27:53 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_exec_pipeline
 	bool					if_outfile;
 	bool					if_append;
 	bool					if_here_doc;
+	bool					if_quit;
 	struct s_exec_pipeline	*pipe_to;
 }							t_exec;
 
