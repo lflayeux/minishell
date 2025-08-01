@@ -6,7 +6,7 @@
 /*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:34:39 by alex              #+#    #+#             */
-/*   Updated: 2025/08/01 18:47:31 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/08/01 18:50:18 by aherlaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	exec_proc(char **cmd_parsed, char **all_paths, t_shell *shell, int i)
 	{
 		error_temp = shell->error;
 		return (free_all(shell), ft_free_tab((void **)all_paths),
-			exit(error_temp));
+			exit(error_temp), TRUE);
 	}
 	temp = ft_strjoin("/", cmd_parsed[0]);
 	if (!temp)
@@ -94,8 +94,8 @@ int	exec_proc(char **cmd_parsed, char **all_paths, t_shell *shell, int i)
 	{
 		error_temp = shell->error;
 		free_all(shell);
-		free(path);
-		return (free(temp), ft_free_tab((void **)all_paths), exit(error_temp));
+		return (free(path), free(temp), ft_free_tab((void **)all_paths),
+			exit(error_temp), TRUE);
 	}
 	free(path);
 	return (free(temp), TRUE);
