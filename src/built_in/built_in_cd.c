@@ -6,7 +6,7 @@
 /*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 17:14:23 by lflayeux          #+#    #+#             */
-/*   Updated: 2025/07/13 21:36:35 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/08/01 17:31:49 by lflayeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	exec_cd(char **path, int i, t_shell *shell)
 {
 	char		*direction;
 	struct stat	sb;
+	char		*join;
 
 	direction = NULL;
 	stat(path[i + 1], &sb);
@@ -45,6 +46,9 @@ int	exec_cd(char **path, int i, t_shell *shell)
 		free_error(shell);
 	if (cd_check_access(&direction, path, sb, shell) == GEN_ERR)
 		return (GEN_ERR);
+	join = ft_strjoin("PWD=", direction);
+	shell->env = set_env(shell, "PWD", shell->env, join);
+	free(join);
 	chdir(direction);
 	return (free(direction), SUCCESS);
 }
