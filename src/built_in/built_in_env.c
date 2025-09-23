@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in_env.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lflayeux <lflayeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 20:21:47 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/13 16:27:24 by lflayeux         ###   ########.fr       */
+/*   Updated: 2025/09/23 19:56:50 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

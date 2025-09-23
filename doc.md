@@ -1,41 +1,135 @@
-# LIST OF STANDART EXIT CODES
 
-> |Exit code|Meaning|
-> |---------|-------|
-> |0|Success: The command or script executed without errors.|
-> |1|General error: A generic error occurred during execution.|
-> |2|Misuse of shell builtins: Incorrect usage of a shell built-in command.|
-> |126|Command invoked cannot execute: Permission denied or command not executable.|
-> |127|Command not found: The command is not recognized or available in the environment’s PATH.|
-> |128|Invalid exit argument: An invalid argument was provided to the exit command.|
-> |130|Script terminated by Ctrl+C (SIGINT).|
-> |137|Script terminated by SIGKILL (e.g., kill -9 or out-of-memory killer).|
-> |139|Segmentation fault: Indicates a segmentation fault occurred in the program.|
-> |143|Script terminated by SIGTERM (e.g., kill command without -9).|
-> |255|Exit status out of range: Typically, this happens when a script or command exits with a number > 255.|
+# 🧠 Minishell - Notes de Développement
+---
+## ✅ TODO
 
-
-
-
-
-
->   ## TODO
+> Cet aprem =>
 >
->   - [] exit built_in 
->   - [] CTRL C error signal code in term and child code 130
->   - [] Signaux here_doc
->   - [] Bloquer Ctrl \ in here_doc
->   - [] Bloquer si env -i
-<!-- >   - [] close < infile -->
-<!-- >   - [] << ENDcat pb -->
+>	- [] Faire malloc clean partout + free
+>	- [] Code d'erreur
 
 
+- [ ] `echo -n`       
+- [ ] `cd`
+- [x] `pwd`
+- [ ] `export`
+- [ ] `unset`
+- [ ] `env`
+- [x] `exit`
+---
+## ✅ Tokenisation
 
-export: ʻ9HOLA=': not a valid identifier
-> bash: export: -H: invalid option
-> bash: !LA=bonjour: event not found
-> bash: jour: command not found
-> bash: ls: No such file or directory
-> chdir: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
-> ls | env ls: write error: Broken pipe
+### Règles de tokenisation
 
+2. Si `<`, `>`, `<<`, `>>` → redirection
+3. Si `|` → pipe
+4. Si `word` :
+   - Vérifier : `$?`, `$$`, `$PATH`. '\'', ""
+
+PIPE = 0
+INFILE = 1
+OUTFILE = 2
+HERE_DOC = 3
+APPEND = 4
+WORD = 5
+
+<<
+<
+>>
+>
+---
+## ✅ Parsing
+
+### Objectif
+
+Trier chaque commande en :
+- `infile`
+- `cmd`
+- `args`
+- `outfile`
+- `pipe`
+
+### Logique
+
+- Utiliser une liste chaînée.
+- Tant qu’il n’y a pas de `pipe`, construire un bloc de commande.
+
+---
+
+## ✅ Structures
+
+### `enum TYPE_OF_TOKEN`
+```c
+enum TYPE_OF_TOKEN
+{
+    // À définir : WORD, REDIR_IN, REDIR_OUT, PIPE, etc.
+};
+
+
+## ✅ Execution
+
+liste chainee de maillons tels que :
+typedef struct s_exec_pipeline
+{
+	char					**cmd;
+	char					*infile;
+	char					*outfile;
+	bool					if_infile;
+	bool					if_outfile;
+	struct s_exec_pipeline	*pipe_to;
+}							t_exec;
+
+chaque maillon sera un enfant a creer + une exec de cmd + un dup2 si if_infile = 1 + un dup2 si if_infile = 1
+
+exemple main avec : < Makefile ls -l | cat > out
+
+exec num 0
+        command:
+                cmd num 0: ls
+                cmd num 1: -l
+        infile:1,   Makefile
+        outfile:0,   (null)
+exec num 1
+        command:
+                cmd num 0: cat
+        infile:1,   Makefile
+        outfile:1,   out
+
+
+```
+---
+---
+### ===>        PB A CORRIGER: 
+---
+
+```
+$$ doit mettre le PID mais "$"$ ou "$""$" doit mettre $$
+corriger dans l'expansion
+
+```
+
+```
+pas de protection sur les close sinon j'ai des double free
+peut etre ajouter un tableau d'int pour tous les fd et pipe ouvert et close à la moindre error
+
+```
+
+```
+pipe avec rien avant : bash: syntax error near unexpected token `|'
+pipe avec rien derriere demande de compléter le prompt comme unclosed quotes
+Je pense pas besoin de gérer le 2eme cas
+```
+
+
+```bash
+# Prompt simulé : 🦾 miniboss 🦾 >
+< Makefile | cat -e
+[1]    805462 segmentation fault (core dumped)  ./minishell  # create_lst_exec
+```
+
+
+```
+env test -> rien
+export test->
+
+```

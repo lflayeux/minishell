@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlaud <aherlaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 21:49:39 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/07/28 14:49:40 by aherlaud         ###   ########.fr       */
+/*   Updated: 2025/09/23 19:57:23 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

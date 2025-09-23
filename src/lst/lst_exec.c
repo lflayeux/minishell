@@ -1,42 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lst_tok.c                                          :+:      :+:    :+:   */
+/*   lst_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pandemonium <pandemonium@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/04 23:30:08 by pandemonium       #+#    #+#             */
-/*   Updated: 2025/09/23 19:57:45 by pandemonium      ###   ########.fr       */
+/*   Created: 2025/05/19 15:54:28 by aherlaud          #+#    #+#             */
+/*   Updated: 2025/06/02 00:16:14 by pandemonium      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-t_tok	*ft_lstnew_tok(t_TOK_TYPE type, char *word, t_shell *shell)
-{
-	t_tok	*new;
-
-	new = malloc(sizeof(t_tok));
-	if (new == NULL)
-		return (free(word), free_error(shell), NULL);
-	new->type = type;
-	new->word = word;
-	new->next = NULL;
-	return (new);
-}
-
-t_tok	*ft_lstlast_tok(t_tok *lst)
+t_exec	*ft_lstlast_exec(t_exec *lst)
 {
 	if (!lst)
 		return (0);
-	while (lst->next != NULL)
-		lst = lst->next;
+	while (lst->pipe_to != NULL)
+		lst = lst->pipe_to;
 	return (lst);
 }
 
-void	ft_lstadd_back_tok(t_tok **token, t_tok *new)
+// AJOUTE LE NVEAU MAILLON A LA FIN DE LA LISTE
+void	ft_lstadd_back_exec(t_exec **token, t_exec *new)
 {
-	t_tok	*last;
+	t_exec	*last;
 
 	if (token == NULL)
 		return ;
@@ -45,24 +33,36 @@ void	ft_lstadd_back_tok(t_tok **token, t_tok *new)
 		*token = new;
 		return ;
 	}
-	last = ft_lstlast_tok(*token);
-	last->next = new;
+	last = ft_lstlast_exec(*token);
+	last->pipe_to = new;
 }
 
-void	ft_lstclear_tok(t_tok *lst)
+void	del_node_exec(void *exec_node)
 {
-	t_tok	*current;
-	t_tok	*tmp;
+	t_exec	*exec;
 
-	if (!lst)
-		return ;
+	exec = (t_exec *)exec_node;
+	if (exec->cmd)
+		ft_free_tab((void **)(exec->cmd));
+	if (exec->infile)
+		free(exec->infile);
+	if (exec->outfile)
+		free(exec->outfile);
+	if (exec->delimiter)
+		free(exec->delimiter);
+}
+
+void	ft_lstclear_exec(t_exec *lst)
+{
+	t_exec *current;
+	t_exec *tmp;
+
 	current = lst;
 	while (current)
 	{
 		tmp = current;
-		current = current->next;
-		if (tmp->word)
-			free(tmp->word);
+		current = current->pipe_to;
+		del_node_exec(tmp);
 		free(tmp);
 	}
 	lst = NULL;
